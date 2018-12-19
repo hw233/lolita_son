@@ -1,0 +1,83 @@
+2018-12-12 10:42:30+0800 [-] Log opened.
+2018-12-12 10:42:30+0800 [-] DelaySite starting on 9998
+2018-12-12 10:42:30+0800 [-] Starting factory <firefly.web.delayrequest.DelaySite instance at 0x313f128>
+2018-12-12 10:42:30+0800 [-] BilateralFactory starting on 9999
+2018-12-12 10:42:30+0800 [-] Starting factory <firefly.distributed.root.BilateralFactory instance at 0x313f2d8>
+2018-12-12 10:42:32+0800 [-] Log opened.
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x2021758>
+2018-12-12 10:42:32+0800 [-] net start...
+2018-12-12 10:42:32+0800 [-] net pid: 3764
+2018-12-12 10:42:32+0800 [BilateralBroker,0,127.0.0.1] node [net] takeProxy ready
+2018-12-12 10:42:32+0800 [-] Log opened.
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x1f6d098>
+2018-12-12 10:42:32+0800 [-] gate start...
+2018-12-12 10:42:32+0800 [-] gate pid: 3763
+2018-12-12 10:42:32+0800 [-] Log opened.
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x32a85f0>
+2018-12-12 10:42:32+0800 [-] dbfront start...
+2018-12-12 10:42:32+0800 [-] dbfront pid: 3762
+2018-12-12 10:42:32+0800 [BilateralBroker,1,127.0.0.1] node [gate] takeProxy ready
+2018-12-12 10:42:32+0800 [BilateralBroker,2,127.0.0.1] node [dbfront] takeProxy ready
+2018-12-12 10:42:32+0800 [-] Log opened.
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x3d98e60>
+2018-12-12 10:42:32+0800 [-] game2 start...
+2018-12-12 10:42:32+0800 [-] game2 pid: 3765
+2018-12-12 10:42:32+0800 [Broker,client] call method remote_connect on service[single]
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x20213b0>
+2018-12-12 10:42:32+0800 [BilateralBroker,0,127.0.0.1] node [net] takeProxy ready
+2018-12-12 10:42:32+0800 [-] Log opened.
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x3d44e60>
+2018-12-12 10:42:32+0800 [-] game1 start...
+2018-12-12 10:42:32+0800 [-] game1 pid: 3766
+2018-12-12 10:42:32+0800 [BilateralBroker,3,127.0.0.1] node [game2] takeProxy ready
+2018-12-12 10:42:32+0800 [Broker,client] call method remote_connect on service[single]
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x3cc0128>
+2018-12-12 10:42:32+0800 [BilateralBroker,1,127.0.0.1] node [game2] takeProxy ready
+2018-12-12 10:42:32+0800 [BilateralBroker,4,127.0.0.1] node [game1] takeProxy ready
+2018-12-12 10:42:32+0800 [Broker,client] call method remote_connect on service[single]
+2018-12-12 10:42:32+0800 [-] Starting factory <twisted.spread.pb.PBClientFactory instance at 0x3c70128>
+2018-12-12 10:42:32+0800 [BilateralBroker,2,127.0.0.1] node [game1] takeProxy ready
+2018-12-12 10:42:46+0800 [-] "127.0.0.1" - - [12/Dec/2018:02:42:46 +0000] "GET /stop HTTP/1.0" 200 4 "-" "Python-urllib/1.17"
+2018-12-12 10:42:46+0800 [Broker,client] call method serverStop on service[single]
+2018-12-12 10:42:46+0800 [Broker,client] stop
+2018-12-12 10:42:46+0800 [Broker,client] call method serverStop on service[single]
+2018-12-12 10:42:46+0800 [Broker,client] stop
+2018-12-12 10:42:46+0800 [Broker,client] call method serverStop on service[single]
+2018-12-12 10:42:46+0800 [Broker,client] stop
+2018-12-12 10:42:46+0800 [Broker,client] call method serverStop on service[single]
+2018-12-12 10:42:46+0800 [Broker,client] stop
+2018-12-12 10:42:46+0800 [Broker,client] call method serverStop on service[single]
+2018-12-12 10:42:46+0800 [Broker,client] stop
+2018-12-12 10:42:47+0800 [firefly.web.delayrequest.DelaySite] (TCP Port 9998 Closed)
+2018-12-12 10:42:47+0800 [-] Stopping factory <firefly.web.delayrequest.DelaySite instance at 0x313f128>
+2018-12-12 10:42:47+0800 [BilateralBroker,2,127.0.0.1] node [2] lose
+2018-12-12 10:42:47+0800 [BilateralBroker,3,127.0.0.1] node [3] lose
+2018-12-12 10:42:47+0800 [BilateralBroker,0,127.0.0.1] node [0] lose
+2018-12-12 10:42:47+0800 [BilateralBroker,1,127.0.0.1] node [1] lose
+2018-12-12 10:42:47+0800 [firefly.distributed.root.BilateralFactory] (TCP Port 9999 Closed)
+2018-12-12 10:42:47+0800 [-] Stopping factory <firefly.distributed.root.BilateralFactory instance at 0x313f2d8>
+2018-12-12 10:42:47+0800 [BilateralBroker,4,127.0.0.1] node [4] lose
+2018-12-12 10:42:47+0800 [-] Main loop terminated.
+##############################
+##########checkAdmins#############
+##############################
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x32a85f0>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x3d98e60>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x3cc0128>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x2021758>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x20213b0>
+2018-12-12 10:42:47+0800 [firefly.netconnect.protoc.LiberateFactory] (TCP Port 11009 Closed)
+2018-12-12 10:42:47+0800 [-] Stopping factory <firefly.netconnect.protoc.LiberateFactory instance at 0x2021128>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x1f6d098>
+2018-12-12 10:42:47+0800 [BilateralBroker,1,127.0.0.1] node [1] lose
+2018-12-12 10:42:47+0800 [BilateralBroker,0,127.0.0.1] node [0] lose
+2018-12-12 10:42:47+0800 [BilateralBroker,2,127.0.0.1] node [2] lose
+2018-12-12 10:42:47+0800 [firefly.distributed.root.BilateralFactory] (TCP Port 10000 Closed)
+2018-12-12 10:42:47+0800 [-] Stopping factory <firefly.distributed.root.BilateralFactory instance at 0x1f57170>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x3d44e60>
+2018-12-12 10:42:47+0800 [-] Stopping factory <twisted.spread.pb.PBClientFactory instance at 0x3c70128>
+2018-12-12 10:42:47+0800 [-] Main loop terminated.
+2018-12-12 10:42:47+0800 [-] Main loop terminated.
+2018-12-12 10:42:47+0800 [-] Main loop terminated.
+2018-12-12 10:42:47+0800 [-] Main loop terminated.
+2018-12-12 10:42:47+0800 [-] Main loop terminated.

@@ -1,0 +1,26 @@
+类型名称,备注,属性,类型,子类型,说明,解析类型
+version,版本号,major ,int16,,主版本,列表
+,,minor,int16,,次版本,
+,,patch,int16,,修订版本,
+prop8,编号属性,idx,uint8,,属性编号,
+,,value,int8,,属性值,
+prop16,编号属性,idx,uint8,,属性编号,
+,,value,int16,,属性值,
+prop32,编号属性,idx,uint8,,属性编号,
+,,value,int32,,属性值,
+propstr,编号属性,idx,uint8,,属性编号,
+,,value,string8,,属性值,
+propbyte,编号属性,idx,uint8,,属性编号,
+,,value,byte8,,属性值,
+segment,号段,seg,uint16,,号段,列表
+,,srvid,uint16,,服务器ID,
+maptrace,角色移动信息,id,int32,,,列表
+,,x,int16,,,
+,,y,int16,,,
+,,dx,int8,,,
+,,dy,int8,,,
+warpack,战斗包,itype,int8,,类型,列表
+,,pack,byte16,,战斗包,
+rank_data,排行榜数据,data16,list8,int16,,
+,,data32,list8,int32,,
+,,datastr,list8,string8,,

@@ -1,0 +1,35 @@
+协议名称,协议值,备注,属性,类型,子类型,说明
+S2D_REGISTER,0x1,注册,signsrv,uint32,,连接标识
+,,,signgame,uint32,,连接标识
+,,,srvid,uint32,,服务器ID
+,,,stamp,uint32,,服务器时间
+,,,linger,uint8,,强制重连
+S2D_REGISTER2,0x2,服务器ID,srvtype,int8,,服务器类型
+,,,srvid,uint16,,服务器ID
+,,,publicver,string8,,服务公共库版本
+D2S_REGISTER,0x1,注册,writable,uint8,,是否可写
+D2S_SERVER_ONLINE,0x3,通知服务器在线,srvids,list8,uint16,
+D2S_SERVER_OFFLINE,0x4,通知服务器离线,srvids,list8,uint16,
+S2D_HELLO,0x20,,msg,string16,,
+S2D_RUNSIMPLE,0x21,,srvid,uint16,,服务器ID
+,,,pid,int32,,
+,,,msg,string16,,
+D2S_HELLO,0x20,,msg,string16,,
+D2S_RUNSIMPLE,0x21,,pid,int32,,
+,,,msg,string16,,
+S2D_PROXY_COMMAND,0x30,转发游戏服协议,srvflag,int8,,0 发给指定服务器，1 发给当前组服务器，2 发送给当前服务器组不含自身
+,,,srvids,list8,uint16,服务器ID列表，为空时发送为给服务器组
+,,,proxycmd,uint16,,
+D2S_PROXY_COMMAND,0x30,转发游戏服协议,srvid,uint16,,源服务器ID
+,,,proxycmd,uint16,,
+S2D_PROXY_LARGECOMMAND,0x31,转发游戏服协议(>16K),srvflag,int8,,0 发给指定服务器，1 发给当前组服务器，2 发送给当前服务器组不含自身
+,,,srvids,list8,uint16,服务器ID列表，为空时发送为给服务器组
+,,,proxycmd,uint16,,
+,,,subpack,uint16,,当前包
+,,,totalpack,uint16,,总包数
+,,,data,byte16,,
+D2S_PROXY_LARGECOMMAND,0x31,转发游戏服协议(>16K),srvid,uint16,,源服务器ID
+,,,proxycmd,uint16,,
+,,,subpack,uint16,,当前包
+,,,totalpack,uint16,,总包数
+,,,data,byte16,,

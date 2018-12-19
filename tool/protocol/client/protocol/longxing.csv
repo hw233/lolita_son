@@ -1,0 +1,20 @@
+协议名称,协议值,备注,属性,类型,子类型,说明
+C2S_GOLDTREASURE_PAY,0x2000,黄金宝藏抽奖,type,int8,,抽奖类型（1 单次，10 10连抽）
+,,,gc,int8,,是否使用绑元（0 元宝，1 绑元）
+C2S_GOLDTREASURE_REWARD,0x2001,黄金宝藏领奖,,,,
+C2S_GOLDTREASURE_RARERECORD,0x2003,获取黄金宝藏中奖记录,,,,
+S2C_GOLDTREASURE_RESULT,0x2001,黄金宝藏抽奖结果,rewards,list8,int8,抽取到的物品列表
+S2C_GOLDTREASURE_RARERECORD,0x2002,黄金宝藏中奖记录,records,list8,goldtreasure_rare,中奖记录
+C2S_COOKBATTLE_PAY,0x2010,食神挑战抽奖,type,int8,,抽奖类型（1 单次，10 10连抽）
+,,,style,int8,,选择菜系
+C2S_COOKBATTLE_REWARD,0x2011,食神挑战领奖,,,,
+C2S_COOKBATTLE_RECIPEREWARD,0x2012,食神挑战菜谱奖励,style,int8,,菜系（0表示全菜系奖励）
+S2C_COOKBATTLE_RESULT,0x2010,食神挑战抽奖结果,results,list8,cookbattle_result,挑战结果
+S2C_COOKBATTLE_RECIPERECORD,0x2011,食神挑战菜谱,recipes,list8,cookbattle_recipe,菜谱记录
+,,,stylerw,list8,int8,已领取大奖
+C2S_COSTGOLDHOLD_REWARD,0x2020,连续消费领奖,type,int8,,奖励类型（0 今日奖励，1 7日大奖）
+C2S_COSTGOLDHOLD_ADDDAY,0x2021,连续消费补签,,,,
+S2C_COSTGOLDHOLD_INFO,0x2020,连续消费信息,holdday,int8,,保持天数
+,,,holdrw,int8,,是否已领取大奖
+,,,todaycost,int32,,今日消费元宝
+,,,todayrw,int8,,是否领取今日奖励

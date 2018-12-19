@@ -1,0 +1,16 @@
+类型,打包,解包
+int8,"PackInt(val,1)",val=UnpackSigned(1)
+int16,"PackInt(val,2)",val=UnpackSigned(2)
+int32,"PackInt(val,4)",val=UnpackSigned(4)
+uint8,"PackInt(val,1)",val=UnpackUnsigned(1)
+uint16,"PackInt(val,2)",val=UnpackUnsigned(2)
+uint32,"PackInt(val,4)",val=UnpackUnsigned(4)
+string8,"PackInt(len, 1);PackString(val, len)",len=UnpackUnsigned(1);val=UnpackString(len)
+string16,"PackInt(len, 2);PackString(val, len)",len=UnpackUnsigned(2);val=UnpackString(len)
+string32,"PackInt(len, 3);PackString(val, len)",len=UnpackUnsigned(3);val=UnpackString(len)
+byte8,"PackInt(len, 1);PackData(val)",val=UnpackUnsigned(1);val=UnpackData(len)
+byte16,"PackInt(len, 2);PackData(val)",val=UnpackUnsigned(2);val=UnpackData(len)
+byte32,"PackInt(len, 4);PackData(val)",val=UnpackUnsigned(4);val=UnpackData(len)
+list8,"PackInt(len, 1);[Packxxx(v) for v in val]",val=UnpackUnsigned(1);val=[Unpackxxx() for x in range(len)]
+list16,"PackInt(len, 2);[Packxxx(v) for v in val]",val=UnpackUnsigned(2);val=[Unpackxxx() for x in range(len)]
+list32,"PackInt(len, 4);[Packxxx(v) for v in val]",val=UnpackUnsigned(4);val=[Unpackxxx() for x in range(len)]

@@ -78,6 +78,7 @@ Protocol_desc = {
 	'cookbattle_result':[['result_idx', 'int8', ''],['result', 'int8', ''],['subject_style', 'int8', ''],['recipe', 'int8', ''],['rival_style', 'int8', ''],['rival_level', 'int8', ''],],
 	'cookbattle_recipe':[['style', 'int8', ''],['recipe', 'int8', ''],['amount', 'int16', ''],],
 	'wulin_rank_info':[['rid', 'uint32', ''],['score', 'uint32', ''],['name', 'string8', ''],['srvid', 'int32', ''],],
+	'cards_spell':[['dst', 'int32', ''],['type', 'int8', ''],['value', 'int32', ''],],
 	'C2S_WEBSOCKET_HELLO':[['msg', 'string16', ''],],
 	'S2C_WEBSOCKET_HELLO':[['msg', 'string16', ''],],
 	'S2C_MERGE_PACKET':[['packets', 'list8', 'byte8'],],
@@ -200,6 +201,21 @@ Protocol_desc = {
 	'S2C_WAR_BUFF_DEL':[['warid', 'int8', ''],['bid', 'int16', ''],],
 	'C2S_WAR_PLAYEND':[['id', 'int32', ''],],
 	'S2C_WAR_DEFEAT':[['idx', 'int8', ''],],
+	'S2C_CARDS_START':[],
+	'C2S_CARDS_START':[],
+	'S2C_CARDS_END':[],
+	'C2S_CARDS_QUIT':[],
+	'C2S_CARDS_USE':[['srcid', 'int32', ''],['dstid', 'int32', ''],],
+	'C2S_CARDS_CLICK':[['id', 'int32', ''],],
+	'S2C_CARDS_ARR':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],],
+	'S2C_CARDS_HANDS':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],],
+	'S2C_CARDS_PLAYERINFO':[['hp', 'int8', ''],['stamina', 'int8', ''],['armor', 'int8', ''],],
+	'S2C_CARDS_ATK':[['srcid', 'int32', ''],['dstid', 'int32', ''],['value', 'int32', ''],],
+	'S2C_CARDS_GET':[['id', 'int32', ''],],
+	'S2C_CARDS_DEL':[['id', 'int32', ''],],
+	'S2C_CARDS_FLIP':[['id', 'int32', ''],],
+	'S2C_CARDS_UNCOVER':[['id', 'int32', ''],],
+	'S2C_CARDS_SPELL':[['srcid', 'int32', ''],['dstlist', 'list8', 'cards_spell'],],
 }
 C2S_WEBSOCKET_HELLO = 0x100;
 S2C_WEBSOCKET_HELLO = 0x100;
@@ -323,6 +339,21 @@ S2C_WAR_BUFF_ADD = 0x330;
 S2C_WAR_BUFF_DEL = 0x331;
 C2S_WAR_PLAYEND = 0x340;
 S2C_WAR_DEFEAT = 0x340;
+S2C_CARDS_START = 0x501;
+C2S_CARDS_START = 0x501;
+S2C_CARDS_END = 0x502;
+C2S_CARDS_QUIT = 0x502;
+C2S_CARDS_USE = 0x503;
+C2S_CARDS_CLICK = 0x504;
+S2C_CARDS_ARR = 0x503;
+S2C_CARDS_HANDS = 0x504;
+S2C_CARDS_PLAYERINFO = 0x505;
+S2C_CARDS_ATK = 0x506;
+S2C_CARDS_GET = 0x507;
+S2C_CARDS_DEL = 0x508;
+S2C_CARDS_FLIP = 0x509;
+S2C_CARDS_UNCOVER = 0x510;
+S2C_CARDS_SPELL = 0x511;
 
 
 #protocol_desc end

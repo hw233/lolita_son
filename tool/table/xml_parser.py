@@ -261,4 +261,4 @@ if __name__ == "__main__":
 	#global cur_dir
 	py_file = sys.argv[0]
 	cur_dir = py_file[:py_file.rfind("\\")]
-	parseAllExcelFiles("table", "../../app/config");
+	parseAllExcelFiles("table", "server");

@@ -33,10 +33,26 @@ class game_main(app.base.game_module_mgr.game_module):
 		self.register_net_event(C2S_ITEM_BUY,self.on_itembuy);
 		self.register_net_event(C2S_LOGIN_ASYN_TIME,self.on_asyn_time);
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
+		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
 		self.register_net_event(C2S_LV_UP,self.on_req_lvup);
 		self.register_net_event(C2S_SKILL_INFO,self.on_req_skillinfo);
 		self.register_net_event(C2S_SKILL_LVUP,self.on_req_skilllvup);
 		self._init_module();
+		return
+	def _getdidbycid(self,cId):
+		if self.character_map.has_key(cId):
+			return self.character_map[cId];
+		return
+	def _send2clientbycid(self,ud):
+		cmd = ud[0]
+		cId = ud[1];
+		dId = self._getdidbycid(cid);
+		if dId == None:
+			log.err("_send2clientbycid err:%s %s"%(cId,ud));
+			return
+		data = ud[2];
+		buf = netutil.s2c_data2bufbycmd(cmd,data);
+		GlobalObject().remote['gate'].callRemote("pushObject",cmd,buf, [dId])
 		return
 	def _send2client(self,ud):
 		cmd = ud[0]

@@ -38,5 +38,6 @@ export function config_init(config_obj:Object):void{
 	cards_effect_map_init(config_obj);
 	cards_dungeon_map_init(config_obj);
 	cards_initcards_map_init(config_obj);
+	cards_exp_map_init(config_obj);
 }
 }

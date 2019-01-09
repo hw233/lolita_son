@@ -17,6 +17,9 @@ cards_effect_map[105] = {"id":105,"type":"charm","desc":"魅惑",};
 cards_effect_map[106] = {"id":106,"type":"vanish","desc":"盖住所有牌",};
 cards_effect_map[107] = {"id":107,"type":"scout","desc":"翻开所有牌",};
 cards_effect_map[108] = {"id":108,"type":"berserk","desc":"狂暴,数值为已减血量",};
+cards_effect_map[109] = {"id":109,"type":"addarmor","desc":"加甲",};
+cards_effect_map[110] = {"id":110,"type":"subarmor","desc":"减甲",};
+cards_effect_map[199] = {"id":199,"type":"next","desc":"进入下一关",};
 
 
 class Cards_effect:

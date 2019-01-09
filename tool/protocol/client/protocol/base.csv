@@ -323,10 +323,10 @@ C2S_CARDS_USE,0x503,,srcid,int32,,
 ,,,dstid,int32,,
 C2S_CARDS_CLICK,0x504,,id,int32,,
 S2C_CARDS_ARR,0x503,,idlist,list8,int32,
+,,,shapelist,list8,int16,
 ,,,atklist,list8,int32,hp or duration
 ,,,hplist,list8,int32,hp or duration
 ,,,durationlist,list8,int32,hp or duration
-,,,datalist,list8,int32,hp or duration
 S2C_CARDS_HANDS,0x504,,idlist,list8,int32,
 ,,,shapelist,list8,int16,
 ,,,atklist,list8,int32,hp or duration
@@ -340,11 +340,8 @@ S2C_CARDS_ATK,0x506,,srcid,int32,,
 ,,,value,int32,,
 S2C_CARDS_GET,0x507,,id,int32,,
 S2C_CARDS_DEL,0x508,,id,int32,,
-S2C_CARDS_CLOSE,0x509,,id,int32,,
 S2C_CARDS_OPEN,0x510,,id,int32,,
 ,,,shape,int32,,
-S2C_CARDS_SPELL,0x511,,srcid,int32,,
-,,,dstlist,list8,cards_spell,
 S2C_CARDS_CHANGED,0x512,,id,int32,,
 ,,,shape,int16,,
 ,,,atk,int32,,atk

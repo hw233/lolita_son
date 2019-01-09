@@ -205,15 +205,14 @@ export let Protocol_desc = {
 	'C2S_CARDS_QUIT':[],
 	'C2S_CARDS_USE':[['srcid', 'int32', ''],['dstid', 'int32', ''],],
 	'C2S_CARDS_CLICK':[['id', 'int32', ''],],
-	'S2C_CARDS_ARR':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],],
-	'S2C_CARDS_HANDS':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],],
+	'S2C_CARDS_ARR':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],['atklist', 'list8', 'int32'],['hplist', 'list8', 'int32'],['durationlist', 'list8', 'int32'],],
+	'S2C_CARDS_HANDS':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],['atklist', 'list8', 'int32'],['hplist', 'list8', 'int32'],['durationlist', 'list8', 'int32'],],
 	'S2C_CARDS_PLAYERINFO':[['hp', 'int8', ''],['stamina', 'int8', ''],['armor', 'int8', ''],],
 	'S2C_CARDS_ATK':[['srcid', 'int32', ''],['dstid', 'int32', ''],['value', 'int32', ''],],
 	'S2C_CARDS_GET':[['id', 'int32', ''],],
 	'S2C_CARDS_DEL':[['id', 'int32', ''],],
-	'S2C_CARDS_FLIP':[['id', 'int32', ''],],
-	'S2C_CARDS_UNCOVER':[['id', 'int32', ''],],
-	'S2C_CARDS_SPELL':[['srcid', 'int32', ''],['dstlist', 'list8', 'cards_spell'],],
+	'S2C_CARDS_OPEN':[['id', 'int32', ''],['shape', 'int32', ''],],
+	'S2C_CARDS_CHANGED':[['id', 'int32', ''],['shape', 'int16', ''],['atk', 'int32', ''],['hp', 'int32', ''],['duration', 'int32', ''],],
 }
 export const C2S_WEBSOCKET_HELLO = 0x100;
 export const S2C_WEBSOCKET_HELLO = 0x100;
@@ -349,9 +348,8 @@ export const S2C_CARDS_PLAYERINFO = 0x505;
 export const S2C_CARDS_ATK = 0x506;
 export const S2C_CARDS_GET = 0x507;
 export const S2C_CARDS_DEL = 0x508;
-export const S2C_CARDS_FLIP = 0x509;
-export const S2C_CARDS_UNCOVER = 0x510;
-export const S2C_CARDS_SPELL = 0x511;
+export const S2C_CARDS_OPEN = 0x510;
+export const S2C_CARDS_CHANGED = 0x512;
 
 export const S2C_CMD_2_PROTODESC:{[key:number]:string;} = {}
 S2C_CMD_2_PROTODESC[S2C_WEBSOCKET_HELLO]='S2C_WEBSOCKET_HELLO';
@@ -445,9 +443,8 @@ S2C_CMD_2_PROTODESC[S2C_CARDS_PLAYERINFO]='S2C_CARDS_PLAYERINFO';
 S2C_CMD_2_PROTODESC[S2C_CARDS_ATK]='S2C_CARDS_ATK';
 S2C_CMD_2_PROTODESC[S2C_CARDS_GET]='S2C_CARDS_GET';
 S2C_CMD_2_PROTODESC[S2C_CARDS_DEL]='S2C_CARDS_DEL';
-S2C_CMD_2_PROTODESC[S2C_CARDS_FLIP]='S2C_CARDS_FLIP';
-S2C_CMD_2_PROTODESC[S2C_CARDS_UNCOVER]='S2C_CARDS_UNCOVER';
-S2C_CMD_2_PROTODESC[S2C_CARDS_SPELL]='S2C_CARDS_SPELL';
+S2C_CMD_2_PROTODESC[S2C_CARDS_OPEN]='S2C_CARDS_OPEN';
+S2C_CMD_2_PROTODESC[S2C_CARDS_CHANGED]='S2C_CARDS_CHANGED';
 
 export const C2S_CMD_2_PROTODESC:{[key:number]:string;} = {}
 C2S_CMD_2_PROTODESC[C2S_WEBSOCKET_HELLO]='C2S_WEBSOCKET_HELLO';

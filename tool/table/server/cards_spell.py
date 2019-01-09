@@ -20,6 +20,7 @@ cards_spell_map[10008] = {"id":10008,"effect":"107.0","desc":"打开所有牌",}
 cards_spell_map[10009] = {"id":10009,"effect":"101.0","dst":"2.0","data":"99.0","desc":"恐惧",};
 cards_spell_map[10010] = {"id":10010,"effect":"101104.0","dst":"0,0","data":"99,99","desc":"休息",};
 cards_spell_map[10011] = {"id":10011,"effect":"108.0","dst":"2.0","desc":"狂暴",};
+cards_spell_map[19999] = {"id":19999,"effect":"199103.0","dst":"0.0","data":"0,1","desc":"进入下一关",};
 
 
 class Cards_spell:

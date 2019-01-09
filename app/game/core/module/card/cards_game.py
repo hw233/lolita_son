@@ -5,6 +5,7 @@ import config.cards_dungeon as cards_dungeon
 import config.cards_effect as cards_effect
 import config.cards_initcards as cards_initcards
 import config.cards_spell as cards_spell
+import config.cards_exp as cards_exp
 import random
 
 CARD_TYPE_SWORD = 1
@@ -17,14 +18,74 @@ class card_effect:
 	def __init__(self):
 		return
 	def run(self,src_card,dst_card,game_ins,dst,data):
+		return True
+class card_effect_berserk(card_effect):
+	def __init__(self):
+		super(card_effect_berserk,self).__init__(self);
 		return
+	def run(self,src_card,dst_card,game_ins,dst,data):
+		global CARD_TYPE_MONSTER
+		hp = game_ins.hp;
+		hp_max = game_ins.hp_max;
+		if hp < hp_max:
+			atk = hp_max - hp;
+			for i in xrange(0,len(game_ins.cards_arr)):
+				card = game_ins.cards_arr[i];
+				if card.b_cover == False and card.cfg.type == CARD_TYPE_MONSTER:
+					id = card.id;
+					card.hp -= atk;
+					game_ins.send_atk_2c(0,id,atk);
+					if card.hp <= 0:
+						game_ins.send_del_card(id);
+						game_ins.del_card(id);
+		return True
+class card_effect_charm(card_effect):
+	def __init__(self):
+		super(card_effect_charm,self).__init__(self);
+		return
+	def run(self,src_card,dst_card,game_ins,dst,data):
+		if dst_card == None or dst_card.shape == 0 or dst_card.b_cover:
+			return False
+		global CARD_TYPE_MONSTER;
+		if dst_card.cfg.type != CARD_TYPE_MONSTER:
+			return False
+		id = dst_card.id;
+		shape = dst_card.shape;
+		if game_ins.add_hand_card(shape):
+			game_ins.send_del_card(id);
+			game_ins.del_card(id);
+			game_ins.send_hands_2c();
+		else:
+			return False
+		return True
+class card_effect_scout(card_effect):
+	def __init__(self):
+		super(card_effect_scout,self).__init__(self);
+		return
+	def run(self,src_card,dst_card,game_ins,dst,data):
+		game_ins.scout_all();
+		game_ins.send_cards_2c();
+		return True
+
+class card_effect_vanish(card_effect):
+	def __init__(self):
+		super(card_effect_vanish,self).__init__(self);
+		return
+	def run(self,src_card,dst_card,game_ins,dst,data):
+		game_ins.vanish_all();
+		game_ins.send_cards_2c();
+		return True
 class card_effect_exit(card_effect):
 	def __init__(self):
 		super(card_effect_exit,self).__init__(self);
 		return
 	def run(self,src_card,dst_card,game_ins,dst,data):
+		game_ins.add_playerstamania(1);
+		game_ins.add_playerhp(1);
+		game_ins.add_playerexp(100);
+		game_ins.send_pinfo_2c();
 		game_ins.enter_next();
-		return
+		return True
 class card_effect_addhp(card_effect):
 	def __init__(self):
 		super(card_effect_addhp,self).__init__(self);
@@ -33,7 +94,7 @@ class card_effect_addhp(card_effect):
 		if dst == 0:
 			game_ins.add_playerhp(data);
 			game_ins.send_pinfo_2c();
-		return
+		return True
 class card_effect_subhp(card_effect):
 	def __init__(self):
 		super(card_effect_subhp,self).__init__(self);
@@ -42,7 +103,7 @@ class card_effect_subhp(card_effect):
 		if dst == 0:
 			game_ins.sub_playerhp(data);
 			game_ins.send_pinfo_2c();
-		return
+		return True
 class card_effect_addstamania(card_effect):
 	def __init__(self):
 		super(card_effect_addstamania,self).__init__(self);
@@ -50,7 +111,7 @@ class card_effect_addstamania(card_effect):
 	def run(self,src_card,dst_card,game_ins,dst,data):
 		game_ins.add_playerstamania(data);
 		game_ins.send_pinfo_2c();
-		return
+		return True
 class card_effect_substamania(card_effect):
 	def __init__(self):
 		super(card_effect_substamania,self).__init__(self);
@@ -58,7 +119,7 @@ class card_effect_substamania(card_effect):
 	def run(self,src_card,dst_card,game_ins,dst,data):
 		game_ins.sub_playerstamania(data);
 		game_ins.send_pinfo_2c();
-		return
+		return True
 class card_effect_addarmor(card_effect):
 	def __init__(self):
 		super(card_effect_addarmor,self).__init__(self);
@@ -66,7 +127,7 @@ class card_effect_addarmor(card_effect):
 	def run(self,src_card,dst_card,game_ins,dst,data):
 		game_ins.add_playerarmor(data);
 		game_ins.send_pinfo_2c();
-		return
+		return True
 class card_effect_subarmor(card_effect):
 	def __init__(self):
 		super(card_effect_subarmor,self).__init__(self);
@@ -74,7 +135,7 @@ class card_effect_subarmor(card_effect):
 	def run(self,src_card,dst_card,game_ins,dst,data):
 		game_ins.sub_playerarmor(data);
 		game_ins.send_pinfo_2c();
-		return
+		return True
 g_effect_map = {};
 g_default_effect = card_effect();
 def init_effect_map():
@@ -86,6 +147,10 @@ def init_effect_map():
 	g_effect_map[109] = card_effect_addarmor();
 	g_effect_map[110] = card_effect_subarmor();
 	g_effect_map[199] = card_effect_exit();
+	g_effect_map[105] = card_effect_charm();
+	g_effect_map[106] = card_effect_vanish();
+	g_effect_map[107] = card_effect_scout();
+	g_effect_map[108] = card_effect_berserk();
 	return
 def get_effect_inst(id):
 	global g_effect_map;
@@ -129,14 +194,15 @@ class card_spell:
 					idx += 1;
 		return
 	def run(self,src_card,dst_card,game_ins):
+		ret = True;
 		if self.cfg:
 			for i in xrange(0,len(self.efflist)):
 				eid = self.efflist[i];
 				edst = self.dstlist[i];
 				edata = self.datalist[i];
 				e = get_effect_inst(eid);
-				e.run(src_card,dst_card,game_ins,edst,edata);
-		return
+				ret = ret && e.run(src_card,dst_card,game_ins,edst,edata);
+		return ret
 g_spell_map = {};
 def get_spell_inst(spell_id):
 	global g_spell_map;
@@ -164,9 +230,10 @@ class card_equip(card_base):
 		else:
 			id = self.card_obj.id;
 			shape = self.card_obj.shape;
-			self.card_obj.game_ins.send_del_card(id);
-			self.card_obj.game_ins.del_card(id);
+			
 			if self.card_obj.game_ins.add_hand_card(shape):
+				self.card_obj.game_ins.send_del_card(id);
+				self.card_obj.game_ins.del_card(id);
 				self.card_obj.game_ins.send_hands_2c();
 		return
 	def use(self,dst_card):
@@ -220,10 +287,19 @@ class card_spell(card_base):
 		else:
 			id = self.card_obj.id;
 			shape = self.card_obj.shape;
+			
+			if self.card_obj.game_ins.add_hand_card(shape):
+				self.card_obj.game_ins.send_del_card(id);
+				self.card_obj.game_ins.del_card(id);
+				self.card_obj.game_ins.send_hands_2c();
+		return
+	def use(self,dst_card):
+		spell_id = self.card_obj.cfg.extra;
+		ret = self.card_obj.game_ins.use_spell(spell_id,self.card_obj,dst_card);
+		if ret != False:
+			id = self.card_obj.id;
 			self.card_obj.game_ins.send_del_card(id);
 			self.card_obj.game_ins.del_card(id);
-			if self.card_obj.game_ins.add_hand_card(shape):
-				self.card_obj.game_ins.send_hands_2c();
 		return
 class card_monster(card_base):
 	def __init__(self,card_obj):
@@ -282,17 +358,19 @@ class card_trap(card_base):
 			self.card_obj.game_ins.send_open_card(self.card_obj.id,self.card_obj.shape);
 			if self.card_obj.cfg.react != 0:
 				spell_id = self.card_obj.cfg.extra;
-				self.card_obj.game_ins.use_spell(spell_id,self.card_obj,None);
-				id = self.card_obj.id;
-				self.card_obj.game_ins.send_del_card(id);
-				self.card_obj.game_ins.del_card(id);
+				ret = self.card_obj.game_ins.use_spell(spell_id,self.card_obj,None);
+				if ret != False:
+					id = self.card_obj.id;
+					self.card_obj.game_ins.send_del_card(id);
+					self.card_obj.game_ins.del_card(id);
 		else:
 			if self.card_obj.cfg.react == 0:
 				spell_id = self.card_obj.cfg.extra;
-				self.card_obj.game_ins.use_spell(spell_id,self.card_obj,None);
-				id = self.card_obj.id;
-				self.card_obj.game_ins.send_del_card(id);
-				self.card_obj.game_ins.del_card(id);
+				ret = self.card_obj.game_ins.use_spell(spell_id,self.card_obj,None);
+				if ret != False:
+					id = self.card_obj.id;
+					self.card_obj.game_ins.send_del_card(id);
+					self.card_obj.game_ins.del_card(id);
 				
 		return
 class card:
@@ -350,20 +428,46 @@ class cards_game:
 		self.b_end = False;
 		self.cid = cid;
 		self.c_data = c_data;
+		self.clv = 1;
+		if c_data['lv']:
+			self.clv = c_data['lv'];#角色等级
 
-		self.clv = c_data['lv'];#角色等级
-		self.hp = c_data['hp'];
-		self.stamaina = c_data['stamania'];
-		self.exp = c_data['exp'];
-		self.glv = c_data['glv'];#当前游戏里角色等级
-		self.attack = c_data['atk'];
-		self.armor = c_data['armor'];
+		self.hp = 10;
+		self.hp_max = 10;
+		self.stamania = 10;
+		self.exp = 0;
+		self.stamania_max = 10;
+		self.base_atk = 1;
+		self.exp_max = 100;
+		self.armor = 0;
+		self.extra_atk = 0;
+		self.attack = 1;
+
+		clv_expcfg = cards_exp.create_Cards_exp(self.clv);
+		if clv_expcfg != None:
+			self.hp_max = clv_expcfg.hpmax;
+			self.stamania_max = clv_expcfg.stamaniamax;
+			self.base_atk = clv_expcfg.atk;
+			self.exp_max = clv_expcfg.exp;
+
+		if c_data['hp']:
+			self.hp = c_data['hp'];
+		if c_data['stamania']:
+			self.stamania = c_data['stamania'];
+		if c_data['exp']:
+			self.exp = c_data['exp'];
+		
+		if c_data['atk']:
+			self.extra_atk = c_data['atk'];
+
+		self.attack = self.base_atk + self.extra_atk;
+		if c_data['armor']:
+			self.armor = c_data['armor'];
 
 		self.dlv = dlv;#
 		self.b_enter_next = False;
 
-		self.hp_max = 10;
-
+		
 		self.max_num = 100;
 		self.card_id_start = 0;
 
@@ -554,11 +658,12 @@ class cards_game:
 		use_card = self.cards_arr[src_pos];
 		if use_card.shape == 0:
 			return
+
 		use_card.click();
 		#先扣体力，看是否需要扣血 todo
-		self.stamaina -= 1;
-		if self.stamaina < 0:
-			self.stamaina = 0;
+		self.stamania -= 1;
+		if self.stamania < 0:
+			self.stamania = 0;
 			self.hp -= 1;
 		#
 		#结算血量，看游戏是否结束 todo
@@ -583,7 +688,10 @@ class cards_game:
 			return
 		if self.armor < 0:
 			self.armor = 0;
-
+		if self.hp > self.hp_max:
+			self.hp = self.hp_max;
+		if self.stamania > self.stamania_max:
+			self.stamania = self.stamania_max;
 		#判断是否进入下一关
 		if self.b_enter_next:
 			self.b_enter_next = False;
@@ -602,23 +710,55 @@ class cards_game:
 		src_card = self.hand_cards_arr[src_pos];
 		if src_card.shape == 0:
 			return
-		if dst >= self.hand_id_start:
-			dst_pos = dst - self.hand_id_start;
-			if dst_pos >=self.hand_max_num:
-				return;
-			dst_card = self.hand_cards_arr[dst_pos]
-			src_card.use(dst_card);
-		elif dst >= self.card_id_start:
-			dst_pos = dst - self.card_id_start;
-			if dst_pos >=self.max_num:
-				return;
-			dst_card = self.cards_arr[dst_pos]
-			src_card.use(dst_card);
+		if src_card.b_cover:
+			return
+		if dst != 0:
+			if dst >= self.hand_id_start:
+				dst_pos = dst - self.hand_id_start;
+				if dst_pos >=self.hand_max_num:
+					return;
+				dst_card = self.hand_cards_arr[dst_pos]
+				if dst_card.shape == 0:
+					dst_card = None;
+				if dst_card.b_cover:
+					return
+				src_card.use(dst_card);
+			elif dst >= self.card_id_start:
+				dst_pos = dst - self.card_id_start;
+				if dst_pos >=self.max_num:
+					return;
+				dst_card = self.cards_arr[dst_pos]
+				if dst_card.shape == 0:
+					dst_card = None;
+				if dst_card.b_cover:
+					return
+				src_card.use(dst_card);
+		else:
+			src_card.use(None);
 		#结算血量，看游戏是否结束 todo
 		#
 		if self.hp <= 0:
 			self.b_end = True;
 			self.send_end_2c();
+		if self.armor < 0:
+			self.armor = 0;
+		if self.hp > self.hp_max:
+			self.hp = self.hp_max;
+		if self.stamania > self.stamania_max:
+			self.stamania = self.stamania_max;
+		#判断是否进入下一关
+		if self.b_enter_next:
+			self.b_enter_next = False;
+			self.dlv += 1;
+			self.init_cards();
+			self.send_cards_2c();
+		self.send_pinfo_2c();
+		return
+	def req_del_hand(self,dst):
+		if dst >= self.hand_id_start and dst < (self.hand_id_start + self.hand_max_num):
+			del_pos = dst - self.hand_id_start;
+			self.hand_cards_arr[del_pos].shape = 0;
+			self.send_hands_2c();
 		return
 	def req_quit(self):
 		self.b_end = True;
@@ -626,6 +766,14 @@ class cards_game:
 		return
 	#get client request end
 	###
+	def scout_all(self):
+		for i in self.cards_arr:
+			i.b_cover = False;
+		return
+	def vanish_all(self):
+		for i in self.cards_arr:
+			i.b_cover = True;
+		return
 	def enter_next(self):
 		self.b_enter_next = True;
 		return
@@ -655,10 +803,10 @@ class cards_game:
 		self.armor -= v;
 		return
 	def add_playerstamania(self,v):
-		self.stamaina += v;
+		self.stamania += v;
 		return
 	def sub_playerstamania(self,v):
-		self.stamaina -= v;
+		self.stamania -= v;
 		return
 	def add_playerhp(self,v):
 		self.hp += v;
@@ -674,11 +822,22 @@ class cards_game:
 	def add_playerexp(self,exp):
 		self.exp += exp;
 		#todo 升级的变化，增加的属性
+		if self.exp >= self.exp_max:
+			clv_expcfg = cards_exp.create_Cards_exp(self.clv+1);
+			if clv_expcfg != None:
+				self.hp_max = clv_expcfg.hpmax;
+				self.stamania_max = clv_expcfg.stamaniamax;
+				self.base_atk = clv_expcfg.atk;
+				self.attack = self.base_atk + self.extra_atk;
+				self.clv += 1;
+				self.exp = 0;
+				self.hp = self.hp_max;
+				self.stamania = self.stamania_max;
 		return
 	def use_spell(self,spell_id,src_card,dst_card):
 		spell_inst = get_spell_inst(spell_id);
-		spell_inst.run(src_card,dst_card,self);
-		return
+		return spell_inst.run(src_card,dst_card,self);
+		
 	def del_card(self,dst):
 		if dst >= self.card_id_start and dst < (self.card_id_start + self.max_num):
 			del_pos = dst - self.card_id_start;
@@ -692,12 +851,21 @@ class cards_game:
 	#send packet func begin
 	def send_cards_2c(self):
 		print "send_cards_2c";
+		idx = 0;
+		for i in self.cards_arr:
+			print "idx:%d %d %d %d %d"%(idx,i.id,i.shape,i.hp,i.atk,i.duration);
+			idx += 1;
 		return
 	def send_hands_2c(self):
 		print "send_hands_2c";
+		idx = 0;
+		for i in self.hand_cards_arr:
+			print "idx:%d %d %d %d %d"%(idx,i.id,i.shape,i.hp,i.atk,i.duration);
+			idx += 1;
+		return
 		return
 	def send_pinfo_2c(self):
-		print "send_pinfo_2c %d %d %d %d %d %d"%(self.hp,self.armor,self.attack,self.exp,self.glv,self.dlv);
+		print "send_pinfo_2c %d %d %d %d %d %d %d %d"%(self.hp,self.armor,self.attack,self.exp,self.dlv,self.clv,self.hp_max,self.stamania_max);
 		return
 	def send_start_2c(self):
 		print "send_start_2c";
@@ -711,19 +879,10 @@ class cards_game:
 	def send_card_changed(self,dst,shape,atk,hp,duration):
 		print "send_card_changed %s %s %s"%(dst,shape,atk,hp,duration);
 		return
-	def send_close_card(self,dst):
-		print "send_cover_card %s"%(dst);
-		return
 	def send_open_card(self,dst,card_shape):
 		print "send_open_card %s,%s"%(dst,card_shape);
 		return
 	def send_atk_2c(self,src,dst,v):
 		print "send_atk_2c %s,%s,%s"%(src,dst,v);
-		return
-	def send_getcard_2c(self,dst):
-		print "send_getcard_2c %s"%(dst);
-		return
-	def send_spell_2c(self,src,dst_list,data_list):
-		print "send_spell_2c %s,%s,%s"%(src,dst_list,data_list);
 		return
 	#send packet func end

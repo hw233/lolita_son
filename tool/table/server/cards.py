@@ -24,14 +24,14 @@ cards_map[1033] = {"id":1033,"type":1,"name":"sword","desc":"重剑3","shape":10
 cards_map[1041] = {"id":1041,"type":1,"name":"sword","desc":"短剑4","shape":1001,"group":1,"duration":5,"attack":2,"react":0,};
 cards_map[1042] = {"id":1042,"type":1,"name":"sword","desc":"长剑4","shape":1001,"group":1,"duration":5,"attack":3,"react":0,};
 cards_map[1043] = {"id":1043,"type":1,"name":"sword","desc":"重剑4","shape":1001,"group":1,"duration":5,"attack":5,"react":0,};
-cards_map[2001] = {"id":2001,"type":1,"name":"armor","desc":"盔甲1","shape":2001,"group":2,"hp":2,"react":0,};
-cards_map[2002] = {"id":2002,"type":1,"name":"armor","desc":"盔甲2","shape":2001,"group":2,"hp":3,"react":0,};
-cards_map[2003] = {"id":2003,"type":1,"name":"armor","desc":"盔甲3","shape":2001,"group":2,"hp":4,"react":0,};
-cards_map[2004] = {"id":2004,"type":1,"name":"armor","desc":"盔甲4","shape":2001,"group":2,"hp":5,"react":0,};
-cards_map[2005] = {"id":2005,"type":1,"name":"armor","desc":"盔甲5","shape":2001,"group":2,"hp":6,"react":0,};
-cards_map[2006] = {"id":2006,"type":1,"name":"armor","desc":"盔甲6","shape":2001,"group":2,"hp":7,"react":0,};
-cards_map[2007] = {"id":2007,"type":1,"name":"armor","desc":"盔甲7","shape":2001,"group":2,"hp":8,"react":0,};
-cards_map[2008] = {"id":2008,"type":1,"name":"armor","desc":"盔甲8","shape":2001,"group":2,"hp":10,"react":0,};
+cards_map[2001] = {"id":2001,"type":4,"name":"armor","desc":"盔甲1","shape":2001,"group":2,"hp":2,"react":0,};
+cards_map[2002] = {"id":2002,"type":4,"name":"armor","desc":"盔甲2","shape":2001,"group":2,"hp":3,"react":0,};
+cards_map[2003] = {"id":2003,"type":4,"name":"armor","desc":"盔甲3","shape":2001,"group":2,"hp":4,"react":0,};
+cards_map[2004] = {"id":2004,"type":4,"name":"armor","desc":"盔甲4","shape":2001,"group":2,"hp":5,"react":0,};
+cards_map[2005] = {"id":2005,"type":4,"name":"armor","desc":"盔甲5","shape":2001,"group":2,"hp":6,"react":0,};
+cards_map[2006] = {"id":2006,"type":4,"name":"armor","desc":"盔甲6","shape":2001,"group":2,"hp":7,"react":0,};
+cards_map[2007] = {"id":2007,"type":4,"name":"armor","desc":"盔甲7","shape":2001,"group":2,"hp":8,"react":0,};
+cards_map[2008] = {"id":2008,"type":4,"name":"armor","desc":"盔甲8","shape":2001,"group":2,"hp":10,"react":0,};
 cards_map[3001] = {"id":3001,"type":0,"name":"devil","desc":"小恶魔","shape":3001,"group":3,"attack":1,"hp":1,"extra":10,};
 cards_map[3002] = {"id":3002,"type":0,"name":"devil","desc":"小恶魔","shape":3001,"group":3,"attack":2,"hp":1,"extra":20,};
 cards_map[3003] = {"id":3003,"type":0,"name":"devil","desc":"小恶魔","shape":3001,"group":3,"attack":1,"hp":2,"extra":20,};
@@ -56,7 +56,7 @@ cards_map[4006] = {"id":4006,"type":2,"name":"vanish","desc":"时间回溯","sha
 cards_map[4007] = {"id":4007,"type":2,"name":"terror","desc":"恐惧","shape":4007,"group":7,"extra":10009,};
 cards_map[4008] = {"id":4008,"type":2,"name":"rest","desc":"休息","shape":4008,"group":7,"extra":10010,};
 cards_map[4009] = {"id":4009,"type":2,"name":"berserk","desc":"狂暴","shape":4009,"group":7,"extra":10011,};
-cards_map[9999] = {"id":9999,"type":3,"name":"exit","desc":"出口","shape":9999,"group":9999,};
+cards_map[9999] = {"id":9999,"type":3,"name":"exit","desc":"出口","shape":9999,"group":9999,"extra":19999,"react":0,};
 
 
 class Cards:

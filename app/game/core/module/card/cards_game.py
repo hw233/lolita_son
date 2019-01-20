@@ -8,6 +8,8 @@ import app.config.cards_spell as cards_spell
 import app.config.cards_exp as cards_exp
 import random
 
+
+#card type
 CARD_TYPE_SWORD = 1
 CARD_TYPE_MONSTER = 0
 CARD_TYPE_ARMOR = 4

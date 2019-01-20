@@ -15,7 +15,7 @@ CARD_TYPE_MONSTER = 0
 CARD_TYPE_ARMOR = 4
 CARD_TYPE_SPELL = 2
 CARD_TYPE_TRAP = 3
-
+#card type end
 class card_effect(object):
 	def __init__(self):
 		return

@@ -518,7 +518,7 @@ class cards_game:
 
 		self.send_start_2c();
 		self.send_pinfo_2c();
-		self.send_enter_dlv(self.dlv):
+		self.send_enter_dlv(self.dlv);
 		self.send_cards_2c();
 		self.send_hands_2c();
 		self.send_turn_start();

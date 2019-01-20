@@ -859,7 +859,7 @@ class cards_game:
 			self.b_enter_next = False;
 			self.dlv += 1;
 			self.init_cards();
-			self.send_enter_dlv(self.dlv):
+			self.send_enter_dlv(self.dlv);
 			self.send_cards_2c();
 		self.send_pinfo_2c();
 		self.send_turn_start();
@@ -897,7 +897,7 @@ class cards_game:
 			self.b_enter_next = False;
 			self.dlv += 1;
 			self.init_cards();
-			self.send_enter_dlv(self.dlv):
+			self.send_enter_dlv(self.dlv);
 			self.send_cards_2c();
 		self.send_pinfo_2c();
 		self.send_turn_start();

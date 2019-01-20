@@ -201,19 +201,25 @@ Protocol_desc = {
 	'S2C_WAR_BUFF_DEL':[['warid', 'int8', ''],['bid', 'int16', ''],],
 	'C2S_WAR_PLAYEND':[['id', 'int32', ''],],
 	'S2C_WAR_DEFEAT':[['idx', 'int8', ''],],
-	'S2C_CARDS_START':[],
 	'C2S_CARDS_START':[],
-	'S2C_CARDS_END':[],
 	'C2S_CARDS_QUIT':[],
 	'C2S_CARDS_USE':[['srcid', 'int32', ''],['dstid', 'int32', ''],],
 	'C2S_CARDS_CLICK':[['id', 'int32', ''],],
+	'C2S_CARDS_FLIP':[['id', 'int32', ''],],
+	'C2S_CARDS_DEL':[['id', 'int32', ''],],
+	'S2C_CARDS_START':[],
+	'S2C_CARDS_END':[],
 	'S2C_CARDS_ARR':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],['atklist', 'list8', 'int32'],['hplist', 'list8', 'int32'],['durationlist', 'list8', 'int32'],],
 	'S2C_CARDS_HANDS':[['idlist', 'list8', 'int32'],['shapelist', 'list8', 'int16'],['atklist', 'list8', 'int32'],['hplist', 'list8', 'int32'],['durationlist', 'list8', 'int32'],],
-	'S2C_CARDS_PLAYERINFO':[['hp', 'int8', ''],['stamina', 'int8', ''],['armor', 'int8', ''],],
+	'S2C_CARDS_PLAYERINFO':[['hp', 'int32', ''],['stamina', 'int32', ''],['armor', 'int32', ''],['atk', 'int32', ''],['exp', 'int32', ''],['dlv', 'int32', ''],['clv', 'int32', ''],['hpmax', 'int32', ''],['staminamax', 'int32', ''],],
 	'S2C_CARDS_ATK':[['srcid', 'int32', ''],['dstid', 'int32', ''],['value', 'int32', ''],],
-	'S2C_CARDS_GET':[['id', 'int32', ''],],
 	'S2C_CARDS_DEL':[['id', 'int32', ''],],
 	'S2C_CARDS_OPEN':[['id', 'int32', ''],['shape', 'int32', ''],],
+	'S2C_CARDS_CHANGED':[['id', 'int32', ''],['shape', 'int16', ''],['atk', 'int32', ''],['hp', 'int32', ''],['duration', 'int32', ''],],
+	'S2C_CARDS_TURNSTART':[],
+	'S2C_CARDS_TURNEND':[],
+	'S2C_CARDS_ENTERDLV':[['lv', 'int32', ''],],
+	'S2C_CARDS_DELHAND':[['id', 'int32', ''],],
 	'S2C_CARDS_CHANGED':[['id', 'int32', ''],['shape', 'int16', ''],['atk', 'int32', ''],['hp', 'int32', ''],['duration', 'int32', ''],],
 }
 C2S_WEBSOCKET_HELLO = 0x100;
@@ -338,20 +344,26 @@ S2C_WAR_BUFF_ADD = 0x330;
 S2C_WAR_BUFF_DEL = 0x331;
 C2S_WAR_PLAYEND = 0x340;
 S2C_WAR_DEFEAT = 0x340;
-S2C_CARDS_START = 0x501;
 C2S_CARDS_START = 0x501;
-S2C_CARDS_END = 0x502;
 C2S_CARDS_QUIT = 0x502;
 C2S_CARDS_USE = 0x503;
 C2S_CARDS_CLICK = 0x504;
+C2S_CARDS_FLIP = 0x505;
+C2S_CARDS_DEL = 0x506;
+S2C_CARDS_START = 0x501;
+S2C_CARDS_END = 0x502;
 S2C_CARDS_ARR = 0x503;
 S2C_CARDS_HANDS = 0x504;
 S2C_CARDS_PLAYERINFO = 0x505;
 S2C_CARDS_ATK = 0x506;
-S2C_CARDS_GET = 0x507;
-S2C_CARDS_DEL = 0x508;
-S2C_CARDS_OPEN = 0x510;
-S2C_CARDS_CHANGED = 0x512;
+S2C_CARDS_DEL = 0x507;
+S2C_CARDS_OPEN = 0x508;
+S2C_CARDS_CHANGED = 0x509;
+S2C_CARDS_TURNSTART = 0x510;
+S2C_CARDS_TURNEND = 0x511;
+S2C_CARDS_ENTERDLV = 0x512;
+S2C_CARDS_DELHAND = 0x513;
+S2C_CARDS_CHANGED = 0x514;
 
 
 #protocol_desc end

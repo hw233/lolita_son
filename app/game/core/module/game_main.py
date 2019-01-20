@@ -22,6 +22,7 @@ class game_main(app.base.game_module_mgr.game_module):
 		self.get_module(game_module_def.MAIN_PLAYER).start();
 		self.get_module(game_module_def.PET).start();
 		self.get_module(game_module_def.PARTNER).start();
+		self.get_module(game_module_def.CARD_MAIN).start();
 		return
 	def start(self):
 		super(game_main,self).start();

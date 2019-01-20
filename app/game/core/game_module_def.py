@@ -5,3 +5,4 @@ GM_MAIN = "gm_main";
 MAIN_PLAYER = "main_player"
 PET = "pet"
 PARTNER = "partner"
+CARD_MAIN = "card_main"

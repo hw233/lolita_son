@@ -220,7 +220,6 @@ Protocol_desc = {
 	'S2C_CARDS_TURNEND':[],
 	'S2C_CARDS_ENTERDLV':[['lv', 'int32', ''],],
 	'S2C_CARDS_DELHAND':[['id', 'int32', ''],],
-	'S2C_CARDS_CHANGED':[['id', 'int32', ''],['shape', 'int16', ''],['atk', 'int32', ''],['hp', 'int32', ''],['duration', 'int32', ''],],
 }
 C2S_WEBSOCKET_HELLO = 0x100;
 S2C_WEBSOCKET_HELLO = 0x100;
@@ -363,7 +362,6 @@ S2C_CARDS_TURNSTART = 0x510;
 S2C_CARDS_TURNEND = 0x511;
 S2C_CARDS_ENTERDLV = 0x512;
 S2C_CARDS_DELHAND = 0x513;
-S2C_CARDS_CHANGED = 0x514;
 
 
 #protocol_desc end

@@ -15,6 +15,7 @@ import card.cards_game as cards_game
 
 import app.config.cards as cards_cfg
 
+#main class
 class cards_mgr(app.base.game_module_mgr.game_module):
 	def __init__(self):
 		super(cards_mgr,self).__init__();

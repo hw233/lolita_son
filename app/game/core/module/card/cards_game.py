@@ -951,8 +951,8 @@ class cards_game:
 			idx += 1;
 			send_data['idlist'].append(i.id);
 			send_data['shapelist'].append(sendshape);
-			send_data['atklist'].append(sendhp);
-			send_data['hplist'].append(sendatk);
+			send_data['atklist'].append(sendatk);
+			send_data['hplist'].append(sendhp);
 			send_data['durationlist'].append(senddura);
 		if self.parent:
 			self.parent.send_cards_2c(self.cid,send_data);

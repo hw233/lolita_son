@@ -187,7 +187,7 @@ class card_spell_triger:
 						self.dstlist[idx] = did;
 					idx += 1;
 			if data and len(data) > 0:
-				tmp = dst.split(',');
+				tmp = data.split(',');
 				idx = 0;
 				for i in tmp:
 					did = int(float(i));

@@ -810,6 +810,8 @@ class cards_game:
 		#结算血量，看游戏是否结束 todo
 		if self.hp <= 0:
 			self.b_end = True;
+			self.hp = 0;
+			self.send_pinfo_2c();
 			self.send_turn_start();
 			self.send_end_2c();
 			return
@@ -820,6 +822,8 @@ class cards_game:
 			self.hp = self.hp_max;
 		if self.stamania > self.stamania_max:
 			self.stamania = self.stamania_max;
+		if self.stamania < 0:
+			self.stamania = 0;
 		self.send_pinfo_2c();
 		self.send_turn_start();
 		return
@@ -841,6 +845,8 @@ class cards_game:
 		#结算血量，看游戏是否结束 todo
 		if self.hp <= 0:
 			self.b_end = True;
+			self.hp = 0;
+			self.send_pinfo_2c();
 			self.send_turn_start();
 			self.send_end_2c();
 			return
@@ -857,6 +863,8 @@ class cards_game:
 		#再次结算血量，看游戏是否结束 todo
 		if self.hp <= 0:
 			self.b_end = True;
+			self.hp = 0;
+			self.send_pinfo_2c();
 			self.send_turn_start();
 			self.send_end_2c();
 			return
@@ -866,6 +874,8 @@ class cards_game:
 			self.hp = self.hp_max;
 		if self.stamania > self.stamania_max:
 			self.stamania = self.stamania_max;
+		if self.stamania < 0:
+			self.stamania = 0;
 		#判断是否进入下一关
 		if self.b_enter_next:
 			print "enter next dlv %s"%(self.dlv);
@@ -903,13 +913,18 @@ class cards_game:
 		#
 		if self.hp <= 0:
 			self.b_end = True;
+			self.hp = 0;
+			self.send_pinfo_2c();
 			self.send_end_2c();
+			return;
 		if self.armor < 0:
 			self.armor = 0;
 		if self.hp > self.hp_max:
 			self.hp = self.hp_max;
 		if self.stamania > self.stamania_max:
 			self.stamania = self.stamania_max;
+		if self.stamania < 0:
+			self.stamania = 0;
 		#判断是否进入下一关
 		if self.b_enter_next:
 			self.b_enter_next = False;

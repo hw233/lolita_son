@@ -228,6 +228,7 @@ class card_equip(card_base):
 		if self.card_obj.b_cover:
 			self.card_obj.b_cover = False;
 			self.card_obj.game_ins.send_open_card(self.card_obj.id,self.card_obj.shape);
+			self.card_obj.game_ins.send_card_changed(self.card_obj.id,self.card_obj.shape,self.card_obj.atk,self.card_obj.hp,self.card_obj.duration);
 			return
 		else:
 			id = self.card_obj.id;
@@ -285,6 +286,7 @@ class card_spell(card_base):
 		if self.card_obj.b_cover:
 			self.card_obj.b_cover = False;
 			self.card_obj.game_ins.send_open_card(self.card_obj.id,self.card_obj.shape);
+			self.card_obj.game_ins.send_card_changed(self.card_obj.id,self.card_obj.shape,self.card_obj.atk,self.card_obj.hp,self.card_obj.duration);
 		else:
 			id = self.card_obj.id;
 			shape = self.card_obj.shape;
@@ -310,6 +312,7 @@ class card_monster(card_base):
 		if self.card_obj.b_cover:
 			self.card_obj.b_cover = False;
 			self.card_obj.game_ins.send_open_card(self.card_obj.id,self.card_obj.shape);
+			self.card_obj.game_ins.send_card_changed(self.card_obj.id,self.card_obj.shape,self.card_obj.atk,self.card_obj.hp,self.card_obj.duration);
 			return
 		else:
 			id = self.card_obj.id;
@@ -357,6 +360,7 @@ class card_trap(card_base):
 		if self.card_obj.b_cover:
 			self.card_obj.b_cover = False;
 			self.card_obj.game_ins.send_open_card(self.card_obj.id,self.card_obj.shape);
+			self.card_obj.game_ins.send_card_changed(self.card_obj.id,self.card_obj.shape,self.card_obj.atk,self.card_obj.hp,self.card_obj.duration);
 			if self.card_obj.cfg.react == 1:
 				spell_id = self.card_obj.cfg.extra;
 				ret = self.card_obj.game_ins.use_spell(spell_id,self.card_obj,None);

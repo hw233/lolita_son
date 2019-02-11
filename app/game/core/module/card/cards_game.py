@@ -872,18 +872,23 @@ class cards_game:
 		return
 	def req_use_card(self,src,dst):
 		if self.hand_cards_map.has_key(src) == False:
+			print "req_use_card error!have not this card %s"%(src);
 			return
 		src_card = self.hand_cards_map[src];
 		if src_card.shape == 0:
+			print "req_use_card error!src_card.shape %s"%(src);
 			return
 		if src_card.b_cover:
+			print "req_use_card error!src_card.b_cover %s"%(src);
 			return
 		dst_card = None;
 		if dst != 0:
 			if self.cards_map.has_key(dst) == False:
+				print "req_use_card error!have not this dst card %s"%(dst);
 				return
 			dst_card = self.cards_map[dst]
 			if dst_card.b_cover:
+				print "req_use_card error!dst_card.b_cover %s"%(dst);
 				return
 		self.send_turn_end();
 		src_card.use(dst_card);

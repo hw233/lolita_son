@@ -245,10 +245,11 @@ class card_equip(card_base):
 		global CARD_TYPE_MONSTER
 		if self.card_obj.cfg.type == CARD_TYPE_ARMOR:
 			id = self.card_obj.id;
-			self.card_obj.game_ins.add_playerarmor(self.card_obj.hp);
-			self.card_obj.game_ins.send_pinfo_2c();
-			self.card_obj.game_ins.send_del_handcard(id);
-			self.card_obj.game_ins.del_handcard(id);
+			if self.card_obj.game_ins.can_addarmor():
+				self.card_obj.game_ins.add_playerarmor(self.card_obj.hp);
+				self.card_obj.game_ins.send_pinfo_2c();
+				self.card_obj.game_ins.send_del_handcard(id);
+				self.card_obj.game_ins.del_handcard(id);
 		elif self.card_obj.cfg.type == CARD_TYPE_SWORD:
 			id = self.card_obj.id;
 			atk = self.card_obj.atk;
@@ -717,6 +718,8 @@ class cards_game:
 		self.hand_cards_arr.append(c);
 		self.hand_cards_map[c.id] = c;
 		return True
+	def can_addarmor(self):
+		return self.armor <= 0;
 	def add_playerarmor(self,v):
 		self.armor += v;
 		return

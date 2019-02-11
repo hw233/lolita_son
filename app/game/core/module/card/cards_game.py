@@ -861,6 +861,7 @@ class cards_game:
 			self.stamania = self.stamania_max;
 		#判断是否进入下一关
 		if self.b_enter_next:
+			print "enter next dlv %s"%(self.dlv);
 			self.b_enter_next = False;
 			self.dlv += 1;
 			self.init_cards();

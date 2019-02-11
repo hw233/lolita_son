@@ -430,6 +430,7 @@ class card:
 		return
 class cards_game:
 	def __init__(self,cid,c_data,dlv,cardscfg_bygroup,parent):
+		self.b_init = False;
 		self.parent = parent
 		self.b_end = False;
 		self.cid = cid;
@@ -515,8 +516,10 @@ class cards_game:
 				return cards_list[idx];
 		return 0;
 	def start(self):
-		self.init_cards();
-		self.init_handscards();
+		if not self.b_init:
+			self.init_cards();
+			self.init_handscards();
+			self.b_init = True;
 
 		self.send_start_2c();
 		self.send_pinfo_2c();

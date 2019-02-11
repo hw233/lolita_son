@@ -65,6 +65,10 @@ class cards_mgr(app.base.game_module_mgr.game_module):
 		did = ud["dId"];
 		cid = ud["cId"];
 		data = ud["data"];
+		ins = self.get_inst(cid);
+		if not ins:
+			ins = self.new_inst(cid,{},1);
+		ins.start();
 		return
 	def req_flip_card(self,ud):
 		did = ud["dId"];

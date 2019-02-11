@@ -47,7 +47,7 @@ class game_main(app.base.game_module_mgr.game_module):
 	def _send2clientbycid(self,ud):
 		cmd = ud[0]
 		cId = ud[1];
-		dId = self._getdidbycid(cid);
+		dId = self._getdidbycid(cId);
 		if dId == None:
 			log.err("_send2clientbycid err:%s %s"%(cId,ud));
 			return

@@ -1820,7 +1820,7 @@
 		"110":{"id":110,"type":"subarmor","desc":"减甲"},
 		"199":{"id":199,"type":"next","desc":"进入下一关"}},
 "cards_dungeon_map":{
-		"1":{"lv":1,"min":6,"max":16,"equip_group":"1,2","equip_min":2,"equip_max":3,"spell_group":"7.0","spell_min":1,"spell_max":3,"trap_group":"8.0","trap_min":1,"trap_max":2,"monster_group":"3,4,5,6"}},
+		"1":{"lv":1,"min":10,"max":16,"equip_group":"1,2","equip_min":2,"equip_max":3,"spell_group":"7.0","spell_min":1,"spell_max":3,"trap_group":"8.0","trap_min":1,"trap_max":2,"monster_group":"3,4,5,6"}},
 "cards_initcards_map":{
 		"1":{"lv":1,"count":5,"equip_group":"1,2","equip_min":1,"equip_max":4,"spell_group":"7.0"}},
 "cards_exp_map":{

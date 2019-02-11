@@ -937,7 +937,7 @@ class cards_game:
 				sendhp = i.hp;
 				sendatk = i.atk;
 				senddura = i.duration;
-			print "idx:%d %d %d %d %d %d"%(idx,i.id,sendshape,i.shape,i.hp,i.atk,i.duration);
+			print "idx:%d %d %d %d %d %d %d"%(idx,i.id,sendshape,i.shape,i.hp,i.atk,i.duration);
 			idx += 1;
 			send_data['idlist'].append(i.id);
 			send_data['shapelist'].append(sendshape);

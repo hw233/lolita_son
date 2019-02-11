@@ -119,7 +119,7 @@ class cards_mgr(app.base.game_module_mgr.game_module):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_ARR,cid,send_data]);
 		return
 	def send_hands_2c(self,cid,send_data):
-		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARD_HANDS,cid,send_data]);
+		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_HANDS,cid,send_data]);
 		return
 	def send_pinfo_2c(self,cid,send_data):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_PLAYERINFO,cid,send_data]);
@@ -137,7 +137,7 @@ class cards_mgr(app.base.game_module_mgr.game_module):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_ENTERDLV,cid,send_data]);
 		return
 	def send_end_2c(self,cid,send_data):
-		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CADS_END,cid,send_data]);
+		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_END,cid,send_data]);
 		return
 	def send_del_card(self,cid,send_data):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_DEL,cid,send_data]);
@@ -149,7 +149,7 @@ class cards_mgr(app.base.game_module_mgr.game_module):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_CHANGED,cid,send_data]);
 		return
 	def send_open_card(self,cid,send_data):
-		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARS_OPEN,cid,send_data]);
+		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_OPEN,cid,send_data]);
 		return
 	def send_atk_2c(self,cid,send_data):
 		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_CARDS_ATK,cid,send_data]);

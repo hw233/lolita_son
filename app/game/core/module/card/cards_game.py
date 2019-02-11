@@ -932,7 +932,7 @@ class cards_game:
 			sendhp = 0;
 			sendatk = 0;
 			senddura = 0;
-			if i.b_cover != False:
+			if i.b_cover != True:
 				sendshape = i.shape;
 				sendhp = i.hp;
 				sendatk = i.atk;

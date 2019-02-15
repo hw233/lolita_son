@@ -10,6 +10,7 @@ from app.gate.core.UserManager import UsersManager
 from app.gate.core.scenesermanger import SceneSerManager
 from twisted.python import log
 
+#test
 @rootserviceHandle
 def forwarding(key,dynamicId,data):
     """

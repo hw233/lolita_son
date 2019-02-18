@@ -5,6 +5,7 @@ Created on 2012-3-1
 @author: sean_lan
 '''
 from firefly.dbentrust.dbpool import dbpool
+from firefly.dbentrust.util import util
 from MySQLdb.cursors import DictCursor
 import datetime
 
@@ -176,7 +177,7 @@ def CheckUserInfo(Uid):
     conn.close()
     return result
 def getGuestUserIdx():
-    idx = firefly.dbentrust.util.GetTableIncrValue("tb_register");
+    idx = util.GetTableIncrValue("tb_register");
     if not idx:
         idx = 0;
     return

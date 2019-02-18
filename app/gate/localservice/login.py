@@ -132,6 +132,6 @@ def createguestaccount_282(key,dynamicId,request_proto):
     response = {}
     response["account"] = account;
     response["pwd"] = pwd;
-    buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)
+    buf = netutil.s2c_data2buf("S2C_ACCOUNT_GUEST",response)
     GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_ACCOUNT_GUEST,buf, [dynamicId]);
     return

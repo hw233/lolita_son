@@ -180,7 +180,7 @@ def getGuestUserIdx():
     idx = firefly.dbentrust.util.GetTableIncrValue("tb_register");
     if not idx:
         idx = 0;
-    return
+    return idx;
 def creatUserInfo(username,password,tm):
     '''创建
     '''

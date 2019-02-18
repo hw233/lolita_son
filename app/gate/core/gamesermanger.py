@@ -9,16 +9,16 @@ from twisted.python import log
 from firefly.server.globalobject import GlobalObject
 
 
-UP = 200#每个场景服承载的角色上限
+UP = 4000#每个游戏服承载的角色上限
 
-class  SceneSer:
+class  ServerObj:
     
-    def __init__(self,sceneId):
-        self.id = sceneId
+    def __init__(self,svrId):
+        self.id = svrId
         self._clients = set()
         
     def addClient(self,clientId):
-        '''添加一个客户端到场景服务器'''
+        '''添加一个客户端到游戏服务器'''
         self._clients.add(clientId)
         
     def dropClient(self,clientId):
@@ -29,63 +29,63 @@ class  SceneSer:
         '''获取场景中的客户端数量'''
         return len(self._clients)
 
-class SceneSerManager:
+class GameSerManager:
     
     __metaclass__ = Singleton
     
     def __init__(self):
         '''初始化'''
-        self._svr_pre = "scene";
-        self._scenesers = {}
-        self.initSceneSers()
+        self._svr_map = {}
+        self._svr_pre = "game";
+        self.initSvrs()
         
-    def initSceneSers(self):
+    def initSvrs(self):
         for childname in GlobalObject().root.childsmanager._childs.keys():
             if self._svr_pre in childname:
-                self.addSceneSer(childname)
+                self.addSvr(childname)
         
-    def addSceneSer(self,sceneId):
+    def addSvr(self,svrname):
         '''添加一个场景服务器'''
-        sceneser = SceneSer(sceneId)
-        self._scenesers[sceneser.id] = sceneser
-        return sceneser
+        svr_ins = ServerObj(svrname)
+        self._svr_map[svr_ins.id] = svr_ins
+        return svr_ins
         
 
-    def getSceneServerById(self,sceneId):
-        '''返回场景服务的实例'''
-        sceneser = self._scenesers.get(sceneId)
-        if not sceneser:
-            sceneser = self.addSceneSer(sceneId)
-        return sceneser
+    def getServerById(self,svrId):
+        '''返回服务的实例'''
+        svr_ins = self._svr_map.get(svrId)
+        if not svr_ins:
+            svr_ins = self.addSvr(svrId)
+        return svr_ins
         
-    def addClient(self,sceneId,clientId):
+    def addClient(self,svrId,clientId):
         '''添加一个客户端'''
-        sceneser = self.getSceneServerById(sceneId)
-        if not sceneser:
+        svr_ins = self.getServerById(svrId)
+        if not svr_ins:
             return False
-        sceneser.addClient(clientId)
+        svr_ins.addClient(clientId)
         return True
     
-    def dropClient(self,sceneId,clientId):
+    def dropClient(self,svrId,clientId):
         '''清除一个客户端'''
-        sceneser = self.getSceneServerById(sceneId)
-        if sceneser:
+        svr_ins = self.getServerById(svrId)
+        if svr_ins:
             try:
-                sceneser.dropClient(clientId)
+                svr_ins.dropClient(clientId)
             except Exception:
-                msg = "sceneId:%d-------clientId:%d"%(sceneId,clientId)
+                msg = "serverId:%d-------clientId:%d"%(svrId,clientId)
                 log.err(msg)
         
     def getAllClientCnt(self):
         '''获取公共场景中所有的客户端数量'''
-        return sum([ser.getClientCnt() for ser in self._scenesers])
+        return sum([ser.getClientCnt() for ser in self._svr_map])
     
     def getAllSceId(self):
-        return self._scenesers.keys();
-    def getBsetScenNodeId(self):
+        return self._svr_map.keys();
+    def getBsetSvrNodeId(self):
         '''获取最佳的game服务器
         '''
-        serverlist = self._scenesers.values()
+        serverlist = self._svr_map.values()
         slist = sorted(serverlist,reverse=False,key = lambda sser:sser.getClientCnt())
         if slist:
             return slist[0].id

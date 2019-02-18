@@ -29,7 +29,8 @@ class User:
         self.dynamicId = dynamicId
         self.isEffective = True
         self.characterId = 0
-        self.node = "";
+        self.node = "";#game node
+        self.scene_node = "";#scene node
         self.Ischaracterlocked = False;#only used when client disconnected
         self.characterInfo = {}
         self.initUser()
@@ -61,6 +62,12 @@ class User:
         @param node: int 节点的id
         '''
         self.node = node
+        return
+    def getSceneNode(self):
+        return self.scene_node;
+    def setSceneNode(self,node):
+        self.scene_node = node;
+        return
     def isCharacterLocked(self):
         return self.Ischaracterlocked;
     def lockChar(self,f):

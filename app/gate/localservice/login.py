@@ -13,7 +13,7 @@ from app.share.dbopear import dbuser
 import app.protocol.ProtocolDesc as ProtocolDesc
 from app.gate.core.User import User
 from app.gate.core.UserManager import UsersManager
-from app.gate.core.scenesermanger import SceneSerManager
+from app.gate.core.gamesermanger import GameSerManager
 import app.util.helper as helper
 @localserviceHandle
 def loginToServer_275(key,dynamicId,request_proto):
@@ -100,10 +100,10 @@ def selectrole_276(key,dynamicId,request_proto):
         return;
     if user.isLoginCharacter():
         return;
-    nownode = SceneSerManager().getBsetScenNodeId()
+    nownode = GameSerManager().getBsetSvrNodeId()
     d = GlobalObject().root.callChild(nownode,1,dynamicId, rid)
     user.setNode(nownode)
-    SceneSerManager().addClient(nownode, dynamicId)
+    GameSerManager().addClient(nownode, dynamicId)
 
     response = {}
     buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)

@@ -7,7 +7,7 @@ Created on 2013-8-14
 from firefly.server.globalobject import rootserviceHandle,GlobalObject
 from app.gate.gateservice import localservice
 from app.gate.core.UserManager import UsersManager
-from app.gate.core.scenesermanger import SceneSerManager
+from app.gate.core.gamesermanger import GameSerManager
 from twisted.python import log
 
 #test
@@ -45,7 +45,7 @@ def pushObjectOthers(cmd,msg,exclude_list):
 def broadcastObject(srcsvr,cmd,dynamicId, characterId,data):
     """
     """
-    allsceids = SceneSerManager().getAllSceId();
+    allsceids = GameSerManager().getAllSceId();
     log.msg("broadcastObject ",len(allsceids),allsceids);
     for i in allsceids:
         if i != srcsvr:
@@ -77,7 +77,7 @@ def dropClient(deferResult,dynamicId,u):
     '''
     node = u.getNode()
     if node:#角色在场景中的处理
-        SceneSerManager().dropClient(node, dynamicId)
+        GameSerManager().dropClient(node, dynamicId)
     UsersManager().dropUserByDynamicId(dynamicId)
 
 @rootserviceHandle

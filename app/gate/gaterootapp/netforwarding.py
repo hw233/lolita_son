@@ -8,9 +8,12 @@ from firefly.server.globalobject import rootserviceHandle,GlobalObject
 from app.gate.gateservice import localservice
 from app.gate.core.UserManager import UsersManager
 from app.gate.core.gamesermanger import GameSerManager
+from app.game.core.scenesermanager import SceneSerManager
 from twisted.python import log
-
+from app.protocol.ProtocolDesc import *
 #test
+scene_protocol = [C2S_MAP_MOVE];
+
 @rootserviceHandle
 def forwarding(key,dynamicId,data):
     """
@@ -27,6 +30,12 @@ def forwarding(key,dynamicId,data):
             return;
         if not user.CheckEffective():
             return;
+        global scene_protocol;
+        if key in scene_protocol:
+            scene = user.getSceneNode();
+            if scene:
+                GlobalObject().root.callChild(scene,3,key,dynamicId,user.characterId,data);
+            return
         node = user.getNode();
         return GlobalObject().root.callChild(node,3,key,dynamicId,user.characterId,data)
     
@@ -59,8 +68,12 @@ def loseConnect(id):
 def SavePlayerInfoInDB(dynamicId):
     '''将玩家信息写入数据库'''
     u = UsersManager().getUserByDynamicId(dynamicId)
+    scene = u.getSceneNode();
+    if scene:
+        GlobalObject().root.callChild(scene,2,dynamicId,u.characterId);
+
     node = u.getNode()
-    d = GlobalObject().root.callChild(node,2,dynamicId,u.characterId)
+    d = GlobalObject().root.callChild(node,2,dynamicId,u.characterId);
     return d
 
 def SaveDBSuccedOrError(result,u):
@@ -78,6 +91,10 @@ def dropClient(deferResult,dynamicId,u):
     node = u.getNode()
     if node:#角色在场景中的处理
         GameSerManager().dropClient(node, dynamicId)
+    scene = u.getSceneNode();
+    if scene:#角色在场景中的处理
+        SceneSerManager().dropClient(scene, dynamicId)
+
     UsersManager().dropUserByDynamicId(dynamicId)
 
 @rootserviceHandle

@@ -14,6 +14,7 @@ import app.protocol.ProtocolDesc as ProtocolDesc
 from app.gate.core.User import User
 from app.gate.core.UserManager import UsersManager
 from app.gate.core.gamesermanger import GameSerManager
+from app.gate.core.scenesermanger import SceneSerManager
 import app.util.helper as helper
 @localserviceHandle
 def loginToServer_275(key,dynamicId,request_proto):
@@ -104,6 +105,11 @@ def selectrole_276(key,dynamicId,request_proto):
     d = GlobalObject().root.callChild(nownode,1,dynamicId, rid)
     user.setNode(nownode)
     GameSerManager().addClient(nownode, dynamicId)
+
+    scenenode = SceneSerManager().getBsetScenNodeId()
+    d = GlobalObject().root.callChild(scenenode,1,dynamicId, rid)
+    user.setSceneNode(scenenode)
+    SceneSerManager().addClient(scenenode, dynamicId)
 
     response = {}
     buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)

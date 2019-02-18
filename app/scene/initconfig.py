@@ -24,5 +24,5 @@ def loadModule():
     registe_madmin()
     from gatenodeapp import *
     app.game.core.game_module_init.init_game_module();
-    #game_module_mgr.game_module_mgr().get_module(game_module_def.GAME_MAIN).start();
+    game_module_mgr.game_module_mgr().get_module(game_module_def.SCENE_MAIN).start();
     

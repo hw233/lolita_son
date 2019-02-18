@@ -8,7 +8,7 @@ from firefly.server.globalobject import rootserviceHandle,GlobalObject
 from app.gate.gateservice import localservice
 from app.gate.core.UserManager import UsersManager
 from app.gate.core.gamesermanger import GameSerManager
-from app.game.core.scenesermanager import SceneSerManager
+from app.gate.core.scenesermanager import SceneSerManager
 from twisted.python import log
 from app.protocol.ProtocolDesc import *
 #test

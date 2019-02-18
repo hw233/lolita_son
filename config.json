@@ -5,7 +5,7 @@
 "dbfront":{"name":"dbfront","db":true,"mem":true,"app":"app.dbfrontserver","log":"app/logs/dbfront.log"},
 "net":{"netport":11009,"name":"net","remoteport":[{"rootport":10000,"rootname":"gate"}],"app":"app.netserver","log":"app/logs/net.log"},
 "scene":{"remoteport":[{"rootport":10000,"rootname":"scene"}],
-         "name":"scene","db":true,"mem":true,"app":"app.sceneserver","reload":"app.scene.doreload","log":"app/logs/scene.log"}
+         "name":"scene","db":true,"mem":true,"app":"app.sceneserver","reload":"app.scene.doreload","log":"app/logs/scene.log"},
 "game1":{"remoteport":[{"rootport":10000,"rootname":"gate"}],
          "name":"game1","db":true,"mem":true,"app":"app.gameserver","reload":"app.game.doreload","log":"app/logs/game1.log"},
 "game2":{"remoteport":[{"rootport":10000,"rootname":"gate"}],

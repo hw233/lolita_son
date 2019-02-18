@@ -54,6 +54,9 @@ S2C_SERVER_INFO,0x128,服务器信息,srvid,int16,,当前服务器ID
 ,,,opentime,uint32,,开服时间
 S2C_ACCOUNT_INFO,0x129,账号信息,aid,int32,,账号ID
 ,,,qudao,string8,,渠道
+C2S_ACCOUNT_NEW,0x130,获取新账号,,,,
+S2C_ACCOUNT_NEW,0x130,返回新账号,account,string8,,账号
+,,,pwd,string8,,密码
 S2C_PROTOCOL_DESC,0x121,服务器协议,ptypes,list8,ptyperow,协议基础类型
 ,,,cusptypes,list16,protocoltype,协议扩展类型
 ,,,c2sprotocols,list16,protocoldesc,c2s协议

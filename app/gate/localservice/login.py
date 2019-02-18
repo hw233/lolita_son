@@ -116,3 +116,22 @@ def createrole_278(key,dynamicId,request_proto):
 @localserviceHandle
 def delrole_279(key,dynamicId,request_proto):
     return
+
+@localserviceHandle
+def createguestaccount_282(key,dynamicId,request_proto):
+    account = "guest_";
+    pwd = "123456";
+    idx = dbuser.getGuestUserIdx();
+    account = account + str(idx);
+    dbuser.creatUserInfo(account, pwd,helper.get_svr_tm())
+    userinfo = dbuser.CheckUserInfo(account)
+    if not userinfo:
+        log.msg("create guestaccount failed ",account);
+        return
+
+    response = {}
+    response["account"] = account;
+    response["pwd"] = pwd;
+    buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)
+    GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_ACCOUNT_GUEST,buf, [dynamicId]);
+    return

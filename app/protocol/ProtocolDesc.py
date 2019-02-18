@@ -106,6 +106,8 @@ Protocol_desc = {
 	'S2C_OPENTIME':[['opentime', 'uint32', ''],],
 	'S2C_SERVER_INFO':[['srvid', 'int16', ''],['srvname', 'string8', ''],['opentime', 'uint32', ''],],
 	'S2C_ACCOUNT_INFO':[['aid', 'int32', ''],['qudao', 'string8', ''],],
+	'C2S_ACCOUNT_NEW':[],
+	'S2C_ACCOUNT_NEW':[['account', 'string8', ''],['pwd', 'string8', ''],],
 	'S2C_PROTOCOL_DESC':[['ptypes', 'list8', 'ptyperow'],['cusptypes', 'list16', 'protocoltype'],['c2sprotocols', 'list16', 'protocoldesc'],['s2cprotocols', 'list16', 'protocoldesc'],],
 	'S2C_CLIENT_COMMAND':[['msg', 'string16', ''],],
 	'C2S_CLIENT_SETTING':[['setting', 'byte8', ''],],
@@ -248,6 +250,8 @@ S2C_ACCOUNT_GUEST = 0x11a;
 S2C_OPENTIME = 0x120;
 S2C_SERVER_INFO = 0x128;
 S2C_ACCOUNT_INFO = 0x129;
+C2S_ACCOUNT_NEW = 0x130;
+S2C_ACCOUNT_NEW = 0x130;
 S2C_PROTOCOL_DESC = 0x121;
 S2C_CLIENT_COMMAND = 0x122;
 C2S_CLIENT_SETTING = 0x123;

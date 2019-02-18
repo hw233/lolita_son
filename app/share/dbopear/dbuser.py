@@ -175,7 +175,11 @@ def CheckUserInfo(Uid):
     cursor.close()
     conn.close()
     return result
-
+def getGuestUserIdx(tm):
+    idx = firefly.dbentrust.util.GetTableIncrValue("tb_register");
+    if not idx:
+        idx = 0;
+    return
 def creatUserInfo(username,password,tm):
     '''创建
     '''

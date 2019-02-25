@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import random
-
-REGION_HNUM = 6;#10 actually diameter
-REGION_VNUM = 4;#8 actually diameter
-
-BLOCK_W = 256;
-BLOCK_H = 256;
-GRID_W = 32;
-GRID_H = 32;
 class sceneblock:
 	def __init__(self,sx,sy,h_idx,v_idx):
 		self.x = sx;
@@ -31,15 +23,11 @@ class sceneblock:
 	def dispose(self):
 		return
 class sceneobj:
-	def __init__(self,sid,w,h):
+	def __init__(self,sid,w,h,BLOCK_W,BLOCK_H,REGION_HNUM,REGION_VNUM):
 		self.w = w;
 		self.h = h;
 		self.sid = sid;
 		self.block_list = [];
-		global BLOCK_W;
-		global BLOCK_H;
-		global REGION_HNUM;
-		global REGION_VNUM;
 
 		self.b_w = BLOCK_W;
 		self.b_h = BLOCK_H;
@@ -307,27 +295,24 @@ class scenemgr:
 	def __init__(self):
 		self._scene_map = {};
 		self._cid_2_scene = {};
-		global GRID_W
-		global GRID_H
-		global BLOCK_W
-		global BLOCK_H
-		self.b_w = BLOCK_W;
-		self.b_h = BLOCK_H;
-		self.grid_w = GRID_W;
-		self.grid_h = GRID_H;
+
+		self.REGION_HNUM = 6;#10 actually diameter
+		self.REGION_VNUM = 4;#8 actually diameter
+
+		self.BLOCK_W = 256;
+		self.BLOCK_H = 256;
+		self.GRID_W = 32;
+		self.GRID_H = 32;
+
+		self.b_w = self.BLOCK_W;
+		self.b_h = self.BLOCK_H;
+		self.grid_w = self.GRID_W;
+		self.grid_h = self.GRID_H;
 		return
 	def dispose(self):
 		return
-	def init_scene(self,scene_id):
-		import app.config.mapinfo as mapinfo
-		#import mapinfo
-		mapinfo = mapinfo.create_Mapinfo(scene_id);
-		w = 2560;
-		h = 2560;
-		if mapinfo:
-			w = mapinfo.w;
-			h = mapinfo.h;
-		self._scene_map[scene_id] = sceneobj(scene_id,w,h);
+	def init_scene(self,scene_id,w,h):
+		self._scene_map[scene_id] = sceneobj(scene_id,w,h,self.BLOCK_W,self.BLOCK_H,self.REGION_HNUM,self.REGION_VNUM);
 		return
 	def notify_enter_list(self,notify_list,cid,x,y):
 		print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
@@ -348,7 +333,7 @@ class scenemgr:
 		if not self._scene_map.has_key(scene_id):
 			self.init_scene(scene_id);
 		if self._cid_2_scene.has_key(cid):
-			old_sid = self._cid_2_scene[cid];
+			old_sid = self._cid_2_scene[cid][0];
 			if old_sid == scene_id:
 				self.jump(cid,gx,gy);
 				return;
@@ -356,13 +341,13 @@ class scenemgr:
 				quit_ret = self.quit(cid);
 				self.notify_quit_list(quit_ret,cid,x,y);
 
-		self._cid_2_scene[cid] = scene_id;
+		self._cid_2_scene[cid] = [scene_id,x,y];
 		enter_ret = self._scene_map[scene_id].enter(cid,gx,gy);
 		self.notify_enter_list(enter_ret,cid,x,y);
 		return
 	def quit(self,cid):
 		if self._cid_2_scene.has_key(cid):
-			sid = self._cid_2_scene[cid];
+			sid = self._cid_2_scene[cid][0];
 			if not self._scene_map.has_key(sid):
 				return;
 			quit_ret = self._scene_map[sid].quit(cid);
@@ -373,9 +358,11 @@ class scenemgr:
 		gx = x*self.grid_w;
 		gy = y*self.grid_h;
 		if self._cid_2_scene.has_key(cid):
-			sid = self._cid_2_scene[cid];
+			sid = self._cid_2_scene[cid][0];
 			if not self._scene_map.has_key(sid):
 				return;
+			self._cid_2_scene[cid][1] = x;
+			self._cid_2_scene[cid][2] = y;
 			m_ret,e_ret,q_ret = self._scene_map[sid].move(cid,gx,gy);
 			self.notify_quit_list(q_ret,cid);
 			self.notify_enter_list(e_ret,cid,x,y);
@@ -385,12 +372,15 @@ class scenemgr:
 		gx = x*self.grid_w;
 		gy = y*self.grid_h;
 		if self._cid_2_scene.has_key(cid):
-			sid = self._cid_2_scene[cid];
+			sid = self._cid_2_scene[cid][0];
+			if sid == new_sid:
+				self.move(cid,x,y);
+				return
 			if self._scene_map.has_key(sid):
 				q_ret = self._scene_map[sid].quit(cid);
 				self.notify_quit_list(q_ret,cid);
 			if self._scene_map.has_key(new_sid):
-				self._cid_2_scene[cid] = new_sid;
+				self._cid_2_scene[cid] = [new_sid,x,y];
 				enter_ret = self._scene_map[new_sid].enter(cid,gx,gy);
 				self.notify_enter_list(enter_ret,cid,x,y);
 		return
@@ -398,6 +388,7 @@ class scenemgr:
 smgr_ins = scenemgr();
 def test_func():
 	global smgr_ins
+	smgr_ins.init_scene(1001,1280,1536);
 	smgr_ins.enter(1,1001,10,10);
 	for i in xrange(20,30):
 		x = random.randint(0,40);

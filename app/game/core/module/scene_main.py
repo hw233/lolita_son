@@ -7,7 +7,7 @@ import app.protocol.netutil as netutil
 from twisted.python import log
 import app.util.helper as helper
 import app.util.lang_config as lang_config
-import app.game.memmode as memmode
+import app.scene.memmode as memmode
 from firefly.server.globalobject import GlobalObject
 import app.game.core.game_module_def as game_module_def
 class scene_main(app.base.game_module_mgr.game_module):
@@ -20,6 +20,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		super(scene_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
+		self.register_net_event(C2S_MAP_MOVE,self.on_move)
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
 		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
 		return
@@ -63,7 +64,14 @@ class scene_main(app.base.game_module_mgr.game_module):
 		cId = ud["cId"];
 		del self.character_map[cId];
 		return
-	
+	def on_move(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		data = ud["data"];
+		x = data["x"];
+		y = data["y"];
+		step = data["step"];
+		return
 	
 	def dispose(self):
 		super(game_main,self).dispose();

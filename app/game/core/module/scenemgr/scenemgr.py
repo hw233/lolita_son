@@ -314,6 +314,19 @@ class scenemgr:
 	def init_scene(self,scene_id,w,h):
 		self._scene_map[scene_id] = sceneobj(scene_id,w,h,self.BLOCK_W,self.BLOCK_H,self.REGION_HNUM,self.REGION_VNUM);
 		return
+	def notify_region_2_c(self,cid,c_list):
+		print "notify_region_2_c %s %s"%(cid,c_list);
+		pos_list = [];
+		for i in c_list:
+			p = self._cid_2_scene[i];
+			x = p[1];
+			y = p[2];
+			pos_list.append([i,x,y]);
+		print "notify_region_2_c pos %s "%(pos_list);
+		return
+	def notify_enter_new_region(self,cid,x,y,rw,rh):
+		print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
+		return
 	def notify_enter_list(self,notify_list,cid,x,y):
 		print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
 		return
@@ -330,20 +343,16 @@ class scenemgr:
 	def enter(self,cid,scene_id,x,y):
 		gx = x*self.grid_w;
 		gy = y*self.grid_h;
-		if not self._scene_map.has_key(scene_id):
-			self.init_scene(scene_id);
 		if self._cid_2_scene.has_key(cid):
 			old_sid = self._cid_2_scene[cid][0];
-			if old_sid == scene_id:
-				self.jump(cid,gx,gy);
-				return;
-			else:
+			if old_sid != scene_id:
 				quit_ret = self.quit(cid);
-				self.notify_quit_list(quit_ret,cid,x,y);
+				self.notify_quit_list(quit_ret,cid);
 
 		self._cid_2_scene[cid] = [scene_id,x,y];
 		enter_ret = self._scene_map[scene_id].enter(cid,gx,gy);
 		self.notify_enter_list(enter_ret,cid,x,y);
+		self.notify_region_2_c(cid,enter_ret);
 		return
 	def quit(self,cid):
 		if self._cid_2_scene.has_key(cid):
@@ -361,11 +370,22 @@ class scenemgr:
 			sid = self._cid_2_scene[cid][0];
 			if not self._scene_map.has_key(sid):
 				return;
+			ox = self._cid_2_scene[cid][1]*self.grid_w;
+			oy = self._cid_2_scene[cid][2]*self.grid_h;
+			src_region_h = ox/self.BLOCK_W;
+			src_region_v = oy/self.BLOCK_H;
+			dst_region_h = gx/self.BLOCK_W;
+			dst_region_v = gy/self.BLOCK_H;
+
 			self._cid_2_scene[cid][1] = x;
 			self._cid_2_scene[cid][2] = y;
+
 			m_ret,e_ret,q_ret = self._scene_map[sid].move(cid,gx,gy);
+			if src_region_h != dst_region_h or src_region_v != dst_region_v:
+				self.notify_enter_new_region(cid,x,y,self.REGION_HNUM*self.BLOCK_W/self.grid_w,self.REGION_VNUM*self.BLOCK_H/self.grid_h);
 			self.notify_quit_list(q_ret,cid);
 			self.notify_enter_list(e_ret,cid,x,y);
+			self.notify_region_2_c(cid,e_ret);
 			self.notify_move_list(m_ret,cid,x,y);
 		return
 	def jump(self,cid,new_sid,x,y):
@@ -382,6 +402,7 @@ class scenemgr:
 			if self._scene_map.has_key(new_sid):
 				self._cid_2_scene[cid] = [new_sid,x,y];
 				enter_ret = self._scene_map[new_sid].enter(cid,gx,gy);
+				self.notify_region_2_c(cid,enter_ret);
 				self.notify_enter_list(enter_ret,cid,x,y);
 		return
 	

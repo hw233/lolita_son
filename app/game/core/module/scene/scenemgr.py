@@ -318,7 +318,7 @@ class scenemgr:
 	def init_scene(self,scene_id,w,h,resid,sname):
 		self._scene_map[scene_id] = sceneobj(scene_id,w,h,self.BLOCK_W,self.BLOCK_H,self.REGION_HNUM,self.REGION_VNUM);
 		self._scene_map[scene_id].resid = resid;
-		self._scene_map[scene_id].name = name;
+		self._scene_map[scene_id].name = sname;
 		return
 	def notify_region_2_c(self,cid,c_list):
 		print "notify_region_2_c %s %s"%(cid,c_list);

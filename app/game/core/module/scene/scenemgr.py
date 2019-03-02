@@ -26,6 +26,8 @@ class sceneobj:
 	def __init__(self,sid,w,h,BLOCK_W,BLOCK_H,REGION_HNUM,REGION_VNUM):
 		self.w = w;
 		self.h = h;
+		self.resid = 0;
+		self.name = "";
 		self.sid = sid;
 		self.block_list = [];
 
@@ -295,7 +297,6 @@ class scenemgr:
 	def __init__(self):
 		self._scene_map = {};
 		self._cid_2_scene = {};
-
 		self.REGION_HNUM = 6;#10 actually diameter
 		self.REGION_VNUM = 4;#8 actually diameter
 
@@ -308,33 +309,41 @@ class scenemgr:
 		self.b_h = self.BLOCK_H;
 		self.grid_w = self.GRID_W;
 		self.grid_h = self.GRID_H;
+		self.parent = None;
 		return
 	def dispose(self):
 		return
-	def init_scene(self,scene_id,w,h):
+	def get_scene_obj(self,scene_id):
+		return self._scene_map[scene_id];
+	def init_scene(self,scene_id,w,h,resid,sname):
 		self._scene_map[scene_id] = sceneobj(scene_id,w,h,self.BLOCK_W,self.BLOCK_H,self.REGION_HNUM,self.REGION_VNUM);
+		self._scene_map[scene_id].resid = resid;
+		self._scene_map[scene_id].name = name;
 		return
 	def notify_region_2_c(self,cid,c_list):
 		print "notify_region_2_c %s %s"%(cid,c_list);
-		pos_list = [];
-		for i in c_list:
-			p = self._cid_2_scene[i];
-			x = p[1];
-			y = p[2];
-			pos_list.append([i,x,y]);
-		print "notify_region_2_c pos %s "%(pos_list);
+		if self.parent:
+			self.parent.notify_region_2_c(cid,c_list);
 		return
 	def notify_enter_new_region(self,cid,x,y,rw,rh):
 		print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
+		if self.parent:
+			self.parent.notify_enter_new_region(cid,x,y,rw,rh);
 		return
 	def notify_enter_list(self,notify_list,cid,x,y):
 		print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
+		if self.parent:
+			self.parent.notify_enter_list(notify_list,cid,x,y);
 		return
 	def notify_quit_list(self,notify_list,cid):
 		print "notify_quit_list %s,%s"%(notify_list,cid);
+		if self.parent:
+			self.parent.notify_quit_list(notify_list,cid);
 		return
 	def notify_move_list(self,notify_list,cid,x,y):
 		print "notify_move_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
+		if self.parent:
+			self.parent.notify_move_list(notify_list,cid,x,y);
 		return
 	def print_data(self,sid):
 		sobj = self._scene_map[sid];

@@ -120,7 +120,7 @@ Protocol_desc = {
 	'S2C_SERVER_ONDAY':[['hour', 'int8', ''],],
 	'C2S_MAP_MOVE':[['x', 'int16', ''],['y', 'int16', ''],['step', 'list8', 'uint8'],],
 	'C2S_MAP_PICK':[['id', 'int32', ''],],
-	'S2C_MAP_TRACK':[['id', 'int32', ''],['x', 'int16', ''],['y', 'int16', ''],['dx', 'int8', ''],['dy', 'int8', ''],],
+	'S2C_MAP_TRACK':[['id', 'int32', ''],['x', 'int16', ''],['y', 'int16', ''],['dx', 'int16', ''],['dy', 'int16', ''],],
 	'S2C_MAP_DEL':[['id', 'byte', ''],],
 	'S2C_MAP_ADDPLAYER':[['id', 'int32', ''],['shape', 'int16', ''],['x', 'int16', ''],['y', 'int16', ''],['desc', 'byte8', ''],['name', 'string8', ''],],
 	'S2C_MAP_ADDNPC':[['id', 'int32', ''],['sid', 'int32', ''],['shape', 'int16', ''],['x', 'int16', ''],['y', 'int16', ''],['dir', 'int8', ''],['desc', 'byte8', ''],['name', 'string8', ''],],
@@ -135,6 +135,7 @@ Protocol_desc = {
 	'S2C_MAP_PLAYANI':[['id', 'int32', ''],['ani', 'int16', ''],['x', 'int16', ''],['y', 'int16', ''],],
 	'S2C_MAP_ROLETITLE':[['id', 'int32', ''],['tid', 'int8', ''],],
 	'S2C_HANGMAP_INFO':[['scsid', 'int16', ''],],
+	'S2C_MAP_REGIONCHANGE':[['x', 'int16', ''],['y', 'int16', ''],['rw', 'int16', ''],['rh', 'int16', ''],],
 	'C2S_NPC_LOOK':[['id', 'int32', ''],],
 	'C2S_NPC_RESPOND':[['idx', 'int32', ''],],
 	'S2C_NPC_CHAT':[['id', 'int32', ''],['icon', 'int16', ''],['name', 'string8', ''],['text', 'string16', ''],['textid', 'int32', ''],['opts', 'list8', 'npctalkopt'],],
@@ -279,6 +280,7 @@ S2C_MAP_CHANGETITLE = 0x146;
 S2C_MAP_PLAYANI = 0x147;
 S2C_MAP_ROLETITLE = 0x14b;
 S2C_HANGMAP_INFO = 0x150;
+S2C_MAP_REGIONCHANGE = 0x151;
 C2S_NPC_LOOK = 0x160;
 C2S_NPC_RESPOND = 0x161;
 S2C_NPC_CHAT = 0x160;

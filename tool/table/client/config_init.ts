@@ -33,6 +33,7 @@ export function config_init(config_obj:Object):void{
 	auraresinfo_map_init(config_obj);
 	titleresinfo_map_init(config_obj);
 	buffinfo_map_init(config_obj);
+	sceneinfo_map_init(config_obj);
 	cards_map_init(config_obj);
 	cards_spell_map_init(config_obj);
 	cards_effect_map_init(config_obj);

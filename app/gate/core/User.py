@@ -29,6 +29,7 @@ class User:
         self.dynamicId = dynamicId
         self.isEffective = True
         self.characterId = 0
+        self.shape = 0;
         self.node = "";#game node
         self.scene_node = "";#scene node
         self.Ischaracterlocked = False;#only used when client disconnected
@@ -98,7 +99,7 @@ class User:
         '''获取用户动态ID'''
         return self.dynamicId
     
-    def creatNewCharacter(self ,nickname ,profession,shape,tm):
+    def creatNewCharacter(self ,nickname ,profession,shape,tm,scene,x,y):
         '''创建新角色
         '''
         if len(nickname)<2 or len(nickname)>20:
@@ -107,9 +108,11 @@ class User:
             return False
         if not dbuser.checkCharacterName(nickname):
             return False
-        characterId = dbuser.creatNewCharacter(nickname, profession,shape, self.id,1,tm)
+        characterId = dbuser.creatNewCharacter(nickname, profession,shape, self.id,1,tm,scene,x,y)
         if characterId:
             self.characterId = characterId
+            self.name = nickname;
+            self.shape = shape;
             return True;
         return False;
     

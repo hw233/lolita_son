@@ -11,7 +11,7 @@ NOTE: Don't modify this file, it's build by xml-to-python!!!
 effectinfo_map = {};
 effectinfo_map[1001] = {"id":1001,"w":96,"h":96,"path":"ani/other/mouseclick/mouseclick.ani","res":"ani/other/mouseclick/effect.atlas","total":16,"speed":30,"name":"ani1","cycle":0,};
 effectinfo_map[1002] = {"id":1002,"w":96,"h":96,"path":"ani/other/mouseclick1/click.ani","res":"ani/other/mouseclick1/other.atlas","total":5,"speed":24,"name":"ani3","cycle":1,};
-effectinfo_map[1003] = {"id":1003,"w":110,"h":90,"path":"ani/other/click_new/click_new.ani","res":"ani/other/click_new/click.atlas","total":11,"speed":24,"name":"ani1","cycle":0,};
+effectinfo_map[1003] = {"id":1003,"w":110,"h":90,"path":"click_new.ani","res":"res/atlas/click.atlas","total":11,"speed":24,"name":"ani1","cycle":0,};
 effectinfo_map[101] = {"id":101,"w":250,"h":250,"path":"game_ani/combat/attacked1.ani","res":"res/atlas/ani_res/attacked/1.atlas","total":11,"speed":12,"name":"ani1","cycle":0,};
 effectinfo_map[102] = {"id":102,"w":300,"h":300,"path":"game_ani/combat/attacked2.ani","res":"res/atlas/ani_res/attacked/2.atlas","total":11,"speed":12,"name":"ani1","cycle":0,};
 effectinfo_map[103] = {"id":103,"w":250,"h":250,"path":"game_ani/combat/attacked3.ani","res":"res/atlas/ani_res/attacked/3.atlas","total":11,"speed":12,"name":"ani1","cycle":0,};

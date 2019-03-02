@@ -79,8 +79,8 @@ C2S_MAP_PICK,0x141,拾取,id,int32,,对象ID
 S2C_MAP_TRACK,0x42,场景单位移动，由底层引擎发送,id,int32,,对象ID
 ,,,x,int16,,起始X坐标
 ,,,y,int16,,起始Y坐标
-,,,dx,int8,,目的X坐标
-,,,dy,int8,,目的Y坐标
+,,,dx,int16,,目的X坐标
+,,,dy,int16,,目的Y坐标
 S2C_MAP_DEL,0x43,删除场景单位，由底层引擎发送,id,byte,,对象ID
 ,,,,,,
 S2C_MAP_ADDPLAYER,0x140,添加场景角色,id,int32,,对象ID
@@ -134,6 +134,10 @@ S2C_MAP_ROLETITLE,0x14b,场景单位称号（一般用于活动）,id,int32,,对象ID
 ,,,tid,int8,,称号ID（具体与客户端协商定义）
 S2C_HANGMAP_INFO,0x150,当前世界地图,scsid,int16,,场景SID
 ,,,,,,
+S2C_MAP_REGIONCHANGE,0x151,场景区域切换,x,int16,,X坐标
+,,,y,int16,,Y坐标
+,,,rw,int16,,
+,,,rh,int16,,
 C2S_NPC_LOOK,0x160,点击NPC,id,int32,,NPCID
 C2S_NPC_RESPOND,0x161,回复NPC,idx,int32,,选择
 S2C_NPC_CHAT,0x160,NPC对话,id,int32,,NPCID

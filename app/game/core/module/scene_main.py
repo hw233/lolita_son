@@ -89,11 +89,11 @@ class scene_main(app.base.game_module_mgr.game_module):
 		if not scene_obj:
 			log.msg('scene_main on_login have not this scene %d,%d'%(cId,sid));
 			return
-		self.characterinfo_map[cid] = {'sid':sid,'x':px,'y':py,'shape':shape,'name':name};
-		self.smgr.enter(cid,sid,px,py);
+		self.characterinfo_map[cId] = {'sid':sid,'x':px,'y':py,'shape':shape,'name':name};
+		self.smgr.enter(cId,sid,px,py);
 
 		data = {};
-		data['id'] = cid;
+		data['id'] = cId;
 		data['scid'] = sid;
 		data['scsid'] = sid;
 		data['resid'] = scene_obj.resid;

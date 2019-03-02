@@ -418,10 +418,10 @@ class scenemgr:
 smgr_ins = scenemgr();
 def test_func():
 	global smgr_ins
-	smgr_ins.init_scene(1001,1280,1536);
+	smgr_ins.init_scene(1001,1280,1536,0,"");
 	smgr_ins.enter(1,1001,10,10);
-	for i in xrange(20,30):
-		x = random.randint(0,40);
-		y = random.randint(0,40);
-		smgr_ins.enter(i,1001,x,y);
+	#for i in xrange(20,30):
+	#	x = random.randint(0,40);
+	#	y = random.randint(0,40);
+	#	smgr_ins.enter(i,1001,x,y);
 	return

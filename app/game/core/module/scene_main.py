@@ -198,7 +198,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		x = cinfo["x"];
 		y = cinfo["y"];
 		name = cinfo["name"];
-
+		print "%s %s %s %s"%(shape,x,y,name); 
 		data = {};
 		data['id'] = cid;
 		data['shape'] = shape;

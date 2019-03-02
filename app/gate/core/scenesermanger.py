@@ -70,11 +70,9 @@ class SceneSerManager:
         '''清除一个客户端'''
         sceneser = self.getSceneServerById(sceneId)
         if sceneser:
-            try:
-                sceneser.dropClient(clientId)
-            except Exception:
-                msg = "sceneId:%d-------clientId:%d"%(sceneId,clientId)
-                log.err(msg)
+            msg = "sceneId:%s-------clientId:%s"%(sceneId,clientId)
+            log.err(msg)
+            sceneser.dropClient(clientId)
         
     def getAllClientCnt(self):
         '''获取公共场景中所有的客户端数量'''

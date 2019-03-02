@@ -69,12 +69,10 @@ class GameSerManager:
     def dropClient(self,svrId,clientId):
         '''清除一个客户端'''
         svr_ins = self.getServerById(svrId)
+        msg = "serverId:%s-------clientId:%s"%(svrId,clientId)
+        log.err(msg)
         if svr_ins:
-            try:
-                svr_ins.dropClient(clientId)
-            except Exception:
-                msg = "serverId:%d-------clientId:%d"%(svrId,clientId)
-                log.err(msg)
+            svr_ins.dropClient(clientId)
         
     def getAllClientCnt(self):
         '''获取公共场景中所有的客户端数量'''

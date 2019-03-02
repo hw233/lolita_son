@@ -81,7 +81,7 @@ S2C_MAP_TRACK,0x42,场景单位移动，由底层引擎发送,id,int32,,对象ID
 ,,,y,int16,,起始Y坐标
 ,,,dx,int16,,目的X坐标
 ,,,dy,int16,,目的Y坐标
-S2C_MAP_DEL,0x43,删除场景单位，由底层引擎发送,id,byte,,对象ID
+S2C_MAP_DEL,0x43,删除场景单位，由底层引擎发送,id,int32,,对象ID
 ,,,,,,
 S2C_MAP_ADDPLAYER,0x140,添加场景角色,id,int32,,对象ID
 ,,,shape,int16,,造型

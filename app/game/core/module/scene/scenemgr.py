@@ -297,8 +297,8 @@ class scenemgr:
 	def __init__(self):
 		self._scene_map = {};
 		self._cid_2_scene = {};
-		self.REGION_HNUM = 6;#10 actually diameter
-		self.REGION_VNUM = 4;#8 actually diameter
+		self.REGION_HNUM = 2;#10 actually diameter
+		self.REGION_VNUM = 2;#8 actually diameter
 
 		self.BLOCK_W = 256;
 		self.BLOCK_H = 256;

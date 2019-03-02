@@ -187,7 +187,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		
 		return
 	def notify_enter_list(self,notify_list,cid,x,y):
-		print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
+		print "notify_enter_list %s,%s,%s,%s"%(notify_list,cid,x,y);
 		dId_list = [];
 		for i in notify_list:
 			dId = self._getdidbycid(cid);

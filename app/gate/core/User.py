@@ -34,7 +34,7 @@ class User:
         self.scene_node = "";#scene node
         self.Ischaracterlocked = False;#only used when client disconnected
         self.characterInfo = {}
-        self.initUser()
+        self.initUser();
     
     def initUser(self):
         '''初始化用户类'''
@@ -87,6 +87,8 @@ class User:
         if not self.characterInfo:
             self.characterInfo = dbuser.getUserCharacterTotalInfo(self.characterId)
             #log.msg('User getCharacterInfo ',self.characterId,self.characterInfo)
+            self.name = self.characterInfo['nickname'];
+            self.shape = self.characterInfo['figure'];
         return self.characterInfo
         
     def setDynamicId(self,dynamicId):

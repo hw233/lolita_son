@@ -158,7 +158,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 	def notify_region_2_c(self,cid,c_list):
 		print "notify_region_2_c %s %s"%(cid,c_list);
 		dId = self._getdidbycid(cid);
-		if not dId:
+		if dId == None:
 			print "notify_region_2_c fatal error %d"%(cid);
 			return
 		for i in c_list:
@@ -183,7 +183,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 	def notify_enter_new_region(self,cid,x,y,rw,rh):
 		print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
 		dId = self._getdidbycid(cid);
-		if not dId:
+		if dId == None:
 			print "notify_region_2_c fatal error %d"%(cid);
 			return
 		data = {};
@@ -202,7 +202,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		dId_list = [];
 		for i in notify_list:
 			dId = self._getdidbycid(cid);
-			if dId:
+			if dId != None:
 				dId_list.append(dId);
 		cinfo = self.characterinfo_map[cid];
 		shape = cinfo["shape"];
@@ -227,7 +227,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		dId_list = [];
 		for i in notify_list:
 			dId = self._getdidbycid(cid);
-			if dId:
+			if dId != None:
 				dId_list.append(dId);
 		data = {};
 		data['id'] = cid;
@@ -241,7 +241,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		dId_list = [];
 		for i in notify_list:
 			dId = self._getdidbycid(cid);
-			if dId:
+			if dId != None:
 				dId_list.append(dId);
 		
 		data = {};

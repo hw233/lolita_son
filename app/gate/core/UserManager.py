@@ -17,7 +17,6 @@ class UsersManager:
         """添加一个用户
         """
         if self._users.has_key(user.id):
-            self._users[user.id].disconnectClient()
             self.dropUserByID(user.id)
         self._users[user.id] = user
 
@@ -45,10 +44,7 @@ class UsersManager:
         """处理用户下线
         """
         userId = user.id
-        try:
-            del self._users[userId]
-        except Exception,e:
-            print e
+        del self._users[userId]
             
     def dropUserByDynamicId(self, dynamicId):
         user = self.getUserByDynamicId(dynamicId)

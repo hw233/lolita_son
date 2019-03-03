@@ -118,6 +118,11 @@ class scene_main(app.base.game_module_mgr.game_module):
 		x = data["x"];
 		y = data["y"];
 		step = data["step"];
+
+		c_data = memmode.tb_character_admin.getObj(cId);
+		if not c_data:
+			log.msg('scene_main on_move fatal err %d'%(cId));
+			return
 		for i in step:
 			print "on_move %d"%(i);
 			if i == 1:
@@ -142,9 +147,12 @@ class scene_main(app.base.game_module_mgr.game_module):
 				y += 1;
 		dx = x;
 		dy = y;
-		self.smgr.move(cId,dx,dy);
+		c_data.update_multi({"position_x":x,"position_y":y});
 		self.characterinfo_map[cId]["x"] = dx;
 		self.characterinfo_map[cId]["y"] = dy;
+		
+		self.smgr.move(cId,dx,dy);
+		
 		return
 	def notify_region_2_c(self,cid,c_list):
 		print "notify_region_2_c %s %s"%(cid,c_list);

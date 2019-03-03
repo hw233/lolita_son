@@ -227,7 +227,7 @@ class sceneobj:
 		return move_list,enter_list,quit_list
 	def enter(self,cid,x,y):
 		if self.player_map.has_key(cid):
-			return;
+			return [];
 		h_idx = x/self.b_w;
 		v_idx = y/self.b_h;
 		if h_idx < 0:

@@ -147,10 +147,11 @@ class scene_main(app.base.game_module_mgr.game_module):
 				y += 1;
 		dx = x;
 		dy = y;
+		log.msg('scene_main on_move %d %d %d'%(cId,dx,dy));
 		c_data.update_multi({"position_x":x,"position_y":y});
 		self.characterinfo_map[cId]["x"] = dx;
 		self.characterinfo_map[cId]["y"] = dy;
-		
+
 		self.smgr.move(cId,dx,dy);
 		
 		return

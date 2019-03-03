@@ -391,7 +391,11 @@ class scenemgr:
 
 			m_ret,e_ret,q_ret = self._scene_map[sid].move(cid,gx,gy);
 			if src_region_h != dst_region_h or src_region_v != dst_region_v:
-				self.notify_enter_new_region(cid,x,y,self.REGION_HNUM*self.BLOCK_W/self.grid_w,self.REGION_VNUM*self.BLOCK_H/self.grid_h);
+				left = dst_region_h*self.BLOCK_W/self.grid_w;
+				top = dst_region_v*self.BLOCK_H/self.grid_h;
+				right = left + (self.BLOCK_W/self.grid_w);
+				bottom = top + (self.BLOCK_H/self.grid_h);
+				self.notify_enter_new_region(cid,left,top,right,bottom);
 			self.notify_quit_list(q_ret,cid);
 			self.notify_enter_list(e_ret,cid,x,y);
 			self.notify_region_2_c(cid,e_ret);

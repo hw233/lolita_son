@@ -94,16 +94,16 @@ class protocolbuf:
         return ret,start;
     #
     def pack_byte(self,v):
-        #sret = struct.pack("!%ds"%(len(v)),v.encode('utf-8'));
-        sret = struct.pack("!%ds"%(len(v)),v);
+        sret = struct.pack("!%ds"%(len(v)),v.encode('utf-8'));
+        #sret = struct.pack("!%ds"%(len(v)),v);
         return sret;
     def unpack_byte(self,buf,start,bufflen):
         #log.msg("unpack_string8 ",len(buf),start) 
         count = bufflen - start;
         subbuf = buf[start:start+count]
         start += count;
-        #sret = struct.unpack("!%ds"%(count),subbuf)[0].decode('utf-8');
-        sret = struct.unpack("!%ds"%(count),subbuf)[0];
+        sret = struct.unpack("!%ds"%(count),subbuf)[0].decode('utf-8');
+        #sret = struct.unpack("!%ds"%(count),subbuf)[0];
         return sret,start;
     #
     def pack_string8(self,v):

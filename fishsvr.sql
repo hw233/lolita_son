@@ -30,7 +30,7 @@ CREATE TABLE `tb_character` (
   `level` int(10) DEFAULT '1' COMMENT '角色的等级 初始为1',
   `coin` int(20) DEFAULT '10000' COMMENT '玩家的游戏币(金币) 初始为 10000',
   `vipexp` int(20) DEFAULT '0' COMMENT 'vip经验值',
-  `town` int(10) DEFAULT '1700' COMMENT '角色所在的场景的ID',
+  `town` int(10) DEFAULT '1001' COMMENT '角色所在的场景的ID',
   `position_x` int(10) DEFAULT '0' COMMENT '角色的x坐标',
   `position_y` int(10) DEFAULT '0' COMMENT '角色的y坐标',
   `LastonlineTime` datetime DEFAULT '2007-05-06 00:00:00' COMMENT '最后在线时间',

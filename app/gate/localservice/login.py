@@ -60,7 +60,7 @@ def loginToServer_275(key,dynamicId,request_proto):
         buf = netutil.s2c_data2buf("S2C_LOGIN_OK",response)
         GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN_OK,buf, [dynamicId]);
         if u.characterId == 0:
-            u.creatNewCharacter("character_%d"%(u.id),0,101,helper.get_svr_tm(),2001,10,10);
+            u.creatNewCharacter("character_%d"%(u.id),0,101,helper.get_svr_tm(),1003,10,10);
         else:
             u.getCharacterInfo();
             

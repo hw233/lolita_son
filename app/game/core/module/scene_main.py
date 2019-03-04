@@ -177,6 +177,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 				data['desc'] = desc;
 				data['x'] = x;
 				data['y'] = y;
+				print "notify_region_2_c send %s %s %s %s %s %s"%(dId,i,shape,name,x,y);
 				buf = netutil.s2c_data2bufbycmd(S2C_MAP_ADDPLAYER,data);
 				GlobalObject().remote['gate'].callRemote("pushObject",S2C_MAP_ADDPLAYER,buf, [dId])
 		return

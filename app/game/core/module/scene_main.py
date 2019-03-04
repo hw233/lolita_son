@@ -90,7 +90,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 			log.msg('scene_main on_login have not this scene %d,%d'%(cId,sid));
 			return
 		self.characterinfo_map[cId] = {'sid':sid,'x':px,'y':py,'shape':shape,'name':name};
-		self.smgr.enter(cId,sid,px,py);
+		
 
 		data = {};
 		data['id'] = cId;
@@ -102,13 +102,16 @@ class scene_main(app.base.game_module_mgr.game_module):
 		data['scname'] = scene_obj.name;
 		buf = netutil.s2c_data2bufbycmd(S2C_HERO_ENTERSCENE,data);
 		GlobalObject().remote['gate'].callRemote("pushObject",S2C_HERO_ENTERSCENE,buf, [dId])
+
+		self.smgr.enter(cId,sid,px,py);
 		return
 	def on_logout(self,ud):
 		dId = ud["dId"];
 		cId = ud["cId"];
-		del self.character_map[cId];
 
 		self.smgr.quit(cId);
+
+		del self.character_map[cId];
 
 		return
 	def on_move(self,ud):

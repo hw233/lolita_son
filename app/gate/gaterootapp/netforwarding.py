@@ -44,7 +44,7 @@ def forwarding(key,dynamicId,data):
 def pushObject(cmd,msg,sendList):
     """
     """
-    print "gate netforwarding %s %s"%(cmd,sendList);
+    #print "gate netforwarding %s %s"%(cmd,sendList);
     GlobalObject().root.callChild("net","pushObject",cmd,msg,sendList)
 @rootserviceHandle
 def pushObjectOthers(cmd,msg,exclude_list):

@@ -399,7 +399,7 @@ class scenemgr:
 					tl = 0;
 				if tt < 0:
 					tt = 0;
-				left = th*self.BLOCK_W/self.grid_w;
+				left = tl*self.BLOCK_W/self.grid_w;
 				top = tt*self.BLOCK_H/self.grid_h;
 				right = tr*(self.BLOCK_W/self.grid_w);
 				bottom = tb*(self.BLOCK_H/self.grid_h);

@@ -393,8 +393,8 @@ class scenemgr:
 			if src_region_h != dst_region_h or src_region_v != dst_region_v:
 				left = dst_region_h*self.BLOCK_W/self.grid_w;
 				top = dst_region_v*self.BLOCK_H/self.grid_h;
-				right = left + (self.BLOCK_W/self.grid_w);
-				bottom = top + (self.BLOCK_H/self.grid_h);
+				right = left + (self.REGION_HNUM+1)*(self.BLOCK_W/self.grid_w);
+				bottom = top + (self.REGION_VNUM+1)*(self.BLOCK_H/self.grid_h);
 				self.notify_enter_new_region(cid,left,top,right,bottom);
 			self.notify_quit_list(q_ret,cid);
 			self.notify_enter_list(e_ret,cid,x,y);

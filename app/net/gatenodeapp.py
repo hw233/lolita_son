@@ -9,6 +9,7 @@ from twisted.python import log
 
 @remoteserviceHandle('gate')
 def pushObject(topicID,msg,sendList):
+	print "net pushObject %s %s"%(topicID,sendList);
     GlobalObject().netfactory.pushObject(topicID, msg, sendList)
 
 @remoteserviceHandle('gate')

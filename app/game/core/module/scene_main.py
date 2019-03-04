@@ -244,7 +244,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 			dId = self._getdidbycid(i);
 			if dId != None:
 				dId_list.append(dId);
-		print "%s %s %s %s %s %s"%(cid,x,y,dx,dy,dId_list); 
+		print "%s %s %s %s"%(cid,x,y,dId_list); 
 		data = {};
 		data['id'] = cid;
 		data['x'] = x;

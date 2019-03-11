@@ -9,7 +9,7 @@ import MySQLdb
 
 from MySQLdb.cursors import DictCursor
 from MySQLdb.constants import FIELD_TYPE
-from MySQLdb import convertors
+from MySQLdb import converters
 DBCS = {'mysql':MySQLdb,}
 
 class DBPool(object):
@@ -18,11 +18,12 @@ class DBPool(object):
     def initPool(self,**kw):
         '''
         '''
-        myconv = convertors.conversions.copy();
+        myconv = converters.conversions.copy();
 
         myconv[FIELD_TYPE.VARCHAR] = str;
         print "FIELD_TYPE.VARCHAR:%s"%(FIELD_TYPE.VARCHAR);
-        kw['conv'] = myconv;
+        #kw['conv'] = myconv;
+        kw['use_unicode'] = false;
         self.config = kw
         creator = DBCS.get(kw.get('engine','mysql'),MySQLdb)
         self.pool = PooledDB(creator,5,**kw)

@@ -89,7 +89,6 @@ class User:
             #log.msg('User getCharacterInfo ',self.characterId,self.characterInfo)
             self.name = self.characterInfo['nickname'];
             self.shape = self.characterInfo['figure'];
-            print "User getCharacterInfo %s %s"%(self.name,type(self.name));
         return self.characterInfo
         
     def setDynamicId(self,dynamicId):
@@ -116,7 +115,6 @@ class User:
             self.characterId = characterId
             self.name = nickname;
             self.shape = shape;
-            print "User creatNewCharacter %s %s"%(nickname,type(nickname));
             return True;
         return False;
     

@@ -100,13 +100,10 @@ class chat_main(app.base.game_module_mgr.game_module):
 
 		cmd = S2C_CHAT;
 		buf = netutil.s2c_data2bufbycmd(cmd,data);
-		print "send s2c_chat start %s"%(type(buf));
 
-		GlobalObject().remote['gate'].callRemote("pushObject",cmd,buf,[dId]);
-		print "send s2c_chat start1 %s"%(type(buf));
+		
 		exclude_list = [];
 		GlobalObject().remote['gate'].callRemote("pushObjectOthers",cmd,buf,exclude_list);
-		print "send s2c_chat end";
 		return
 	
 

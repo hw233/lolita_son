@@ -49,16 +49,12 @@ def pushObject(cmd,msg,sendList):
     """
     """
     #print "gate netforwarding %s %s"%(cmd,sendList);
-    print "gate pushObject start %s"%(type(msg));
     GlobalObject().root.callChild("net","pushObject",cmd,msg,sendList)
-    print "gate pushObject start %s"%(type(msg));
 @rootserviceHandle
 def pushObjectOthers(cmd,msg,exclude_list):
     """
     """
-    print "gate pushObjectOthers start %s"%(type(msg));
     GlobalObject().root.callChild("net","pushObjectOthers",cmd,msg,exclude_list)
-    print "gate pushObjectOthers start %s"%(type(msg));
 @rootserviceHandle
 def broadcastObject(srcsvr,cmd,dynamicId, characterId,data):
     """

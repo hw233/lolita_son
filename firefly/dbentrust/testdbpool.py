@@ -23,7 +23,7 @@ class DBPool(object):
         myconv[FIELD_TYPE.VARCHAR] = str;
         print "FIELD_TYPE.VARCHAR:%s"%(FIELD_TYPE.VARCHAR);
         #kw['conv'] = myconv;
-        kw['use_unicode'] = false;
+        kw['use_unicode'] = False;
         self.config = kw
         creator = DBCS.get(kw.get('engine','mysql'),MySQLdb)
         self.pool = PooledDB(creator,5,**kw)

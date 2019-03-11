@@ -26,8 +26,8 @@ class DBPool(object):
 
 dbpool = DBPool()
 
-def getUserInfo(uid):
-    sql = "select * from tb_user_character where id = %d"%(uid)
+def getUserCharacterTotalInfo(characterId):
+    sql = "select * from tb_character where id = %d"%(characterId)
     conn = dbpool.connection()
     cursor = conn.cursor(cursorclass=DictCursor)
     cursor.execute(sql)
@@ -44,5 +44,5 @@ def testfunc():
     d['charset'] = 'utf8';
     d['db'] = "fishsvr";
     dbpool.initPool(**d);
-    r = getUserInfo(10000001);
+    r = getUserCharacterTotalInfo(10000001);
     return r;

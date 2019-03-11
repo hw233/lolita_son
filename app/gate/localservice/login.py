@@ -114,6 +114,8 @@ def selectrole_276(key,dynamicId,request_proto):
     user.setSceneNode(scenenode)
     SceneSerManager().addClient(scenenode, dynamicId)
 
+    GlobalObject().root.callChild("chat",1,dynamicId, rid)
+
     response = {}
     buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)
     GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN_SELECTROLE,buf, [dynamicId]);

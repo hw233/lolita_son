@@ -260,5 +260,5 @@ class scene_main(app.base.game_module_mgr.game_module):
 		return
 
 	def dispose(self):
-		super(game_main,self).dispose();
+		super(scene_main,self).dispose();
 		return

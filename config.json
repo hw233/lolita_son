@@ -6,6 +6,8 @@
 "net":{"netport":11009,"name":"net","remoteport":[{"rootport":10000,"rootname":"gate"}],"app":"app.netserver","log":"app/logs/net.log"},
 "scene":{"remoteport":[{"rootport":10000,"rootname":"gate"}],
          "name":"scene","db":true,"mem":true,"app":"app.sceneserver","reload":"app.scene.doreload","log":"app/logs/scene.log"},
+"chat":{"remoteport":[{"rootport":10000,"rootname":"gate"}],
+         "name":"chat","db":true,"mem":true,"app":"app.chatserver","reload":"app.chat.doreload","log":"app/logs/chat.log"},
 "game1":{"remoteport":[{"rootport":10000,"rootname":"gate"}],
          "name":"game1","db":true,"mem":true,"app":"app.gameserver","reload":"app.game.doreload","log":"app/logs/game1.log"},
 "game2":{"remoteport":[{"rootport":10000,"rootname":"gate"}],

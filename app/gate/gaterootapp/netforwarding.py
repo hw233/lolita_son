@@ -13,7 +13,7 @@ from twisted.python import log
 from app.protocol.ProtocolDesc import *
 #test
 scene_protocol = [C2S_MAP_MOVE];
-
+chat_protocol = [C2S_CHAT];
 @rootserviceHandle
 def forwarding(key,dynamicId,data):
     """
@@ -35,6 +35,10 @@ def forwarding(key,dynamicId,data):
             scene = user.getSceneNode();
             if scene:
                 GlobalObject().root.callChild(scene,3,key,dynamicId,user.characterId,data);
+            return
+        global chat_protocol;
+        if key in chat_protocol:
+            GlobalObject().root.callChild("chat",3,key,dynamicId,user.characterId,data);
             return
         node = user.getNode();
         return GlobalObject().root.callChild(node,3,key,dynamicId,user.characterId,data)
@@ -72,6 +76,8 @@ def SavePlayerInfoInDB(dynamicId):
     scene = u.getSceneNode();
     if scene:
         GlobalObject().root.callChild(scene,2,dynamicId,u.characterId);
+
+    GlobalObject().root.callChild("chat",2,dynamicId,u.characterId);
 
     node = u.getNode()
     d = GlobalObject().root.callChild(node,2,dynamicId,u.characterId);

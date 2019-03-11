@@ -143,6 +143,9 @@ def createguestaccount_282(key,dynamicId,request_proto):
     response = {}
     response["account"] = account;
     response["pwd"] = pwd;
+    print "gate createguestaccount_282 %s %s"%(type(account),type(pwd));
     buf = netutil.s2c_data2buf("S2C_ACCOUNT_GUEST",response)
+    print "gate createguestaccount_282 send start %s"%(type(buf))
     GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_ACCOUNT_GUEST,buf, [dynamicId]);
+    print "gate createguestaccount_282 send end %s"%(type(buf))
     return

@@ -8,7 +8,7 @@ from DBUtils.PooledDB import PooledDB
 import MySQLdb
 
 from MySQLdb.cursors import DictCursor
-
+from MySQLdb.constants import FIELD_TYPE
 DBCS = {'mysql':MySQLdb,}
 
 class DBPool(object):
@@ -17,6 +17,8 @@ class DBPool(object):
     def initPool(self,**kw):
         '''
         '''
+        myconv = {FIELD_TYPE.VARCHAR:str};
+        kw['conv'] = myconv;
         self.config = kw
         creator = DBCS.get(kw.get('engine','mysql'),MySQLdb)
         self.pool = PooledDB(creator,5,**kw)

@@ -7,6 +7,8 @@ Created on 2013-5-8
 from DBUtils.PooledDB import PooledDB
 import MySQLdb
 
+from MySQLdb.cursors import DictCursor
+
 DBCS = {'mysql':MySQLdb,}
 
 class DBPool(object):

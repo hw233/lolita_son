@@ -10,16 +10,16 @@ from twisted.python import log
 from firefly.server.globalobject import GlobalObject
 import app.protocol.ProtocolDesc as ProtocolDesc
 import app.base.event_dispatcher
-import app.game.core.game_event_def
+import app.core.game_event_def
 @remoteserviceHandle
 def enter_1(dynamicId, characterId):
-    app.base.event_dispatcher.event_dispatcher().fire_event(app.game.core.game_event_def.EVENT_LOGIN,{"dId":dynamicId,"cId":characterId});
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_LOGIN,{"dId":dynamicId,"cId":characterId});
     return
 @remoteserviceHandle
 def NetConnLost_2(dynamicId, characterId):
     '''loginout
     '''
-    app.base.event_dispatcher.event_dispatcher().fire_event(app.game.core.game_event_def.EVENT_LOGOUT,{"dId":dynamicId,"cId":characterId});
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_LOGOUT,{"dId":dynamicId,"cId":characterId});
     return True
 
 @remoteserviceHandle

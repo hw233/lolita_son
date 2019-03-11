@@ -1,7 +1,7 @@
 #coding:utf8
 import app.combat.buff as buff
 import app.combat.skill as skill
-import app.combat.skillpassive as skillpassive
+import app.combat.cardskillpassive as skillpassive
 buf = buff.buff(1001);
 print buf.effect;
 

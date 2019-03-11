@@ -1,0 +1,226 @@
+# -*- coding: utf-8 -*-
+
+'''
+Author: Hannibal
+Data: 
+Desc: local data config
+NOTE: Don't modify this file, it's build by xml-to-python!!!
+'''
+
+
+fightprop_map = {};
+fightprop_map[1] = {"id":1,"name":"气血增加","key":"m_HP_Max",};
+fightprop_map[2] = {"id":2,"name":"魔法增加","key":"m_MP_Max",};
+fightprop_map[3] = {"id":3,"name":"物理攻击增加","key":"m_Attack",};
+fightprop_map[4] = {"id":4,"name":"魔法攻击增加","key":"m_MagicAttack",};
+fightprop_map[5] = {"id":5,"name":"物理防御增加","key":"m_Defense",};
+fightprop_map[6] = {"id":6,"name":"魔法防御增加","key":"m_MagicDefense",};
+fightprop_map[7] = {"id":7,"name":"速度增加","key":"m_Speed",};
+fightprop_map[8] = {"id":8,"name":"气血百分比增加","key":"m_HP_MaxRate",};
+fightprop_map[9] = {"id":9,"name":"魔法百分比增加","key":"m_MP_MaxRate",};
+fightprop_map[10] = {"id":10,"name":"物理攻击百分比增加","key":"m_AttackRate",};
+fightprop_map[11] = {"id":11,"name":"魔法攻击百分比增加","key":"m_MagicAttackRate",};
+fightprop_map[12] = {"id":12,"name":"物理防御百分比增加","key":"m_DefenseRate",};
+fightprop_map[13] = {"id":13,"name":"魔法防御百分比增加","key":"m_MagicDefenseRate",};
+fightprop_map[14] = {"id":14,"name":"速度百分比增加","key":"m_SpeedRate",};
+fightprop_map[15] = {"id":15,"name":"气血按等级增加","key":"m_HP_MaxLv",};
+fightprop_map[16] = {"id":16,"name":"魔法按等级增加","key":"m_MP_MaxLv",};
+fightprop_map[17] = {"id":17,"name":"物理攻击按等级增加","key":"m_AttackLv",};
+fightprop_map[18] = {"id":18,"name":"魔法攻击按等级增加","key":"m_MagicAttackLv",};
+fightprop_map[19] = {"id":19,"name":"物理防御按等级增加","key":"m_DefenseLv",};
+fightprop_map[20] = {"id":20,"name":"魔法防御按等级增加","key":"m_MagicDefenseLv",};
+fightprop_map[21] = {"id":21,"name":"速度按等级增加","key":"m_SpeedLv",};
+fightprop_map[22] = {"id":22,"name":"暴击增加","key":"m_Double",};
+fightprop_map[23] = {"id":23,"name":"抗暴击率","key":"m_ResistDouble",};
+fightprop_map[24] = {"id":24,"name":"抗封率增加","key":"m_SealResist",};
+fightprop_map[25] = {"id":25,"name":"封印率增加","key":"m_Seal",};
+fightprop_map[26] = {"id":26,"name":"不灭","key":"m_Ghost",};
+fightprop_map[27] = {"id":27,"name":"驱鬼","key":"m_TurnOut",};
+fightprop_map[28] = {"id":28,"name":"物理暴击","key":"m_PhyDouble",};
+fightprop_map[29] = {"id":29,"name":"幸运","key":"m_Lucky",};
+fightprop_map[30] = {"id":30,"name":"额外闪避机会","key":"m_DodgeChance",};
+fightprop_map[31] = {"id":31,"name":"格挡增加","key":"m_Dodge",};
+fightprop_map[32] = {"id":32,"name":"削减物理伤害","key":"m_ReduceDamage",};
+fightprop_map[33] = {"id":33,"name":"削减法术伤害","key":"m_ReduceMagicDamage",};
+fightprop_map[34] = {"id":34,"name":"不受反击","key":"m_NoBackAttack",};
+fightprop_map[35] = {"id":35,"name":"不受反震","key":"m_NoShake",};
+fightprop_map[36] = {"id":36,"name":"不受反射","key":"m_NoBackPerform",};
+fightprop_map[37] = {"id":37,"name":"慧心效果","key":"m_ReduceMPCost",};
+fightprop_map[38] = {"id":38,"name":"愤怒效果","key":"m_ReduceSPCost",};
+fightprop_map[39] = {"id":39,"name":"抗毒率","key":"m_NoPoison",};
+fightprop_map[40] = {"id":40,"name":"勇敢","key":"m_Loyal",};
+fightprop_map[41] = {"id":41,"name":"坚守","key":"m_Faithful",};
+fightprop_map[42] = {"id":42,"name":"命中增加","key":"m_Hit",};
+fightprop_map[43] = {"id":43,"name":"法术暴击","key":"m_MagicDouble",};
+fightprop_map[44] = {"id":44,"name":"治疗暴击","key":"m_HealDouble",};
+fightprop_map[45] = {"id":45,"name":"感知","key":"m_Sense",};
+fightprop_map[46] = {"id":46,"name":"治疗效果增加","key":"m_Heal",};
+fightprop_map[47] = {"id":47,"name":"收服几率","key":"m_HuntRate",};
+fightprop_map[48] = {"id":48,"name":"自已用药加成","key":"m_DrugEffectSelf",};
+fightprop_map[49] = {"id":49,"name":"逃跑几率","key":"m_EscEffert",};
+fightprop_map[50] = {"id":50,"name":"防御效果","key":"m_DefEffert",};
+fightprop_map[51] = {"id":51,"name":"他人用药加成","key":"m_DrugEffectOther",};
+fightprop_map[52] = {"id":52,"name":"降低物理输出","key":"m_WeaknessDamage",};
+fightprop_map[53] = {"id":53,"name":"降低法术输出","key":"m_WeaknessMagicDamage",};
+fightprop_map[54] = {"id":54,"name":"免疫异常","key":"m_ImmunityBad",};
+fightprop_map[55] = {"id":55,"name":"最终物攻变化","key":"m_FinalAttack",};
+fightprop_map[56] = {"id":56,"name":"最终法攻变化","key":"m_FinalMagicAttack",};
+fightprop_map[57] = {"id":57,"name":"最终全攻变化","key":"m_FinalAllAttack",};
+fightprop_map[58] = {"id":58,"name":"最终物伤变化","key":"m_FinalDamage",};
+fightprop_map[59] = {"id":59,"name":"最终法伤变化","key":"m_FinalMagicDamage",};
+fightprop_map[60] = {"id":60,"name":"最终全伤变化","key":"m_FinalAllDamage",};
+fightprop_map[61] = {"id":61,"name":"不可治疗","key":"m_NoHeal",};
+fightprop_map[62] = {"id":62,"name":"增加体力上限","key":"m_FP_Max",};
+fightprop_map[63] = {"id":63,"name":"增加精力上限","key":"m_EP_Max",};
+fightprop_map[64] = {"id":64,"name":"半效治疗","key":"m_HealHalf",};
+fightprop_map[65] = {"id":65,"name":"不可盾","key":"m_NoShield",};
+fightprop_map[66] = {"id":66,"name":"主动治疗能力","key":"m_HealPower",};
+fightprop_map[67] = {"id":67,"name":"本体根骨","key":"m_PracAtk",};
+fightprop_map[68] = {"id":68,"name":"本体经脉","key":"m_PracDef",};
+fightprop_map[69] = {"id":69,"name":"本体精气","key":"m_PracMAtk",};
+fightprop_map[70] = {"id":70,"name":"本体灵脉","key":"m_PracMDef",};
+fightprop_map[71] = {"id":71,"name":"驾御根骨","key":"m_Summon_PracAtk",};
+fightprop_map[72] = {"id":72,"name":"驾御经脉","key":"m_Summon_PracDef",};
+fightprop_map[73] = {"id":73,"name":"驾御精气","key":"m_Summon_PracMAtk",};
+fightprop_map[74] = {"id":74,"name":"驾御灵脉","key":"m_Summon_PracMDef",};
+fightprop_map[75] = {"id":75,"name":"受到固定伤害","key":"m_FixDamage",};
+fightprop_map[76] = {"id":76,"name":"抗封","key":"m_NoSeal",};
+fightprop_map[77] = {"id":77,"name":"抵抗增强","key":"m_ResistEnhanceBuff",};
+fightprop_map[78] = {"id":78,"name":"抵抗盾","key":"m_ResistEnhanceBuff",};
+fightprop_map[79] = {"id":79,"name":"抵抗虚弱","key":"m_ResistWeaknessBuff",};
+fightprop_map[80] = {"id":80,"name":"抵抗干扰","key":"m_ResistDisturbBuff",};
+fightprop_map[81] = {"id":81,"name":"抵抗封印","key":"m_ResistSealBuff",};
+fightprop_map[82] = {"id":82,"name":"抵抗体术","key":"m_ResistBodyBuff",};
+fightprop_map[83] = {"id":83,"name":"抵抗治疗","key":"m_ResistHealBuff",};
+fightprop_map[84] = {"id":84,"name":"抵抗毒","key":"m_ResistPoisonBuff",};
+fightprop_map[85] = {"id":85,"name":"抵抗诅咒","key":"m_ResistCurseBuff",};
+fightprop_map[86] = {"id":86,"name":"抵抗腐蚀","key":"m_ResistCorruptBuff",};
+fightprop_map[87] = {"id":87,"name":"抵抗控制","key":"m_ResistControltBuff",};
+fightprop_map[88] = {"id":88,"name":"使用道具速率","key":"m_ItemUseSpeed",};
+fightprop_map[89] = {"id":89,"name":"风火印概率目标","key":"SKRATE_V_3101",};
+fightprop_map[90] = {"id":90,"name":"风火印概率自己","key":"SKLIMIT_C_3101",};
+fightprop_map[91] = {"id":91,"name":"风火印概率自己1","key":"SKRATE_C_3101",};
+fightprop_map[92] = {"id":92,"name":"缚灵印概率目标","key":"SKRATE_V_3103",};
+fightprop_map[93] = {"id":93,"name":"缚灵印概率自己","key":"SKLIMIT_C_3103",};
+fightprop_map[94] = {"id":94,"name":"缚灵印概率自己1","key":"SKRATE_C_3103",};
+fightprop_map[95] = {"id":95,"name":"醉生梦死概率目标","key":"SKRATE_V_3301",};
+fightprop_map[96] = {"id":96,"name":"醉生梦死概率自己","key":"SKLIMIT_C_3301",};
+fightprop_map[97] = {"id":97,"name":"醉生梦死概率自己1","key":"SKRATE_C_3301",};
+fightprop_map[98] = {"id":98,"name":"黯然销魂概率目标","key":"SKRATE_V_3302",};
+fightprop_map[99] = {"id":99,"name":"黯然销魂概率自己","key":"SKLIMIT_C_3302",};
+fightprop_map[100] = {"id":100,"name":"黯然销魂概率自己1","key":"SKRATE_C_3302",};
+fightprop_map[101] = {"id":101,"name":"迷离诀概率目标","key":"SKRATE_V_3304",};
+fightprop_map[102] = {"id":102,"name":"迷离诀概率自己","key":"SKLIMIT_C_3304",};
+fightprop_map[103] = {"id":103,"name":"迷离诀概率自己1","key":"SKRATE_C_3304",};
+fightprop_map[104] = {"id":104,"name":"冰魄镜概率目标","key":"SKRATE_V_3306",};
+fightprop_map[105] = {"id":105,"name":"冰魄镜概率自己","key":"SKLIMIT_C_3306",};
+fightprop_map[106] = {"id":106,"name":"冰魄镜概率自己1","key":"SKRATE_C_3306",};
+fightprop_map[107] = {"id":107,"name":"束魂印概率目标","key":"SKRATE_V_3401",};
+fightprop_map[108] = {"id":108,"name":"束魂印概率自己","key":"SKLIMIT_C_3401",};
+fightprop_map[109] = {"id":109,"name":"束魂印概率自己1","key":"SKRATE_C_3401",};
+fightprop_map[110] = {"id":110,"name":"浮光印概率目标","key":"SKRATE_V_3402",};
+fightprop_map[111] = {"id":111,"name":"浮光印概率自己","key":"SKLIMIT_C_3402",};
+fightprop_map[112] = {"id":112,"name":"浮光印概率自己1","key":"SKRATE_C_3402",};
+fightprop_map[113] = {"id":113,"name":"一寸相思概率目标","key":"SKRATE_V_3409",};
+fightprop_map[114] = {"id":114,"name":"一寸相思概率自己","key":"SKLIMIT_C_3409",};
+fightprop_map[115] = {"id":115,"name":"一寸相思概率自己1","key":"SKRATE_C_3409",};
+fightprop_map[116] = {"id":116,"name":"威慑概率目标","key":"SKRATE_V_3506",};
+fightprop_map[117] = {"id":117,"name":"威慑概率自己","key":"SKLIMIT_C_3506",};
+fightprop_map[118] = {"id":118,"name":"震慑概率自己","key":"SKRATE_C_133",};
+fightprop_map[119] = {"id":119,"name":"摄灵概率自己","key":"SKRATE_C_125",};
+fightprop_map[120] = {"id":120,"name":"神迹概率自己","key":"SKRATE_C_128",};
+fightprop_map[121] = {"id":121,"name":"涅槃概率自己","key":"SKRATE_C_129",};
+fightprop_map[122] = {"id":122,"name":"忠义概率自己","key":"BUFFRATE_119",};
+fightprop_map[123] = {"id":123,"name":"坚韧概率自己","key":"SKRATE_C_142",};
+fightprop_map[124] = {"id":124,"name":"破魔概率自己","key":"SKRATE_C_106",};
+fightprop_map[125] = {"id":125,"name":"神佑概率自己","key":"SKRATE_C_206",};
+fightprop_map[126] = {"id":126,"name":"忽视物防","key":"m_VicDefence",};
+fightprop_map[127] = {"id":127,"name":"忽视法防","key":"m_VicMagicDefence",};
+fightprop_map[128] = {"id":128,"name":"忽视削减物理伤害1","key":"m_VicReduceDamage1",};
+fightprop_map[129] = {"id":129,"name":"忽视削减法术伤害1","key":"m_VicReduceMagicDamage1",};
+fightprop_map[130] = {"id":130,"name":"削减物理伤害1","key":"m_ReduceDamage1",};
+fightprop_map[131] = {"id":131,"name":"削减法术伤害1","key":"m_ReduceMagicDamage1",};
+fightprop_map[132] = {"id":132,"name":"力量智慧涅槃概率","key":"STR_INT_129",};
+fightprop_map[133] = {"id":133,"name":"PVE概率修正","key":"m_PVESealRevise",};
+fightprop_map[134] = {"id":134,"name":"免疫虚空破","key":"m_NoXuKongPo",};
+fightprop_map[135] = {"id":135,"name":"百分比加治疗效果","key":"m_HealPercent",};
+fightprop_map[136] = {"id":136,"name":"增加封印上限","key":"m_SealUpperLimit",};
+fightprop_map[137] = {"id":137,"name":"抵挡封印","key":"m_ImmunizeSeal",};
+fightprop_map[138] = {"id":138,"name":"天赋一冰魄镜概率目标","key":"SKRATE_V_6467",};
+fightprop_map[139] = {"id":139,"name":"天赋一冰魄镜概率自己","key":"SKLIMIT_C_6467",};
+fightprop_map[140] = {"id":140,"name":"天赋一冰魄镜概率自己1","key":"SKRATE_C_6467",};
+fightprop_map[141] = {"id":141,"name":"天赋二冰魄镜概率目标","key":"SKRATE_V_6468",};
+fightprop_map[142] = {"id":142,"name":"天赋二冰魄镜概率自己","key":"SKLIMIT_C_6468",};
+fightprop_map[143] = {"id":143,"name":"天赋二冰魄镜概率自己1","key":"SKRATE_C_6468",};
+fightprop_map[144] = {"id":144,"name":"天赋三冰魄镜概率目标","key":"SKRATE_V_6469",};
+fightprop_map[145] = {"id":145,"name":"天赋三冰魄镜概率自己","key":"SKLIMIT_C_6469",};
+fightprop_map[146] = {"id":146,"name":"天赋三冰魄镜概率自己1","key":"SKRATE_C_6469",};
+fightprop_map[147] = {"id":147,"name":"抵抗封印属性","key":"m_ResistSealBuff",};
+fightprop_map[148] = {"id":148,"name":"不能保护","key":"m_NoProtector",};
+fightprop_map[149] = {"id":149,"name":"减少怒气增加量百分比","key":"m_ReduceSPAdd",};
+fightprop_map[150] = {"id":150,"name":"怒气增加量百分比","key":"m_RaiseSPAdd",};
+fightprop_map[151] = {"id":151,"name":"一定概率减少1回合减益buff","key":"m_Tenacity",};
+fightprop_map[152] = {"id":152,"name":"不可被保护","key":"m_RefuseProtect",};
+fightprop_map[153] = {"id":153,"name":"始终保护","key":"m_ProtectAlways",};
+fightprop_map[154] = {"id":154,"name":"禁止道具回复HP","key":"m_NoItemHP",};
+fightprop_map[155] = {"id":155,"name":"治疗转移","key":"m_HealTransfer",};
+fightprop_map[156] = {"id":156,"name":"提升治疗能力","key":"m_ImproveHeal",};
+fightprop_map[157] = {"id":157,"name":"不受连击","key":"m_NoDoubleHit",};
+fightprop_map[158] = {"id":158,"name":"限制复活","key":"m_ResistRevive",};
+fightprop_map[159] = {"id":159,"name":"逆击","key":"m_EnhanceHit",};
+fightprop_map[160] = {"id":160,"name":"百分比附加伤害","key":"m_AddedDamageRate",};
+fightprop_map[161] = {"id":161,"name":"灵敏","key":"m_Agile",};
+fightprop_map[162] = {"id":162,"name":"精准","key":"m_Accurate",};
+fightprop_map[163] = {"id":163,"name":"修为物攻","key":"m_PracAtk",};
+fightprop_map[164] = {"id":164,"name":"修为法攻","key":"m_PracMAtk",};
+fightprop_map[165] = {"id":165,"name":"修为物防","key":"m_PracDef",};
+fightprop_map[166] = {"id":166,"name":"修为法防","key":"m_PracMDef",};
+fightprop_map[167] = {"id":167,"name":"修为封印","key":"m_PracSeal",};
+fightprop_map[168] = {"id":168,"name":"修为抗封","key":"m_PracSealResist",};
+fightprop_map[169] = {"id":169,"name":"灵兽物攻","key":"m_Summon_PracAtk",};
+fightprop_map[170] = {"id":170,"name":"灵兽法攻","key":"m_Summon_PracMAtk",};
+fightprop_map[171] = {"id":171,"name":"灵兽物防","key":"m_Summon_PracDef",};
+fightprop_map[172] = {"id":172,"name":"灵兽法防","key":"m_Summon_PracMDef",};
+fightprop_map[173] = {"id":173,"name":"灵兽封印","key":"m_Summon_PracSeal",};
+fightprop_map[174] = {"id":174,"name":"灵兽抗封","key":"m_Summon_PracSealResist",};
+fightprop_map[175] = {"id":175,"name":"固定伤害增加","key":"m_FixDamageAdd",};
+fightprop_map[176] = {"id":176,"name":"力量增加","key":"m_Str",};
+fightprop_map[177] = {"id":177,"name":"体质增加","key":"m_Con",};
+fightprop_map[178] = {"id":178,"name":"智慧增加","key":"m_Int",};
+fightprop_map[179] = {"id":179,"name":"意志增加","key":"m_Spi",};
+fightprop_map[180] = {"id":180,"name":"敏捷增加","key":"m_Dex",};
+fightprop_map[181] = {"id":181,"name":"脱身成功率","key":"m_EscapeRate",};
+fightprop_map[182] = {"id":182,"name":"追捕成功率","key":"m_ChaseRate",};
+fightprop_map[183] = {"id":183,"name":"反射无效","key":"m_ReflectInvalid",};
+fightprop_map[184] = {"id":184,"name":"增加目标数","key":"m_OneMoreTarget",};
+fightprop_map[185] = {"id":185,"name":"灵兽物攻增加","key":"m_Summon_PracAtk2",};
+fightprop_map[186] = {"id":186,"name":"灵兽法攻增加","key":"m_Summon_PracMAtk2",};
+fightprop_map[187] = {"id":187,"name":"灵兽物防增加","key":"m_Summon_PracDef2",};
+fightprop_map[188] = {"id":188,"name":"灵兽法防增加","key":"m_Summon_PracMDef2",};
+fightprop_map[189] = {"id":189,"name":"物理吸血","key":"m_PhysicalHPSteal",};
+fightprop_map[190] = {"id":190,"name":"法术吸血","key":"m_MagicHPSteal",};
+fightprop_map[191] = {"id":191,"name":"不死","key":"m_Undead",};
+fightprop_map[192] = {"id":192,"name":"受伤时扣除魔法百分比","key":"m_ReceiveManaBurn",};
+fightprop_map[193] = {"id":193,"name":"非隐身时增加全伤害","key":"m_FinalAllAttackNoStealth",};
+fightprop_map[194] = {"id":194,"name":"非隐身时减少受到伤害","key":"m_FinalAllDamageNoStealth",};
+fightprop_map[195] = {"id":195,"name":"暴击减免","key":"m_DoubleReduce",};
+fightprop_map[196] = {"id":196,"name":"物理必定暴击","key":"m_MustPhyDouble",};
+fightprop_map[197] = {"id":197,"name":"法术必定暴击","key":"m_MustMagicDouble",};
+fightprop_map[198] = {"id":198,"name":"灵兽掉血加怒气","key":"m_SPAddBy",};
+fightprop_map[199] = {"id":199,"name":"死亡额外伤势比","key":"m_ExtraDieEff",};
+fightprop_map[200] = {"id":200,"name":"小天蓬回血加攻","key":"m_XueSha",};
+
+
+class Fightprop:
+	def __init__(self, key):
+		config = fightprop_map.get(key);
+		for k, v in config.items():
+			setattr(self, k, v);
+		return
+
+def create_Fightprop(key):
+		config = fightprop_map.get(key);
+		if not config:
+			return
+		return Fightprop(key)
+

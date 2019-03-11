@@ -2,9 +2,9 @@ module config{
 export function config_init(config_obj:Object):void{
 	assist_info_map_init(config_obj);
 	randomname_map_init(config_obj);
-	buff_map_init(config_obj);
-	skill_map_init(config_obj);
-	skillpassive_map_init(config_obj);
+	cardbuff_map_init(config_obj);
+	cardskill_map_init(config_obj);
+	cardskillpassive_map_init(config_obj);
 	item_map_init(config_obj);
 	itemmerge_map_init(config_obj);
 	player_exp_map_init(config_obj);
@@ -40,5 +40,15 @@ export function config_init(config_obj:Object):void{
 	cards_dungeon_map_init(config_obj);
 	cards_initcards_map_init(config_obj);
 	cards_exp_map_init(config_obj);
+	fightskill_map_init(config_obj);
+	fightskillpassive_map_init(config_obj);
+	fightbuff_map_init(config_obj);
+	fightbuffeffect_map_init(config_obj);
+	fighteffect_map_init(config_obj);
+	fightprop_map_init(config_obj);
+	fighteffecttime_map_init(config_obj);
+	sys_preview_cfg_map_init(config_obj);
+	sys_open_map_init(config_obj);
+	sys_open_activity_map_init(config_obj);
 }
 }

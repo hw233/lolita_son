@@ -9,7 +9,7 @@ import random
 import combatbase
 import skill
 import buff
-import skillpassive
+import cardskillpassive as skillpassive
 class warrior(combatbase.combatbase):
 	def __init__(self,wid,pos):
 		super(warrior,self).__init__();
@@ -52,6 +52,9 @@ class warrior(combatbase.combatbase):
 		self['hp'] = 100;
 		self['hpmax'] = 100;
 		self['spd'] = 100;
+		self['sp'] = 100;
+		self['enegy'] = 100;
+		self['mp'] = 100;
 		self['atk'] = 100;
 		self['def'] = 0;
 		self['hit'] = 0;

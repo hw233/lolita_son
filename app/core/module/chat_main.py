@@ -95,7 +95,7 @@ class chat_main(app.base.game_module_mgr.game_module):
 		data['pid'] = cId;
 		data['shape'] = c_info["figure"];
 		data['vip'] = 0;
-		data['name'] = "13131";c_info["nickname"];
+		data['name'] = c_info["nickname"];
 		data['msg'] = msg;
 
 		cmd = S2C_CHAT;

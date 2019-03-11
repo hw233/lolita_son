@@ -18,7 +18,9 @@ def pushObjectOthers(topicID,msg,exclude_list):
 	for i in exclude_list:
 		if i in lis:
 			lis.remove(i) 
+	print "net pushObjectOthers start %s"%(type msg);
 	GlobalObject().netfactory.pushObject(topicID, msg, lis);
+	print "net pushObjectOthers end %s"%(type msg);
 
 
 @remoteserviceHandle('gate')

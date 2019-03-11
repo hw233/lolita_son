@@ -96,7 +96,9 @@ class chat_main(app.base.game_module_mgr.game_module):
 		data['vip'] = 0;
 		data['name'] = c_info["nickname"];
 		data['msg'] = msg;
-		buf = netutil.s2c_data2bufbycmd(S2C_CHAT,data);
+
+		cmd = S2C_CHAT;
+		buf = netutil.s2c_data2bufbycmd(cmd,data);
 
 		exclude_list = [];
 		GlobalObject().remote['gate'].callRemote("pushObjectOthers",cmd,msg,exclude_list)

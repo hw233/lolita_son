@@ -21,7 +21,7 @@ def loginToServer_275(key,dynamicId,request_proto):
     argument = netutil.c2s_buf2data("C2S_LOGIN",request_proto);
     username = argument['account']
     password = argument['pwd']
-    log.msg('loginToServer_1 %d %s ' % (dynamicId,str(argument)));
+    log.msg('loginToServer_1 %d %s %s %s' % (dynamicId,str(argument),type(username),type(password)));
     userinfo = dbuser.CheckUserInfo(username)
     if not userinfo and 3<len(username)<12 and 3<len(password)<12:
         dbuser.creatUserInfo(username, password,helper.get_svr_tm())

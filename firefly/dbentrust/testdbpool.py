@@ -9,6 +9,7 @@ import MySQLdb
 
 from MySQLdb.cursors import DictCursor
 from MySQLdb.constants import FIELD_TYPE
+from MySQLdb import convertors
 DBCS = {'mysql':MySQLdb,}
 
 class DBPool(object):
@@ -17,7 +18,10 @@ class DBPool(object):
     def initPool(self,**kw):
         '''
         '''
-        myconv = {FIELD_TYPE.VARCHAR:str};
+        myconv = convertors.conversions.copy();
+
+        myconv[FIELD_TYPE.VARCHAR] = str;
+        print "FIELD_TYPE.VARCHAR:%s"%(FIELD_TYPE.VARCHAR);
         kw['conv'] = myconv;
         self.config = kw
         creator = DBCS.get(kw.get('engine','mysql'),MySQLdb)

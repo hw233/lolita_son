@@ -35,6 +35,30 @@ def getUserCharacterTotalInfo(characterId):
     cursor.close()
     conn.close()
     return result
+def creatNewCharacter(nickname):
+    '''创建新的角色
+    @param nickname: str 角色的昵称
+    @param profession: int 角色的职业编号
+    @param userId: int 用户的id
+    @param fieldname: str 用户角色关系表中的字段名，表示用户的第几个角色
+    '''
+    print "dbUser creatNewCharacter %s %s"%(nickname,type(nickname));
+    nowdatetime = str(datetime.datetime.today())
+    sql = "insert into `tb_character`(nickName,sex,figure,tm,town,position_x,position_y) \
+    values('%s',%d,%d,%d,%d,%d,%d)"%(nickname ,0,0,0,0,0,0)
+    sql2 = "SELECT @@IDENTITY"
+    conn = dbpool.connection()
+    cursor = conn.cursor()
+    count = cursor.execute(sql)
+    conn.commit()
+    cursor.execute(sql2)
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result and count:
+        return result;
+    else:
+        return 0
 def testfunc():
     d = {};
     d['host'] = "localhost";
@@ -44,5 +68,17 @@ def testfunc():
     d['charset'] = 'utf8';
     d['db'] = "fishsvr";
     dbpool.initPool(**d);
-    r = getUserCharacterTotalInfo(1000001);
+    r = getUserCharacterTotalInfo(1000002);
     return r;
+def testfunc2():
+    d = {};
+    d['host'] = "localhost";
+    d['port'] = 3306;
+    d['passwd'] = "rodger"
+    d['user'] = "root";
+    d['charset'] = 'utf8';
+    d['db'] = "fishsvr";
+    dbpool.initPool(**d);
+    r = creatNewCharacter("mytestchar");
+    return r;
+

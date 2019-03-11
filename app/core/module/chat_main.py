@@ -81,7 +81,6 @@ class chat_main(app.base.game_module_mgr.game_module):
 		data = ud["data"];
 		ch = data["ch"];
 		msg = data["msg"];
-		print "on_chat %d %s %s"%(cId,type(msg),msg);
 		#todo
 		c_data = memmode.tb_character_admin.getObj(cId);
 		if not c_data:

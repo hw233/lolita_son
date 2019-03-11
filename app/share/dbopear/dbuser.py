@@ -125,6 +125,7 @@ def creatNewCharacter(nickname ,profession ,shape,userId,sex,tm,town,position_x,
     @param userId: int 用户的id
     @param fieldname: str 用户角色关系表中的字段名，表示用户的第几个角色
     '''
+    print "dbUser creatNewCharacter %s %s"%(nickname,type(nickname));
     nowdatetime = str(datetime.datetime.today())
     sql = "insert into `tb_character`(nickName,sex,figure,tm,town,position_x,position_y) \
     values('%s',%d,%d,%d,%d,%d,%d)"%(nickname ,sex,shape,tm,town,position_x,position_y)

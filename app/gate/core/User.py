@@ -116,6 +116,7 @@ class User:
             self.characterId = characterId
             self.name = nickname;
             self.shape = shape;
+            print "User creatNewCharacter %s %s"%(nickname,type(nickname));
             return True;
         return False;
     

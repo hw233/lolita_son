@@ -44,5 +44,5 @@ def testfunc():
     d['charset'] = 'utf8';
     d['db'] = "fishsvr";
     dbpool.initPool(**d);
-    r = getUserCharacterTotalInfo(10000001);
+    r = getUserCharacterTotalInfo(1000001);
     return r;

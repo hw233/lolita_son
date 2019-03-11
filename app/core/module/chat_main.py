@@ -99,7 +99,7 @@ class chat_main(app.base.game_module_mgr.game_module):
 		buf = netutil.s2c_data2bufbycmd(S2C_CHAT,data);
 
 		exclude_list = [];
-		GlobalObject().root.callChild("net","pushObjectOthers",cmd,msg,exclude_list)
+		GlobalObject().remote['gate'].callRemote("pushObjectOthers",cmd,msg,exclude_list)
 		return
 	
 

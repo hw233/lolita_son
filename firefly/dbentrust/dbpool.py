@@ -7,6 +7,7 @@ Created on 2013-5-8
 from DBUtils.PooledDB import PooledDB
 import MySQLdb
 
+
 DBCS = {'mysql':MySQLdb,}
 
 class DBPool(object):
@@ -15,6 +16,7 @@ class DBPool(object):
     def initPool(self,**kw):
         '''
         '''
+        kw['use_unicode'] = False;
         self.config = kw
         creator = DBCS.get(kw.get('engine','mysql'),MySQLdb)
         self.pool = PooledDB(creator,5,**kw)

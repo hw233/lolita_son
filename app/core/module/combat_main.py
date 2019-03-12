@@ -7,21 +7,21 @@ import app.protocol.netutil as netutil
 from twisted.python import log
 import app.util.helper as helper
 import app.util.lang_config as lang_config
-import app.chat.memmode as memmode
+import app.combat.memmode as memmode
 from firefly.server.globalobject import GlobalObject
 import app.core.game_module_def as game_module_def
-class chat_main(app.base.game_module_mgr.game_module):
+class combat_main(app.base.game_module_mgr.game_module):
 	def __init__(self):
-		super(chat_main,self).__init__();
+		super(combat_main,self).__init__();
 		self.character_map = {};
 		
 		return
 	
 	def start(self):
-		super(chat_main,self).start();
+		super(combat_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
-		self.register_net_event(C2S_CHAT,self.on_chat)
+		
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
 		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
 		return
@@ -75,38 +75,8 @@ class chat_main(app.base.game_module_mgr.game_module):
 		del self.character_map[cId];
 
 		return
-	def on_chat(self,ud):
-		dId = ud["dId"];
-		cId = ud["cId"];
-		data = ud["data"];
-		ch = data["ch"];
-		msg = data["msg"];
-		#todo
-		print "on_chat %d %s"%(cId,msg);
-		c_data = memmode.tb_character_admin.getObj(cId);
-		if not c_data:
-			log.msg('chat_main on_chat fatal err %d'%(cId));
-			return
-		c_info = c_data.get('data');
-
-		data = {};
-		data['ch'] = ch;
-		data['srvid'] = 0;
-		data['pid'] = cId;
-		data['shape'] = c_info["figure"];
-		data['vip'] = 0;
-		data['name'] = c_info["nickname"];
-		data['msg'] = msg;
-
-		cmd = S2C_CHAT;
-		buf = netutil.s2c_data2bufbycmd(cmd,data);
-
-		
-		exclude_list = [];
-		GlobalObject().remote['gate'].callRemote("pushObjectOthers",cmd,buf,exclude_list);
-		return
 	
 
 	def dispose(self):
-		super(chat_main,self).dispose();
+		super(combat_main,self).dispose();
 		return

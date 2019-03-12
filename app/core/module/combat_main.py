@@ -7,7 +7,7 @@ import app.protocol.netutil as netutil
 from twisted.python import log
 import app.util.helper as helper
 import app.util.lang_config as lang_config
-import app.combat.memmode as memmode
+import app.combatsvr.memmode as memmode
 from firefly.server.globalobject import GlobalObject
 import app.core.game_module_def as game_module_def
 class combat_main(app.base.game_module_mgr.game_module):

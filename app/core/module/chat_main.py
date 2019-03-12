@@ -21,7 +21,7 @@ class chat_main(app.base.game_module_mgr.game_module):
 		super(chat_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
-		self.register_net_event(C2S_CHAT,self.on_chat)
+		self.register_net_event(C2S_CHAT,self.on_chat);
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
 		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
 		return

@@ -21,7 +21,9 @@ class combat_main(app.base.game_module_mgr.game_module):
 		super(combat_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
-		
+		self.register_event(EVENT_STARTCOMBAT,self.on_startcombat);
+		self.register_event(EVENT_ENDCOMBAT,self.on_endcombat);
+		self.register_net_event(C2S_WAR_PLAYEND,self.on_war_playend)
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
 		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
 		return
@@ -75,8 +77,21 @@ class combat_main(app.base.game_module_mgr.game_module):
 		del self.character_map[cId];
 
 		return
-	
-
+	def on_startcombat(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		data = ud["data"];
+		return
+	def on_endcombat(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		data = ud["data"];
+		return
+	def on_war_playend(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		data = ud["data"];
+		return
 	def dispose(self):
 		super(combat_main,self).dispose();
 		return

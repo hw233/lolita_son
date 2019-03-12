@@ -39,3 +39,16 @@ def nethandle_3(cmd,dynamicId, characterId,request_proto):
 def broadcast_4(srcsvr,cmd,dynamicId, characterId,data):
     app.base.event_dispatcher.event_dispatcher().fire_broadnet_event(cmd,{"srcsvr":srcsvr,"dId":dynamicId,"cId":characterId,"data":request_proto});
     return     
+
+@remoteserviceHandle
+def startCombat_4(dynamicId, characterId,data):
+    log.msg("combat startCombat_4 ",dynamicId, characterId,data);
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_STARTCOMBAT,{"dId":dynamicId,"cId":characterId,"data":data});
+    return
+
+@remoteserviceHandle
+def endCombat_5(dynamicId, characterId,data):
+    log.msg("combat endCombat_5 ",dynamicId, characterId,data);
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_ENDCOMBAT,{"dId":dynamicId,"cId":characterId,"data":data});
+    return
+    

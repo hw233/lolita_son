@@ -14,6 +14,7 @@ from app.protocol.ProtocolDesc import *
 #test
 scene_protocol = [C2S_MAP_MOVE];
 chat_protocol = [C2S_CHAT];
+combat_protocol = [C2S_WAR_PLAYEND];
 @rootserviceHandle
 def forwarding(key,dynamicId,data):
     """
@@ -40,6 +41,10 @@ def forwarding(key,dynamicId,data):
         if key in chat_protocol:
             GlobalObject().root.callChild("chat",3,key,dynamicId,user.characterId,data);
             return
+        global combat_protocol;
+        if key in combat_protocol:
+            GlobalObject().root.callChild("combat",3,key,dynamicId,user.characterId,data);
+            return
         node = user.getNode();
         return GlobalObject().root.callChild(node,3,key,dynamicId,user.characterId,data)
     
@@ -64,6 +69,14 @@ def broadcastObject(srcsvr,cmd,dynamicId, characterId,data):
     for i in allsceids:
         if i != srcsvr:
             GlobalObject().root.callChild(i,4,i,cmd,dynamicId, characterId,data);
+
+@rootserviceHandle
+def startCombat(dynamicId, characterId,data):
+    GlobalObject().root.callChild("combat",4,dynamicId, characterId,data);
+@rootserviceHandle
+def endCombat(dynamicId, characterId,data):
+    GlobalObject().root.callChild("combat",5,dynamicId, characterId,data);
+
 @rootserviceHandle
 def loseConnect(id):
     """

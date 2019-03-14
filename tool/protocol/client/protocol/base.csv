@@ -365,3 +365,10 @@ S2C_CARDS_TURNSTART,0x510,,,,,
 S2C_CARDS_TURNEND,0x511,,,,,
 S2C_CARDS_ENTERDLV,0x512,,lv,int32,,
 S2C_CARDS_DELHAND,0x513,,id,int32,,
+S2C_WAR_SERIAL,0x30c,连续战斗，同上一场战斗合并表现,,,,
+S2C_QMBOSS_FIGHT_DAMAGE,0x1109,全民BOSS:战斗时伤害列表,myrank,int8,,"我的初始排名,从0开始,0xff为未上榜"
+,,,mystartdmg,int32,,我的初始伤害
+,,,warid,int32,,战斗ID
+,,,starthp,int32,,BOSS的初始血量
+,,,hpmax,int32,,BOSS的总血量
+,,,damagelist,list8,qmbossdmg,"前几名排行榜,已排序"

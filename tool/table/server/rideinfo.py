@@ -35,7 +35,14 @@ rideinfo_map[130] = {"id":130,"faid":20018,"baid":30018,};
 rideinfo_map[131] = {"id":131,"faid":20019,"baid":30019,};
 rideinfo_map[132] = {"id":132,"faid":20020,"baid":30020,};
 rideinfo_map[133] = {"id":133,"faid":20021,"baid":30021,};
-rideinfo_map[134] = {"id":134,"faid":20021,"baid":30021,};
+rideinfo_map[134] = {"id":134,"faid":20022,"baid":30022,};
+rideinfo_map[135] = {"id":135,"faid":20023,"baid":30023,};
+rideinfo_map[136] = {"id":136,"faid":20024,"baid":30024,};
+rideinfo_map[137] = {"id":137,"faid":20025,"baid":30025,};
+rideinfo_map[138] = {"id":138,"faid":20026,"baid":30026,};
+rideinfo_map[139] = {"id":139,"faid":20027,"baid":30027,};
+rideinfo_map[140] = {"id":140,"faid":20028,"baid":30028,};
+rideinfo_map[141] = {"id":141,"faid":20029,"baid":30029,};
 
 
 class Rideinfo:

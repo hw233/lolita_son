@@ -221,6 +221,8 @@ export let Protocol_desc = {
 	'S2C_CARDS_TURNEND':[],
 	'S2C_CARDS_ENTERDLV':[['lv', 'int32', ''],],
 	'S2C_CARDS_DELHAND':[['id', 'int32', ''],],
+	'S2C_WAR_SERIAL':[],
+	'S2C_QMBOSS_FIGHT_DAMAGE':[['myrank', 'int8', ''],['mystartdmg', 'int32', ''],['warid', 'int32', ''],['starthp', 'int32', ''],['hpmax', 'int32', ''],['damagelist', 'list8', 'qmbossdmg'],],
 }
 export const C2S_WEBSOCKET_HELLO = 0x100;
 export const S2C_WEBSOCKET_HELLO = 0x100;
@@ -366,6 +368,8 @@ export const S2C_CARDS_TURNSTART = 0x510;
 export const S2C_CARDS_TURNEND = 0x511;
 export const S2C_CARDS_ENTERDLV = 0x512;
 export const S2C_CARDS_DELHAND = 0x513;
+export const S2C_WAR_SERIAL = 0x30c;
+export const S2C_QMBOSS_FIGHT_DAMAGE = 0x1109;
 
 export const S2C_CMD_2_PROTODESC:{[key:number]:string;} = {}
 S2C_CMD_2_PROTODESC[S2C_WEBSOCKET_HELLO]='S2C_WEBSOCKET_HELLO';
@@ -466,6 +470,8 @@ S2C_CMD_2_PROTODESC[S2C_CARDS_TURNSTART]='S2C_CARDS_TURNSTART';
 S2C_CMD_2_PROTODESC[S2C_CARDS_TURNEND]='S2C_CARDS_TURNEND';
 S2C_CMD_2_PROTODESC[S2C_CARDS_ENTERDLV]='S2C_CARDS_ENTERDLV';
 S2C_CMD_2_PROTODESC[S2C_CARDS_DELHAND]='S2C_CARDS_DELHAND';
+S2C_CMD_2_PROTODESC[S2C_WAR_SERIAL]='S2C_WAR_SERIAL';
+S2C_CMD_2_PROTODESC[S2C_QMBOSS_FIGHT_DAMAGE]='S2C_QMBOSS_FIGHT_DAMAGE';
 
 export const C2S_CMD_2_PROTODESC:{[key:number]:string;} = {}
 C2S_CMD_2_PROTODESC[C2S_WEBSOCKET_HELLO]='C2S_WEBSOCKET_HELLO';

@@ -223,6 +223,8 @@ Protocol_desc = {
 	'S2C_CARDS_TURNEND':[],
 	'S2C_CARDS_ENTERDLV':[['lv', 'int32', ''],],
 	'S2C_CARDS_DELHAND':[['id', 'int32', ''],],
+	'S2C_WAR_SERIAL':[],
+	'S2C_QMBOSS_FIGHT_DAMAGE':[['myrank', 'int8', ''],['mystartdmg', 'int32', ''],['warid', 'int32', ''],['starthp', 'int32', ''],['hpmax', 'int32', ''],['damagelist', 'list8', 'qmbossdmg'],],
 }
 C2S_WEBSOCKET_HELLO = 0x100;
 S2C_WEBSOCKET_HELLO = 0x100;
@@ -368,6 +370,8 @@ S2C_CARDS_TURNSTART = 0x510;
 S2C_CARDS_TURNEND = 0x511;
 S2C_CARDS_ENTERDLV = 0x512;
 S2C_CARDS_DELHAND = 0x513;
+S2C_WAR_SERIAL = 0x30c;
+S2C_QMBOSS_FIGHT_DAMAGE = 0x1109;
 
 
 #protocol_desc end

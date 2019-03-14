@@ -182,7 +182,7 @@ def parseValueToStr(var_value, var_type = None):
 	elif var_type == "float":
 		str = "%f" % float(var_value);
 	elif var_type == "string":
-		#print "var_type var_value:%s %s %s"%(var_type,var_value,type(var_value))
+		print "var_type var_value:%s %s %s"%(var_type,var_value,type(var_value))
 		if isinstance(var_value, unicode):
 			var_value = var_value.encode("GBK")
 		str = "\"%s\"" % var_value;

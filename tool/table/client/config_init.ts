@@ -50,5 +50,9 @@ export function config_init(config_obj:Object):void{
 	sys_preview_cfg_map_init(config_obj);
 	sys_open_map_init(config_obj);
 	sys_open_activity_map_init(config_obj);
+	combat_skip_cfg_map_init(config_obj);
+	cli_round_detail_cfg_map_init(config_obj);
+	skillperform_map_init(config_obj);
+	skillperformconfig_map_init(config_obj);
 }
 }

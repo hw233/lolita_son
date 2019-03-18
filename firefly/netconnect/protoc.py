@@ -139,7 +139,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                     break
                 c_buff = c_buff[length+rlength:]
                 d = self.factory.doDataReceived(self, command, request)
-                #log.msg('protoc doDataReceived ',command,c_buff.__len__(),rlength,d);
+                log.msg('protoc doDataReceived ',command,c_buff.__len__(),rlength,d);
                 if not d:
                     continue
                 d.addCallback(self.safeToWriteData, command)

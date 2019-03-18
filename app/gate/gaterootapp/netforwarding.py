@@ -72,10 +72,10 @@ def broadcastObject(srcsvr,cmd,dynamicId, characterId,data):
 
 @rootserviceHandle
 def startCombat(dynamicId, characterId,data):
-    GlobalObject().root.callChild("combat",4,dynamicId, characterId,data);
+    GlobalObject().root.callChild("combat",5,dynamicId, characterId,data);
 @rootserviceHandle
 def endCombat(dynamicId, characterId,data):
-    GlobalObject().root.callChild("combat",5,dynamicId, characterId,data);
+    GlobalObject().root.callChild("combat",6,dynamicId, characterId,data);
 
 @rootserviceHandle
 def loseConnect(id):

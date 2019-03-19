@@ -77,62 +77,46 @@ def startCombat(dynamicId, characterId,data):
 def endCombat(dynamicId, characterId,data):
     GlobalObject().root.callChild("combat",6,dynamicId, characterId,data);
 
-@rootserviceHandle
-def loseConnect(id):
-    """
-    """
-    GlobalObject().root.callChild("net","loseConnect",id)
-
-def SavePlayerInfoInDB(dynamicId):
-    '''将玩家信息写入数据库'''
-    u = UsersManager().getUserByDynamicId(dynamicId)
-    scene = u.getSceneNode();
-    if scene:
-        GlobalObject().root.callChild(scene,2,dynamicId,u.characterId);
-
-    GlobalObject().root.callChild("chat",2,dynamicId,u.characterId);
-
-    node = u.getNode()
-    d = GlobalObject().root.callChild(node,2,dynamicId,u.characterId);
-    return d
-
-def SaveDBSuccedOrError(result,u):
-    '''写入角色数据成功后的处理
-    @param result: 写入后返回的结果
-    @param vcharacter: 角色的实例
-    '''
-    u.lockChar(False)#释放角色锁定
-    return True
-
-def dropClient(deferResult,dynamicId,u):
-    '''清理客户端的记录
-    @param result: 写入后返回的结果
-    '''
-    node = u.getNode()
-    if node:#角色在场景中的处理
-        GameSerManager().dropClient(node, dynamicId)
-    scene = u.getSceneNode();
-    if scene:#角色在场景中的处理
-        SceneSerManager().dropClient(scene, dynamicId)
-
-    UsersManager().dropUserByDynamicId(dynamicId)
-
-@rootserviceHandle
-def netconnlost(dynamicId):
-    '''客户端断开连接时的处理
-    @param dynamicId: int 客户端的动态ID
-    '''
+def DropClient(dynamicId):
     u = UsersManager().getUserByDynamicId(dynamicId)
     if u:
         if u.isCharacterLocked():
             return;
         if u.isLoginCharacter():
             u.lockChar(True);
-            d = SavePlayerInfoInDB(dynamicId)#保存角色,写入角色数据
-            d.addErrback(SaveDBSuccedOrError,u)#解锁角色
-            d.addCallback(dropClient,dynamicId,u)#清理客户端的数据
-    else:
-        UsersManager().dropUserByDynamicId(dynamicId)
+            ##
+            GlobalObject().root.callChild("chat",2,dynamicId,u.characterId);
+            GlobalObject().root.callChild("combat",2,dynamicId,u.characterId);
+
+            scene = u.getSceneNode();
+            if scene:
+                GlobalObject().root.callChild(scene,2,dynamicId,u.characterId);
+                SceneSerManager().dropClient(scene, dynamicId)
+
+            node = u.getNode();
+            if node:
+                GlobalObject().root.callChild(node,2,dynamicId,u.characterId);
+                GameSerManager().dropClient(node, dynamicId)
+            ###
+            u.lockChar(False)#释放角色锁定,其实这里没有对数据库直接操作，而是通知各个子服自己处理，所以角色锁定没啥意义
+            UsersManager().dropUserByDynamicId(dynamicId)
+    return
+@rootserviceHandle
+def loseConnect(id):
+    """svr req disconnect
+    """
+    DropClient(id);#注意该函数里并没有判断是由哪个服务器调用过来的，所以有可能有隐患
+
+    GlobalObject().root.callChild("net","loseConnect",id)
+
+
+@rootserviceHandle
+def netconnlost(dynamicId):
+    '''客户端断开连接时的处理
+    @param dynamicId: int 客户端的动态ID
+    '''
+    DropClient(dynamicId);
+    return
 
 
 

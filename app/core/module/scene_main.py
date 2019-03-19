@@ -37,6 +37,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		super(scene_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
+		self.register_event(EVENT_RELOGIN,self.on_relogin);
 		self.register_net_event(C2S_MAP_MOVE,self.on_move)
 		self.register_event(EVENT_SEND2CLIENT,self._send2client);
 		self.register_event(EVENT_SEND2CLIENTBYCID,self._send2clientbycid)
@@ -71,6 +72,12 @@ class scene_main(app.base.game_module_mgr.game_module):
 		return;
 	def _is_cId_valid(self,cId):#其实就是角色是否在线的判定
 		return self.character_map.has_key(cId);
+	def on_relogin(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		if self.characterinfo_map.has_key(cId):
+			self.character_map[cId] = dId;
+		return
 	def on_login(self,ud):
 		dId = ud["dId"];
 		cId = ud["cId"];

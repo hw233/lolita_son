@@ -28,6 +28,7 @@ class game_main(app.base.game_module_mgr.game_module):
 		super(game_main,self).start();
 		self.register_event(EVENT_LOGIN,self.on_login);
 		self.register_event(EVENT_LOGOUT,self.on_logout);
+		self.register_event(EVENT_RELOGIN,self.on_relogin);
 		self.register_net_event(C2S_ITEM_GETLIST,self.on_get_itemlist);
 		self.register_net_event(C2S_ITEM_USE,self.on_itemuse);
 		self.register_net_event(C2S_ITEM_MOVE,self.on_itemmove);
@@ -130,6 +131,12 @@ class game_main(app.base.game_module_mgr.game_module):
 		dId = ud["dId"];
 		cId = ud["cId"];
 		self.character_map[cId] = dId;
+		return
+	def on_relogin(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];
+		if self.characterinfo_map.has_key(cId):
+			self.character_map[cId] = dId;
 		return
 	def on_logout(self,ud):
 		dId = ud["dId"];

@@ -51,4 +51,9 @@ def endCombat_6(dynamicId, characterId,data):
     log.msg("combat endCombat_5 ",dynamicId, characterId,data);
     app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_ENDCOMBAT,{"dId":dynamicId,"cId":characterId,"data":data});
     return
+
+@remoteserviceHandle
+def relogin_10(dynamicId, characterId):
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_RELOGIN,{"dId":dynamicId,"cId":characterId});
+    return
     

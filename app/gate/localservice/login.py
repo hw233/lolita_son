@@ -41,6 +41,19 @@ def loginToServer_275(key,dynamicId,request_proto):
             buf = netutil.s2c_data2buf("S2C_LOGIN_RELOGIN",response)
             GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN_RELOGIN,buf, [dynamicId]);
             GlobalObject().root.callChild("net","loseConnect",oldUser.dynamicId)
+
+            GlobalObject().root.callChild("chat",10,dynamicId, rid)
+            GlobalObject().root.callChild("combat",10,dynamicId, rid)
+            ####
+            scene = u.getSceneNode();
+            if scene:
+                GlobalObject().root.callChild(scene,10,dynamicId,rid);
+
+            node = u.getNode();
+            if node:
+                GlobalObject().root.callChild(node,10,dynamicId,rid);
+            ####
+
         oldUser.dynamicId = dynamicId;
         response = {}
         response["flag"] = 1;

@@ -39,3 +39,8 @@ def nethandle_3(cmd,dynamicId, characterId,request_proto):
 def broadcast_4(srcsvr,cmd,dynamicId, characterId,data):
     app.base.event_dispatcher.event_dispatcher().fire_broadnet_event(cmd,{"srcsvr":srcsvr,"dId":dynamicId,"cId":characterId,"data":request_proto});
     return     
+
+@remoteserviceHandle
+def relogin_10(dynamicId, characterId):
+    app.base.event_dispatcher.event_dispatcher().fire_event(app.core.game_event_def.EVENT_RELOGIN,{"dId":dynamicId,"cId":characterId});
+    return

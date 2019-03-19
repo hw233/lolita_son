@@ -1,5 +1,6 @@
 # coding: utf-8
 EVENT_LOGIN 	= "event_login";
+EVENT_RELOGIN 	= "event_relogin";
 EVENT_LOGOUT    = "event_logout";
 EVENT_STARTCOMBAT	= "event_entercombat";
 EVENT_ENDCOMBAT    = "event_endcombat";

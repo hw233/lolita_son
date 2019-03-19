@@ -86,7 +86,7 @@ class sceneobj:
 		return ret
 	def _gen_move_rect(self,src_h,src_v,dst_h,dst_v):
 		if src_h == dst_h and src_v == dst_v:
-			print "_gen_move_rect 1";
+			#print "_gen_move_rect 1";
 			return [[src_h,src_v]],[],[]#move,enter,quit
 		
 		left = src_h - self.region_left;
@@ -128,7 +128,7 @@ class sceneobj:
 				for j in xrange(dtop,dbottom+1):#
 					enter_list.append([i,j])
 			move_list = [];
-			print "_gen_move_rect 2 %s %s %s %s %s %s %s %s"%(src_h,src_v,dst_h,dst_v,dist_h,dist_v,self.region_hcount,self.region_vcount);
+			#print "_gen_move_rect 2 %s %s %s %s %s %s %s %s"%(src_h,src_v,dst_h,dst_v,dist_h,dist_v,self.region_hcount,self.region_vcount);
 			return move_list,enter_list,quit_list
 		if src_h == dst_h:#vertical
 			if src_v < dst_v:#down
@@ -144,7 +144,7 @@ class sceneobj:
 				for i in xrange(left,right+1):
 					for j in xrange(dtop,bottom+1):
 						move_list.append([i,j]);
-				print "_gen_move_rect 3";
+				#print "_gen_move_rect 3";
 				return move_list,enter_list,quit_list;
 			else:#up
 				quit_list = [];
@@ -159,7 +159,7 @@ class sceneobj:
 				for i in xrange(left,right+1):
 					for j in xrange(top,dbottom+1):
 						move_list.append([i,j]);
-				print "_gen_move_rect 4";
+				#print "_gen_move_rect 4";
 				return move_list,enter_list,quit_list;
 		if src_v == dst_v:#horizontal
 			if src_h < dst_h:#right
@@ -175,7 +175,7 @@ class sceneobj:
 				for i in xrange(top,bottom+1):
 					for j in xrange(dleft,right+1):
 						move_list.append([j,i]);
-				print "_gen_move_rect 5";
+				#print "_gen_move_rect 5";
 				return move_list,enter_list,quit_list;
 			else:#left
 				quit_list = [];
@@ -190,7 +190,7 @@ class sceneobj:
 				for i in xrange(top,bottom+1):
 					for j in xrange(left,dright+1):
 						move_list.append([j,i]);
-				print "_gen_move_rect 6";
+				#print "_gen_move_rect 6";
 				return move_list,enter_list,quit_list;
 		ov_l = 0;
 		ov_r = 0;
@@ -223,7 +223,7 @@ class sceneobj:
 		for i in xrange(ov_l,ov_r+1):
 			for j in xrange(ov_t,ov_b+1):#
 				move_list.append([i,j]);
-		print "_gen_move_rect 7";
+		#print "_gen_move_rect 7";
 		return move_list,enter_list,quit_list
 	def enter(self,cid,x,y):
 		if self.player_map.has_key(cid):
@@ -267,7 +267,7 @@ class sceneobj:
 			v_idx = 0;
 		if v_idx >= self.VCOUNT:
 			v_idx = self.VCOUNT - 1;
-		print "move %s %s %s %s"%(x,y,h_idx,v_idx);
+		#print "move %s %s %s %s"%(x,y,h_idx,v_idx);
 		tb = self.player_map[cid];
 		tb.quit(cid);
 		sh_idx = tb.h_num;
@@ -321,27 +321,27 @@ class scenemgr:
 		self._scene_map[scene_id].name = sname;
 		return
 	def notify_region_2_c(self,cid,c_list):
-		print "notify_region_2_c %s %s"%(cid,c_list);
+		#print "notify_region_2_c %s %s"%(cid,c_list);
 		if self.parent:
 			self.parent.notify_region_2_c(cid,c_list);
 		return
 	def notify_enter_new_region(self,cid,x,y,rw,rh):
-		print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
+		#print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
 		if self.parent:
 			self.parent.notify_enter_new_region(cid,x,y,rw,rh);
 		return
 	def notify_enter_list(self,notify_list,cid,x,y):
-		print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
+		#print "notify_enter_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
 		if self.parent:
 			self.parent.notify_enter_list(notify_list,cid,x,y);
 		return
 	def notify_quit_list(self,notify_list,cid):
-		print "notify_quit_list %s,%s"%(notify_list,cid);
+		#print "notify_quit_list %s,%s"%(notify_list,cid);
 		if self.parent:
 			self.parent.notify_quit_list(notify_list,cid);
 		return
 	def notify_move_list(self,notify_list,cid,x,y):
-		print "notify_move_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
+		#print "notify_move_list %s,%s,%s,%s,%s,%s,%s,%s"%(notify_list,cid,x,y,x*self.grid_w,y*self.grid_h,x*self.grid_w/self.b_w,y*self.grid_h/self.b_h);
 		if self.parent:
 			self.parent.notify_move_list(notify_list,cid,x,y);
 		return

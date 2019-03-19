@@ -165,7 +165,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 			print "notify_region_2_c fatal error %d"%(cid);
 			return
 		for i in c_list:
-			print "notify_region_2_c %d"%(i);
+			#print "notify_region_2_c %d"%(i);
 			if self.characterinfo_map.has_key(i):
 				cinfo = self.characterinfo_map[i];
 				shape = cinfo["shape"];
@@ -180,7 +180,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 				data['desc'] = desc;
 				data['x'] = x;
 				data['y'] = y;
-				print "notify_region_2_c send %s %s %s %s %s %s"%(dId,i,shape,name,x,y);
+				#print "notify_region_2_c send %s %s %s %s %s %s"%(dId,i,shape,name,x,y);
 				buf = netutil.s2c_data2bufbycmd(S2C_MAP_ADDPLAYER,data);
 				GlobalObject().remote['gate'].callRemote("pushObject",S2C_MAP_ADDPLAYER,buf, [dId])
 		return
@@ -213,7 +213,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		x = cinfo["x"];
 		y = cinfo["y"];
 		name = cinfo["name"];
-		print "%s %s %s %s %s %s"%(shape,x,y,name,type(name),dId_list); 
+		#print "%s %s %s %s %s %s"%(shape,x,y,name,type(name),dId_list); 
 		data = {};
 		data['id'] = cid;
 		data['shape'] = shape;
@@ -233,7 +233,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 			dId = self._getdidbycid(i);
 			if dId != None:
 				dId_list.append(dId);
-		print "%s"%(dId_list); 
+		#print "%s"%(dId_list); 
 		data = {};
 		data['id'] = cid;
 		buf = netutil.s2c_data2bufbycmd(S2C_MAP_DEL,data);
@@ -248,7 +248,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 			dId = self._getdidbycid(i);
 			if dId != None:
 				dId_list.append(dId);
-		print "%s %s %s %s"%(cid,x,y,dId_list); 
+		#print "%s %s %s %s"%(cid,x,y,dId_list); 
 		data = {};
 		data['id'] = cid;
 		data['x'] = x;

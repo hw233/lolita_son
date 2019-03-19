@@ -122,34 +122,64 @@ class WebSocketLiberateProtocol(LiberateProtocol):
             if fin == 0:
                 print "warning !! fin is zero %d"%(fin);
             opcode = self.get_opcode(self.buff);
-            use_len, c_buff = self.parse_buff(self.buff, buff_len);
-            #log.msg('protoc dataHandleCoroutine ',buff_len,use_len,self.buff.__len__(),c_buff.__len__(),opcode);
-            self.buff = self.buff[use_len:];
             if opcode == 0x8:
                 log.msg('protoc quit ',c_buff);
-                continue;
-            while c_buff.__len__() >= length:
-                print "start parse c_buff %d %d"%(c_buff.__len__(),length);
+                self.transport.loseConnection()
+                break;
+            self.buff = self.parsepacketfrombuff(self.buff,buff_len);
+            ######################
+            #use_len, c_buff = self.parse_buff(self.buff, buff_len);
+            ##log.msg('protoc dataHandleCoroutine ',buff_len,use_len,self.buff.__len__(),c_buff.__len__(),opcode);
+            #self.buff = self.buff[use_len:];
+            #while c_buff.__len__() >= length:
+            #    print "start parse c_buff %d %d"%(c_buff.__len__(),length);
+            #    unpackdata = self.factory.dataprotocl.unpack(c_buff[:length])
+            #    if not unpackdata.get('result'):
+            #        log.msg('illegal data package --1')
+            #        self.transport.loseConnection()
+            #        break
+            #    command = unpackdata.get('command')
+            #    rlength = unpackdata.get('length')
+            #    request = c_buff[length:length+rlength]
+            #    print "command rlength %s %d %d %d"%(command,rlength,length,c_buff.__len__());
+            #    if request.__len__() < rlength:
+            #        log.msg('some data lose %d %d %s',request.__len__(),rlength,command);
+            #        break
+            #    c_buff = c_buff[length+rlength:]
+            #    d = self.factory.doDataReceived(self, command, request)
+            #    log.msg('protoc doDataReceived ',command,c_buff.__len__(),rlength,d);
+            #    if not d:
+            #        continue
+            #    d.addCallback(self.safeToWriteData, command)
+            #    d.addErrback(DefferedErrorHandle)
+        return
+    def parsepacketfrombuff(self,raw_buff,raw_buff_len):
+        #解出一段包体
+        while raw_buff_len > 0:
+            use_len, c_buff = self.parse_buff(raw_buff, raw_buff_len);
+            log.msg('protoc parsepacketfrombuff ',use_len,raw_buff_len);
+            raw_buff = raw_buff[use_len:];#
+            raw_buff_len = raw_buff_len - use_len;
+            length = self.factory.dataprotocl.getHeadlength()  # 获取协议头的长度
+            if c_buff.__len__() < length:
+                log.err('illegal data package length %d %d'%(c_buff.__len__(),length))
+            else:
                 unpackdata = self.factory.dataprotocl.unpack(c_buff[:length])
                 if not unpackdata.get('result'):
-                    log.msg('illegal data package --1')
-                    self.transport.loseConnection()
-                    break
-                command = unpackdata.get('command')
-                rlength = unpackdata.get('length')
-                request = c_buff[length:length+rlength]
-                print "command rlength %s %d %d %d"%(command,rlength,length,c_buff.__len__());
-                if request.__len__() < rlength:
-                    log.msg('some data lose %d %d %s',request.__len__(),rlength,command);
-                    break
-                c_buff = c_buff[length+rlength:]
-                d = self.factory.doDataReceived(self, command, request)
-                log.msg('protoc doDataReceived ',command,c_buff.__len__(),rlength,d);
-                if not d:
-                    continue
-                d.addCallback(self.safeToWriteData, command)
-                d.addErrback(DefferedErrorHandle)
-
+                    log.err('illegal data package have not result');
+                else:
+                    command = unpackdata.get('command')
+                    rlength = unpackdata.get('length')
+                    request = c_buff[length:length+rlength]
+                    if request.__len__() < rlength:
+                        log.err('illegal data package some data lose %d %d %s',request.__len__(),rlength,command);
+                    else:
+                        log.msg('protoc doDataReceived ',command,rlength);
+                        self.factory.doDataReceived(self, command, request);
+                    #c_buff = c_buff[length+rlength:]
+                    if c_buff.__len__() > (length+rlength):
+                        log.err('illegal data package length %d %d'%(c_buff.__len__(),use_len));
+        return raw_buff
     def safeToWriteData(self, data, command):
         '''线程安全的向客户端发送数据
         @param data: str 要向客户端写的数据
@@ -187,7 +217,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
     def get_opcode(self,buf):
         opcode = ord(buf[0]) & 0b1111
         return opcode;
-    def get_buff_len(self, buf):
+    def get_buff_len(self, buf):#保证包体是完整的，包括包头和包内容
         head_len = 2;
         buf_len = len(buf)
         if buf_len < head_len:

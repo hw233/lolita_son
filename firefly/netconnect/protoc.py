@@ -155,9 +155,14 @@ class WebSocketLiberateProtocol(LiberateProtocol):
         return
     def parsepacketfrombuff(self,raw_buff,raw_buff_len):
         #解出一段包体
+        raw_buff_len = raw_buff.__len__();
         while raw_buff_len > 0:
-            use_len, c_buff = self.parse_buff(raw_buff, raw_buff_len);
-            log.msg('protoc parsepacketfrombuff ',use_len,raw_buff_len);
+            pkg_buff_len = self.get_buff_len(raw_buff);
+            if pkg_buff_len == -1:
+                break;
+
+            use_len, c_buff = self.parse_buff(raw_buff, pkg_buff_len);
+            log.msg('protoc parsepacketfrombuff ',use_len,pkg_buff_len,raw_buff_len);
             raw_buff = raw_buff[use_len:];#
             raw_buff_len = raw_buff_len - use_len;
             length = self.factory.dataprotocl.getHeadlength()  # 获取协议头的长度

@@ -78,7 +78,7 @@ def loginToServer_275(key,dynamicId,request_proto):
             u.creatNewCharacter("character_%d"%(u.id),0,101,helper.get_svr_tm(),1003,10,10);
         else:
             u.getCharacterInfo();
-            
+    u.loginOutCharacter();
     response = {}
     roleinfo = {"rid":u.characterId,"shape":u.shape,"cls":0,"grade":0,"desc":"","flag":0,"newtm":0,"theme":0,"name":u.name,"offline":0,"logintm":0,"orgsrvid":0};
     response["roles"] = [roleinfo];
@@ -118,7 +118,12 @@ def selectrole_276(key,dynamicId,request_proto):
         GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_NOTIFY_FLOAT,buf, [dynamicId]);
         return;
     if user.isLoginCharacter():
+        response = {}
+        response["msg"] = "character is already login";
+        buf = netutil.s2c_data2buf("S2C_NOTIFY_FLOAT",response)
+        GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_NOTIFY_FLOAT,buf, [dynamicId]);
         return;
+    user.loginCharacter();
     nownode = GameSerManager().getBsetSvrNodeId()
     d = GlobalObject().root.callChild(nownode,1,dynamicId, rid)
     user.setNode(nownode)

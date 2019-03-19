@@ -32,6 +32,7 @@ class User:
         self.characterId = 0
         self.shape = 0;
         self.node = "";#game node
+        self.Ischaracterlogined = False;
         self.scene_node = "";#scene node
         self.Ischaracterlocked = False;#only used when client disconnected
         self.characterInfo = {}
@@ -55,7 +56,12 @@ class User:
         '''
         return self.name
     def isLoginCharacter(self):
-        return len(self.node) > 0;
+        return self.Ischaracterlogined;
+    def loginCharacter(self):
+        self.Ischaracterlogined = True;
+    def loginOutCharacter(self):
+        self.Ischaracterlogined = False;
+        return
     def getNode(self):
         '''返回角色所在的节点服务ID'''
         return self.node

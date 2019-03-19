@@ -39,7 +39,7 @@ class User:
     
     def initUser(self):
         '''初始化用户类'''
-        data = dbuser.getUserInfoByUsername(self.name,self.password)
+        data = dbuser.getUserInfoByUsername(self.account,self.password)
         if not data:
             self.isEffective = False
             return

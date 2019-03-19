@@ -137,8 +137,8 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                     break
                 command = unpackdata.get('command')
                 rlength = unpackdata.get('length')
-                print "command rlength %s %d"%(command,rlength);
                 request = c_buff[length:length+rlength]
+                print "command rlength %s %d %d %d"%(command,rlength,length,c_buff.__len__());
                 if request.__len__() < rlength:
                     log.msg('some data lose %d %d %s',request.__len__(),rlength,command);
                     break

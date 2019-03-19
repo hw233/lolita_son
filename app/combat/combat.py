@@ -26,6 +26,7 @@ class combat(object):
 	###send s2c packet start
 	def gen_s2c_combat_start(self):
 		print "combat s2c start"
+		#S2C_WAR_START id type subtype lineup playmode skip maxbout
 		return
 	def gen_s2c_combat_end(self):
 		print "combat s2c end"
@@ -33,48 +34,93 @@ class combat(object):
 			print "challenger lose!"
 		else:
 			print "challenger is winner!"
+		#S2C_WAR_END force
 		return
 	def gen_s2c_turn_start(self):
 		print "combat s2c turn start"
+		#S2C_WAR_NEXT bout
 		return
 	def gen_s2c_turn_end(self):
 		print "combat s2c turn end"
+		#S2C_WAR_TURN
 		return
 	def gen_s2c_addwarrior(self,actor):
 		print "combat s2c addwarrior %s %s %s"%(actor['pos'],actor['group'],actor['hp'])
+		#S2C_WAR_ADD warid type owner status shape desc grade classes name zoomlvl
 		return
 	def gen_s2c_delwarrior(self,actor):
 		print "combat s2c delwarrior %s %s"%(actor['pos'],actor['group'])
+		#S2C_WAR_LEAVE id
 		return
 	def gen_s2c_warrior_skillbegin(self,actor,skill_id,skill_lv,dst_list):
 		print "combat s2c skillbegin %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,dst_list)
+		#S2C_WAR_PERFORM att skillid lv round lsvic
 		return
 	def gen_s2c_warrior_skillend(self,actor,skill_id,skill_lv):
 		print "combat s2c skillend %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
+		#S2C_WAR_PERFORM_END
+		return
+	def gen_s2c_warrior_attackbegin(self,actor,dst):
+		#todo need code
+		print "combat s2c attackbegin %s %s %s"%(actor['pos'],actor['group'],dst);
+		#S2C_WAR_ATTACK_NORMAL att vic
+		return
+	def gen_s2c_warrior_attackend(self,actor):
+		#todo need code
+		print "combat s2c attackend %s %s"%(actor['pos'],actor['group']);
+		#S2C_WAR_ATTACK_END
 		return
 	def gen_s2c_warrior_buffcd_change(self,actor,buffobj):
 		print "combat s2c buffcd change %s %s %s %s %s"%(actor['pos'],actor['group'],buffobj.id,buffobj.bid,buffobj.cd)
 		return
 	def gen_s2c_warrior_propchg(self,old_prop,new_prop,actor,b_crack,skill_id,skill_lv):
-		#todo
 		#gen s2c netpacket
 		print "combat s2c warrior propchg %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,b_crack,old_prop,new_prop);
 		print "newhp,oldhp,dead:%s %s %s"%(new_prop['hp'],old_prop['hp'],new_prop['dead'])
+		#S2C_WAR_ATTACK_STATUS target status value
 		return
 	def gen_s2c_warrior_dodge(self,actor,skill_id,skill_lv):
-		#todo
 		#gen s2c netpacket
+		#todo need code
 		print "combat s2c warrior dodge %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
 		return
 	def gen_s2c_warrior_addbuff(self,actor,buffobj,skill_id,skill_lv):
-		#todo
 		print "combat s2c warrior addbuff %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,buffobj.id,buffobj.bid,buffobj.cd)
 		#gen s2c netpacket
+		#S2C_WAR_BUFF_ADD warid bid overlay bout datas
 		return
 	def gen_s2c_warrior_delbuff(self,actor,buffobj):
-		#todo
 		#gen s2c netpacket
 		print "combat s2c warrior delbuff %s %s %s %s"%(actor['pos'],actor['group'],buffobj.id,buffobj.bid);
+		#S2C_WAR_BUFF_DEL bid
+		return
+	def gen_s2c_warrior_status(self,actor):
+		#todo need code
+		print "combat s2c warrior status %s %s %s %s"%(actor['pos'],actor['group'], actor['hp'],actor['hpmax']);
+		#S2C_WAR_STATUS id hprate
+		return
+	def gen_s2c_warrior_partnerattack(self,actor,partner,vic):
+		#todo need code
+		print "combat s2c warrior partnerattack %s %s %s %s"%(actor['pos'],actor['group'],partner,vic);
+		#S2C_WAR_PARTNER_ATTACK partner vic
+		return
+	def gen_s2c_warrior_backattackbegin(self,actor,skill_id,skill_lv,dst_list):
+		print "combat s2c backattackbegin %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,dst_list)
+		#S2C_WAR_BACKATTACK att skillid lv round lsvic
+		return
+	def gen_s2c_warrior_backattackend(self,actor,skill_id,skill_lv):
+		print "combat s2c backattackend %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
+		#S2C_WAR_BACKATTACK_END
+		return
+	def gen_s2c_warrior_shake(self,actor,vic):
+		#todo need code
+		print "combat s2c warrior shake %s %s %s"%(actor['pos'],actor['group'],vic);
+		#S2C_WAR_SHAKE att vic
+		return
+	def gen_s2c_warrior_protect(self,actor,vic):
+		#todo need code
+		print "combat s2c warrior protect %s %s %s"%(actor['pos'],actor['group'],vic);
+		#S2C_WAR_PROTECT protector vic
 		return
 	###send s2c packet end
 	def gen_buff_id(self):
@@ -90,6 +136,7 @@ class combat(object):
 			self.pas_list.append(obj);
 		self.fighters[obj['pos']] = obj;
 		self.gen_s2c_addwarrior(obj);
+		self.gen_s2c_warrior_status(obj);
 		return
 	def start(self):
 		self.gen_s2c_combat_start();
@@ -403,10 +450,10 @@ class combat(object):
 		self.reset_allfighter_extra_prop();
 		self.execute_buff_turneffect();
 		self.check_autodel_warrior();
-		self.init_order();
 		if self.is_end():
 			self.gen_s2c_turn_end();
 			return
+		self.init_order();
 		self.do_allwarrior_cmd();
 		self.process_buff_cd();
 		self.gen_s2c_turn_end();

@@ -119,7 +119,8 @@ class WebSocketLiberateProtocol(LiberateProtocol):
             if buff_len == -1:
                 continue;
             fin = self.get_fin(self.buff);
-            print "fin %d"%(fin);
+            if fin == 0:
+                print "warning !! fin is zero %d"%(fin);
             opcode = self.get_opcode(self.buff);
             use_len, c_buff = self.parse_buff(self.buff, buff_len);
             #log.msg('protoc dataHandleCoroutine ',buff_len,use_len,self.buff.__len__(),c_buff.__len__(),opcode);

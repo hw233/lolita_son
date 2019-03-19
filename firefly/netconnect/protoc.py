@@ -106,7 +106,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
         while True:
             data = yield
             self.buff += data
-            #log.msg('protoc dataHandleCoroutine get data ',data.__len__(),self.buff.__len__(),self._b_ready);
+            log.msg('protoc dataHandleCoroutine get data ',data.__len__(),self.buff.__len__(),self._b_ready);
             if not self._b_ready:
                 if not self.check_handshake_key(self.buff):
                     continue;

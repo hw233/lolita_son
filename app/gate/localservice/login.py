@@ -42,16 +42,16 @@ def loginToServer_275(key,dynamicId,request_proto):
             GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN_RELOGIN,buf, [dynamicId]);
             GlobalObject().root.callChild("net","loseConnect",oldUser.dynamicId)
 
-            GlobalObject().root.callChild("chat",10,dynamicId, rid)
-            GlobalObject().root.callChild("combat",10,dynamicId, rid)
+            GlobalObject().root.callChild("chat",10,dynamicId, u.characterId)
+            GlobalObject().root.callChild("combat",10,dynamicId, u.characterId)
             ####
             scene = u.getSceneNode();
             if scene:
-                GlobalObject().root.callChild(scene,10,dynamicId,rid);
+                GlobalObject().root.callChild(scene,10,dynamicId,u.characterId);
 
             node = u.getNode();
             if node:
-                GlobalObject().root.callChild(node,10,dynamicId,rid);
+                GlobalObject().root.callChild(node,10,dynamicId,u.characterId);
             ####
 
         oldUser.dynamicId = dynamicId;

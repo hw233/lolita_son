@@ -159,7 +159,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		
 		return
 	def notify_region_2_c(self,cid,c_list):
-		print "notify_region_2_c %s %s"%(cid,c_list);
+		#print "notify_region_2_c %s %s"%(cid,c_list);
 		dId = self._getdidbycid(cid);
 		if dId == None:
 			print "notify_region_2_c fatal error %d"%(cid);
@@ -185,7 +185,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 				GlobalObject().remote['gate'].callRemote("pushObject",S2C_MAP_ADDPLAYER,buf, [dId])
 		return
 	def notify_enter_new_region(self,cid,x,y,rw,rh):
-		print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
+		#print "notify_enter_new_region %s,%s,%s,%s,%s"%(cid,x,y,rw,rh);
 		dId = self._getdidbycid(cid);
 		if dId == None:
 			print "notify_region_2_c fatal error %d"%(cid);
@@ -200,7 +200,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		
 		return
 	def notify_enter_list(self,notify_list,cid,x,y):
-		print "notify_enter_list %s,%s,%s,%s"%(notify_list,cid,x,y);
+		#print "notify_enter_list %s,%s,%s,%s"%(notify_list,cid,x,y);
 		if len(notify_list) <= 0:
 			return;
 		dId_list = [];
@@ -225,7 +225,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		GlobalObject().remote['gate'].callRemote("pushObject",S2C_MAP_ADDPLAYER,buf, dId_list)
 		return
 	def notify_quit_list(self,notify_list,cid):
-		print "notify_quit_list %s,%s"%(notify_list,cid);
+		#print "notify_quit_list %s,%s"%(notify_list,cid);
 		if len(notify_list) <= 0:
 			return;
 		dId_list = [];
@@ -240,7 +240,7 @@ class scene_main(app.base.game_module_mgr.game_module):
 		GlobalObject().remote['gate'].callRemote("pushObject",S2C_MAP_DEL,buf, dId_list)
 		return
 	def notify_move_list(self,notify_list,cid,x,y):
-		print "notify_move_list %s,%s,%s,%s"%(notify_list,cid,x,y);
+		#print "notify_move_list %s,%s,%s,%s"%(notify_list,cid,x,y);
 		if len(notify_list) <= 0:
 			return;
 		dId_list = [];

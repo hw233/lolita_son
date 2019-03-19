@@ -37,7 +37,6 @@ def loginToServer_275(key,dynamicId,request_proto):
     if oldUser:
         log.msg('loginToServer_1 relogin %d %s %s' % (dynamicId,str(oldUser.dynamicId),type(username)));
         if oldUser.dynamicId != dynamicId:
-            #GlobalObject().root.callChild("net","loseConnect",oldUser.dynamicId)
             response = {}
             buf = netutil.s2c_data2buf("S2C_LOGIN_RELOGIN",response)
             GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN_RELOGIN,buf, [dynamicId]);

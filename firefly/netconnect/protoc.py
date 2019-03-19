@@ -129,6 +129,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                 log.msg('protoc quit ',c_buff);
                 continue;
             while c_buff.__len__() >= length:
+                print "start parse c_buff %d %d"%(c_buff.__len__(),length);
                 unpackdata = self.factory.dataprotocl.unpack(c_buff[:length])
                 if not unpackdata.get('result'):
                     log.msg('illegal data package --1')

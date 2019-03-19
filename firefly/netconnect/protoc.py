@@ -106,7 +106,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
         while True:
             data = yield
             self.buff += data
-            log.msg('protoc dataHandleCoroutine get data ',data.__len__(),self.buff.__len__(),self._b_ready);
+            #log.msg('protoc dataHandleCoroutine get data ',data.__len__(),self.buff.__len__(),self._b_ready);
             if not self._b_ready:
                 if not self.check_handshake_key(self.buff):
                     continue;
@@ -120,7 +120,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                 continue;
             fin = self.get_fin(self.buff);
             if fin == 0:
-                print "warning !! fin is zero %d"%(fin);
+                log.err('warning !! fin is zero')
             opcode = self.get_opcode(self.buff);
             if opcode == 0x8:
                 log.msg('protoc quit ',c_buff);
@@ -162,7 +162,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                 break;
 
             use_len, c_buff = self.parse_buff(raw_buff, pkg_buff_len);
-            log.msg('protoc parsepacketfrombuff ',use_len,pkg_buff_len,raw_buff_len);
+            #log.msg('protoc parsepacketfrombuff ',use_len,pkg_buff_len,raw_buff_len);
             raw_buff = raw_buff[use_len:];#
             raw_buff_len = raw_buff_len - use_len;
             length = self.factory.dataprotocl.getHeadlength()  # 获取协议头的长度
@@ -179,7 +179,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                     if request.__len__() < rlength:
                         log.err('illegal data package some data lose %d %d %s',request.__len__(),rlength,command);
                     else:
-                        log.msg('protoc doDataReceived ',command,rlength);
+                        #log.msg('protoc doDataReceived ',command,rlength);
                         self.factory.doDataReceived(self, command, request);
                     #c_buff = c_buff[length+rlength:]
                     if c_buff.__len__() > (length+rlength):

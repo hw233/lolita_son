@@ -61,7 +61,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 	def on_relogin(self,ud):
 		dId = ud["dId"];
 		cId = ud["cId"];
-		if self.characterinfo_map.has_key(cId):
+		if self.character_map.has_key(cId):
 			self.character_map[cId] = dId;
 		return
 	def on_login(self,ud):
@@ -80,8 +80,8 @@ class combat_main(app.base.game_module_mgr.game_module):
 	def on_logout(self,ud):
 		dId = ud["dId"];
 		cId = ud["cId"];
-
-		del self.character_map[cId];
+		if self.character_map.has_key(cId):
+			del self.character_map[cId];
 
 		return
 	def on_startcombat(self,ud):

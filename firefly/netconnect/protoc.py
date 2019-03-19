@@ -118,6 +118,8 @@ class WebSocketLiberateProtocol(LiberateProtocol):
             buff_len = self.get_buff_len(self.buff);
             if buff_len == -1:
                 continue;
+            fin = self.get_fin(self.buff);
+            print "fin %d"%(fin);
             opcode = self.get_opcode(self.buff);
             use_len, c_buff = self.parse_buff(self.buff, buff_len);
             #log.msg('protoc dataHandleCoroutine ',buff_len,use_len,self.buff.__len__(),c_buff.__len__(),opcode);
@@ -176,6 +178,9 @@ class WebSocketLiberateProtocol(LiberateProtocol):
         if not key:
             return False;
         return True;
+    def get_fin(self,buf):
+        fin = ord(buf[0]) & 0b10000000;
+        return fin
     def get_opcode(self,buf):
         opcode = ord(buf[0]) & 0b1111
         return opcode;

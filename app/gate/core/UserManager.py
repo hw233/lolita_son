@@ -36,7 +36,7 @@ class UsersManager:
         """根据用户名获取用户信息
         """
         for k in self._users.values():
-            if k.getNickName() == username:
+            if k.getAccount() == username:
                 return k
         return None
 

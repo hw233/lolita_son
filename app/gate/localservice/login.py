@@ -35,7 +35,7 @@ def loginToServer_275(key,dynamicId,request_proto):
     oldUser = UsersManager().getUserByUsername(username)
     u = oldUser;
     if oldUser:
-        log.msg('loginToServer_1 relogin %d %s %s' % (dynamicId,str(oldUser.dynamicId),type(username)));
+        log.msg('loginToServer_1 relogin %d %s %s' % (dynamicId,str(oldUser.dynamicId),username));
         if oldUser.dynamicId != dynamicId:
             response = {}
             buf = netutil.s2c_data2buf("S2C_LOGIN_RELOGIN",response)
@@ -55,6 +55,7 @@ def loginToServer_275(key,dynamicId,request_proto):
             buf = netutil.s2c_data2buf("S2C_LOGIN",response)
             GlobalObject().root.callChild("net","pushObject",ProtocolDesc.S2C_LOGIN,buf, [dynamicId]);
             return;
+        log.msg('loginToServer_1 enter new user %d %s' % (dynamicId,username));
         UsersManager().addUser(u);
         response = {}
         response["flag"] = 0;

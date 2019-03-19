@@ -12,7 +12,7 @@ from twisted.python import log
 class User:
     '''用户类'''
     
-    def __init__(self, name,password,dynamicId = -1):
+    def __init__(self, account,password,dynamicId = -1):
         '''
         @param id: int 用户的id
         @param name: str用户的名称
@@ -23,7 +23,8 @@ class User:
         @param isEffective: bool 是否是有效的
         '''
         self.id = 0
-        self.name = name
+        self.account = account;
+        self.name = ""
         self.password = password
         self.pid = 0
         self.dynamicId = dynamicId
@@ -47,7 +48,8 @@ class User:
         self.id = data.get('id',0)
         self.pid = data.get('pid',0)
         self.characterId = data.get('characterId',0)
-        
+    def getAccount(self):
+        return self.account;
     def getNickName(self):
         '''获取账号名
         '''

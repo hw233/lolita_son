@@ -111,16 +111,42 @@ class combat_main(app.base.game_module_mgr.game_module):
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
 		pos_idx = 0;
 		for i in team1:
+			c_data = memmode.tb_character_admin.getObj(i);
+			if not c_data:
+				log.msg('combat_main on_startcombat fatal err team1 %d'%(i));
+				continue;
+			c_info = c_data.get('data');
+			staminia = c_info["staminia"];
+			spirit = c_info["spirit"];
+			dex = c_info["dex"];
 			w_inst = app.combat.warrior.warrior(i,team_pos[pos_idx]);
 			w_inst['group'] = 0;
+			w_inst['hp'] = staminia*3;
+			w_inst['hpmax'] = staminia*3;
+			w_inst['atk'] = spirit*2;
+			w_inst['spd'] = dex*2;
+			
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
 
 		team_pos = app.combat.combat.COMBAT_POS_MAP[1];
 		pos_idx = 0;
 		for i in team2:
+			c_data = memmode.tb_character_admin.getObj(i);
+			if not c_data:
+				log.msg('combat_main on_startcombat fatal err team2 %d'%(i));
+				continue;
+			c_info = c_data.get('data');
+			staminia = c_info["staminia"];
+			spirit = c_info["spirit"];
+			dex = c_info["dex"];
 			w_inst = app.combat.warrior.warrior(i,team_pos[pos_idx]);
 			w_inst['group'] = 1;
+			w_inst['hp'] = staminia*3;
+			w_inst['hpmax'] = staminia*3;
+			w_inst['atk'] = spirit*2;
+			w_inst['spd'] = dex*2;
+			
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
 		combat_inst.start();

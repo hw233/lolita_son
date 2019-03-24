@@ -29,6 +29,10 @@ CREATE TABLE `tb_character` (
   `sex` tinyint(4) DEFAULT '1' COMMENT '1男 2女',
   `level` int(10) DEFAULT '1' COMMENT '角色的等级 初始为1',
   `coin` int(20) DEFAULT '10000' COMMENT '玩家的游戏币(金币) 初始为 10000',
+  `staminia` int(20) DEFAULT '10' COMMENT '体质',
+  `spirit` int(20) DEFAULT '10' COMMENT '灵力',
+  `dex` int(20) DEFAULT '10' COMMENT '身法',
+  `point` int(20) DEFAULT '0' COMMENT '当前潜力点',
   `vipexp` int(20) DEFAULT '0' COMMENT 'vip经验值',
   `town` int(10) DEFAULT '1001' COMMENT '角色所在的场景的ID',
   `position_x` int(10) DEFAULT '0' COMMENT '角色的x坐标',
@@ -127,6 +131,10 @@ CREATE TABLE `tb_pet` (
   `shape` int(11) DEFAULT '0' COMMENT 'shape',
   `lv` int(10) NOT NULL DEFAULT '0' COMMENT 'lv',
   `exp` int(20) NOT NULL DEFAULT '0' COMMENT 'exp',
+  `staminia` int(20) DEFAULT '20' COMMENT '体质',
+  `spirit` int(20) DEFAULT '20' COMMENT '灵力',
+  `dex` int(20) DEFAULT '20' COMMENT '身法',
+  `point` int(20) DEFAULT '0' COMMENT '当前潜力点',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -156,6 +164,10 @@ CREATE TABLE `tb_partner` (
   `shape` int(11) DEFAULT '0' COMMENT 'shape',
   `lv` int(10) NOT NULL DEFAULT '0' COMMENT 'lv',
   `exp` int(20) NOT NULL DEFAULT '0' COMMENT 'exp',
+  `staminia` int(20) DEFAULT '20' COMMENT '体质',
+  `spirit` int(20) DEFAULT '20' COMMENT '灵力',
+  `dex` int(20) DEFAULT '20' COMMENT '身法',
+  `point` int(20) DEFAULT '0' COMMENT '当前潜力点',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

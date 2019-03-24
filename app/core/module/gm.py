@@ -26,6 +26,11 @@ class gm_main(app.base.game_module_mgr.game_module):
 				count = int(params[1]);
 				if game_ins._add_gold(dId,cId,count):
 					game_ins._push_role_info(dId,cId);
+		elif gm_cmd == "fightself":
+			data = {};
+			data['team1'] = [cId];
+			data['team2'] = [cId];
+			GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

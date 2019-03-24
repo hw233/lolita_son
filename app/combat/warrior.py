@@ -21,6 +21,8 @@ class warrior(combatbase.combatbase):
 			self['group'] = 0;
 		else:
 			self['group'] = 1;
+		self['shape'] = 101;
+		self.['name'] = str(self.m_id);
 		return
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];
@@ -68,7 +70,8 @@ class warrior(combatbase.combatbase):
 		self['dead'] = False;
 		self['group'] = 0;
 		self['pos'] = 0;
-		self['autodel'] = False;
+		self['cankickout'] = False;
+		self['kickout'] = False;
 		self.gen_orgprop();
 		return
 	def gen_testdata(self):

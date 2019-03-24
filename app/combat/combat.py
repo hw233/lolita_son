@@ -14,19 +14,61 @@ COMBAT_POS_MAP[1] = [20,21,22,23,24,25,26,27,28,29,30,31,32];
 
 COMBATCMD_ATTACK = 1;
 COMBATCMD_ADDWARRIOR = 2;
+
+
+#status1
+War_AttackedBehave_Normal = 0;
+War_AttackedBehave_Hit = 1;
+War_AttackedBehave_Defence = 2;
+War_AttackedBehave_Dodge = 3;
+#
+War_AttackedBehave_BLOOD = 4;
+#status2
+War_AttackType_Crack = 1;
+#status3
+War_AttackedResult_Normal = 0;
+War_AttackedResult_Dead = 1;
+War_AttackedResult_FlyAway = 2;
+War_AttackedResult_Revive = 4;
+        
+COMBAT_START_ID = 0;
 class combat(object):
 	def __init__(self):
 		super(combat,self).__init__();
 		self.act_list = [];
 		self.pas_list = [];
 		self.fighters = {};
+		self.send_list = [];
 		self.order = [];
 		self.buff_id_begin = 1;
+		self.parent = None;
+		self.combat_id = self.gen_combat_id();
+		self.combat_type = 0;
+		self.combat_subtype = 0;
+		self.playmode = 0;
+		self.skip = 0;
+		self.maxbout = 99;
+		self.wait_cmd_maxtm = 30;#second
+		self.wait_cmd_curtm = -1;
+		self.b_is_end = False;
+		self.curbout = 1;
 		return
+	def gen_combat_id(self):
+		global COMBAT_START_ID
+		COMBAT_START_ID = COMBAT_START_ID + 1;
+		return COMBAT_START_ID
+	def gen_buff_id(self):
+		self.buff_id_begin += 1;
+		return self.buff_id_begin;
 	###send s2c packet start
 	def gen_s2c_combat_start(self):
 		print "combat s2c start"
 		#S2C_WAR_START id type subtype lineup playmode skip maxbout
+		if self.parent:
+			for i in self.act_list:
+				self.parent.gen_s2c_combat_start(i['id'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playermode,self.skip,self.maxbout);
+			for i in self.pas_list:
+				self.parent.gen_s2c_combat_start(i['id'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playermode,self.skip,self.maxbout);
 		return
 	def gen_s2c_combat_end(self):
 		print "combat s2c end"
@@ -35,54 +77,124 @@ class combat(object):
 		else:
 			print "challenger is winner!"
 		#S2C_WAR_END force
+		if self.parent:
+			self.parent.gen_s2c_combat_end(self.send_list,0);
 		return
 	def gen_s2c_turn_start(self):
 		print "combat s2c turn start"
 		#S2C_WAR_NEXT bout
+		if self.parent:
+			self.parent.gen_s2c_turn_start(self.send_list,self.curbout);
 		return
 	def gen_s2c_turn_end(self):
 		print "combat s2c turn end"
 		#S2C_WAR_TURN
+		if self.parent:
+			self.parent.gen_s2c_turn_end(self.send_list);
 		return
 	def gen_s2c_addwarrior(self,actor):
 		print "combat s2c addwarrior %s %s %s"%(actor['pos'],actor['group'],actor['hp'])
-		#S2C_WAR_ADD warid type owner status shape desc grade classes name zoomlvl
+		#S2C_WAR_ADD warid type owner status shape desc grade classes name zoomlv
+		if self.parent:
+			w = actor;
+			status = 0;#todo
+			self.parent.gen_s2c_addwarrior(self.send_list,w['id'],0,0,status,w['shape'],'',0,0,w['name'],0);
 		return
 	def gen_s2c_delwarrior(self,actor):
 		print "combat s2c delwarrior %s %s"%(actor['pos'],actor['group'])
 		#S2C_WAR_LEAVE id
+		if self.parent:
+			w = actor;
+			self.parent.gen_s2c_delwarrior(self.send_list,actor['id']);
 		return
 	def gen_s2c_warrior_skillbegin(self,actor,skill_id,skill_lv,dst_list):
 		print "combat s2c skillbegin %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,dst_list)
 		#S2C_WAR_PERFORM att skillid lv round lsvic
+		if self.parent:
+			self.parent.gen_s2c_warrior_skillbegin(self.send_list,actor['id'],skill_id,skill_lv,0,dst_list);
 		return
 	def gen_s2c_warrior_skillend(self,actor,skill_id,skill_lv):
 		print "combat s2c skillend %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
 		#S2C_WAR_PERFORM_END
+		if self.parent:
+			self.parent.gen_s2c_warrior_skillend(self.send_list,actor['id']);
+		#
 		return
 	def gen_s2c_warrior_attackbegin(self,actor,dst):
 		#todo need code
 		print "combat s2c attackbegin %s %s %s"%(actor['pos'],actor['group'],dst);
 		#S2C_WAR_ATTACK_NORMAL att vic
+		if self.parent:
+			self.parent.gen_s2c_warrior_attackbegin(self.send_list,actor['id'],dst);
 		return
 	def gen_s2c_warrior_attackend(self,actor):
 		#todo need code
 		print "combat s2c attackend %s %s"%(actor['pos'],actor['group']);
 		#S2C_WAR_ATTACK_END
+		if self.parent:
+			self.parent.gen_s2c_warrior_attackend(self.send_list,actor['id']);
 		return
 	def gen_s2c_warrior_buffcd_change(self,actor,buffobj):
 		print "combat s2c buffcd change %s %s %s %s %s"%(actor['pos'],actor['group'],buffobj.id,buffobj.bid,buffobj.cd)
 		return
-	def gen_s2c_warrior_propchg(self,old_prop,new_prop,actor,b_crack,skill_id,skill_lv):
+	def gen_s2c_warrior_propchg(self,old_prop,new_prop,damage,actor,b_crack,skill_id,skill_lv,b_skill = False):
 		#gen s2c netpacket
 		print "combat s2c warrior propchg %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,b_crack,old_prop,new_prop);
 		print "newhp,oldhp,dead:%s %s %s"%(new_prop['hp'],old_prop['hp'],new_prop['dead'])
+		if not b_skill and damage == 0:
+			return;
 		#S2C_WAR_ATTACK_STATUS target status value
+		######
+		#//status1
+        global War_AttackedBehave_Normal
+        global War_AttackedBehave_Hit
+        global War_AttackedBehave_Defence
+        global War_AttackedBehave_Dodge
+        #
+        global War_AttackedBehave_BLOOD
+        #status2
+        global War_AttackType_Crack
+        #status3
+        global War_AttackedResult_Normal
+        global War_AttackedResult_Dead
+        global War_AttackedResult_FlyAway
+        global War_AttackedResult_Revive
+        #let status1:number = status & 0x3;//
+        #let status2:number = status & 0x4;
+        #status2 = status2 >> 2;//bcrack
+        #
+        #let status4:number = status & 0x8;
+        #status4 = status4 >> 3;
+        #
+        #let status3:number = status & 0xF0;
+        #status3 = status3 >> 4;
+		######
+		status = 0;
+		if b_crack:
+			status = status | (War_AttackType_Crack << 2);
+		if new_prop['kickout']:
+			if not old_prop['kickout']:
+				status = status | (War_AttackedResult_FlyAway << 4);
+		else if new_prop['dead']:
+			if not old_prop['dead']:
+				status = status | (War_AttackedResult_Dead << 4);
+		else:
+			if old_prop['dead'] and not new_prop['dead']:
+				status = status | (War_AttackedResult_Revive << 4);
+
+		status = status | War_AttackedBehave_Hit;
+		if self.parent:#todo
+			self.parent.gen_s2c_warrior_propchg(self.send_list,actor['id'],status,damage);
 		return
 	def gen_s2c_warrior_dodge(self,actor,skill_id,skill_lv):
 		#gen s2c netpacket
 		#todo need code
+		global War_AttackedBehave_Dodge
+		status = 0;
+		status = status | War_AttackedBehave_Dodge;
 		print "combat s2c warrior dodge %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
+		if self.parent:#todo
+			self.parent.gen_s2c_warrior_propchg(self.send_list,actor['id'],status,0);
 		return
 	def gen_s2c_warrior_addbuff(self,actor,buffobj,skill_id,skill_lv):
 		print "combat s2c warrior addbuff %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,buffobj.id,buffobj.bid,buffobj.cd)
@@ -98,34 +210,44 @@ class combat(object):
 		#todo need code
 		print "combat s2c warrior status %s %s %s %s"%(actor['pos'],actor['group'], actor['hp'],actor['hpmax']);
 		#S2C_WAR_STATUS id hprate
+		if self.parent:
+			self.parent.gen_s2c_warrior_status(self.send_list,actor['id'],actor['hp']*1000/actor['hpmax']);
 		return
-	def gen_s2c_warrior_partnerattack(self,actor,partner,vic):
+	def gen_s2c_warrior_partnerattack(self,actor,vic):
 		#todo need code
-		print "combat s2c warrior partnerattack %s %s %s %s"%(actor['pos'],actor['group'],partner,vic);
+		print "combat s2c warrior partnerattack %s %s %s"%(actor['pos'],actor['group'],vic);
 		#S2C_WAR_PARTNER_ATTACK partner vic
+		if self.parent:
+			self.parent.gen_s2c_warrior_partnerattack(self.send_list,actor['id'],vic);
 		return
 	def gen_s2c_warrior_backattackbegin(self,actor,skill_id,skill_lv,dst_list):
 		print "combat s2c backattackbegin %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,dst_list)
 		#S2C_WAR_BACKATTACK att skillid lv round lsvic
+		if self.parent:
+			self.parent.gen_s2c_warrior_backattackbegin(self.send_list,actor['id'],skill_id,skill_lv,0,dst_list);
 		return
 	def gen_s2c_warrior_backattackend(self,actor,skill_id,skill_lv):
 		print "combat s2c backattackend %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
 		#S2C_WAR_BACKATTACK_END
+		if self.parent:
+			self.parend.gen_s2c_warrior_backattackend(self.send_list,actor['id']);
 		return
 	def gen_s2c_warrior_shake(self,actor,vic):
 		#todo need code
 		print "combat s2c warrior shake %s %s %s"%(actor['pos'],actor['group'],vic);
 		#S2C_WAR_SHAKE att vic
+		if self.parent:
+			self.parent.gen_s2c_warrior_shake(self.send_list,actor['id'],vic);
 		return
 	def gen_s2c_warrior_protect(self,actor,vic):
 		#todo need code
 		print "combat s2c warrior protect %s %s %s"%(actor['pos'],actor['group'],vic);
 		#S2C_WAR_PROTECT protector vic
+		if self.parent:
+			self.parent.gen_s2c_warrior_protect(self.send_list,actor['id'],vic);
 		return
 	###send s2c packet end
-	def gen_buff_id(self):
-		self.buff_id_begin += 1;
-		return self.buff_id_begin;
+	
 	def addwarrior(self,obj):
 		if self.fighters.has_key(obj['id']):
 			return 
@@ -134,6 +256,8 @@ class combat(object):
 			self.act_list.append(obj);
 		else:
 			self.pas_list.append(obj);
+		self.send_list.append(obj['id']);
+
 		self.fighters[obj['pos']] = obj;
 		self.gen_s2c_addwarrior(obj);
 		self.gen_s2c_warrior_status(obj);
@@ -156,8 +280,8 @@ class combat(object):
 		return actor['group'] == enemy['group'];
 	def is_warrior_dead(self,obj):
 		return obj.get('dead',False)
-	def is_warrior_autodel(self,obj):
-		return obj.get('autodel',False)
+	def is_warrior_kickout(self,obj):
+		return obj.get('kickout',False)
 	def is_side_alldead(self,b_act = True):
 		all_dead = True;
 		lst = self.act_list;
@@ -168,10 +292,12 @@ class combat(object):
 				all_dead = False;
 				break;
 		return all_dead;
-	def is_end(self):
+	def check_end(self):
 		if self.is_side_alldead(True) or self.is_side_alldead(False):
 			return True
 		return False
+	def is_end(self):
+		return self.b_is_end;
 	
 	def calc_passive_effect(self,actor):
 		#todo
@@ -179,8 +305,9 @@ class combat(object):
 			eff = j.get_effect();
 			if eff and len(eff) > 0:
 				restore_prop = actor.get_restoreprop();
+				damage = 0;
 				exec(eff);
-				self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),actor,False,j.sid,j.slv);
+				self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),damage,actor,False,j.sid,j.slv);
 		return
 	def execute_fighter_buff(self,actor,buffobj,b_immed = False):
 		if b_immed:
@@ -192,8 +319,9 @@ class combat(object):
 		eff = buffobj.get_effect();
 		if eff and len(eff) > 0:
 			restore_prop = actor.get_restoreprop();
+			damage = 0;
 			exec(eff);
-			self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),actor,False,buffobj.bid,-1);
+			self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),damage,actor,False,buffobj.bid,-1);
 		return
 	def reset_allfighter_extra_prop(self):
 		for k,v in self.fighters.items():
@@ -207,6 +335,7 @@ class combat(object):
 		actor.reset_orgprop();
 		self.calc_passive_effect(actor);
 		self.calc_buff_extraprop(actor);
+		self.gen_s2c_warrior_status(actor);
 		return
 	def execute_buff_turneffect(self):# only calc 
 		#todo
@@ -293,27 +422,33 @@ class combat(object):
 		basecrk = basecrk + crk - crkdef;
 		crknum = random.randint(0,10000);
 		b_crack = False;
+		value = 0;
 		if crknum <= basecrk:
 			damage = damage*2;#twice damage;
 			b_crack = True;
 		damage = int(damage);
 		if skill_obj.is_attacktype():
 			hp = enemy['hp'];
-			hp -= damage;
+			hp -= damage; = damage;
+			value = damage;
 			if hp <= 0:
 				enemy['hp'] = 0;
-				enemy['dead'] = True;
+				if enemy['cankickout']:
+					enemy['kickout'] = True;
+				else:
+					enemy['dead'] = True;
 			else:
 				enemy['hp'] = hp;
 		else:
 			hp = enemy['hp'];
 			hp += damage;
+			value = 0-damage;
 			hpmax = enemy['hpmax'];
 			if hp > hpmax:
 				hp = hpmax;
 			enemy['hp'] = hp;
-		self.gen_s2c_warrior_propchg(actor_prop,actor.get_restoreprop(),actor,False,skill_obj.sid,skill_obj.slv);
-		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),enemy,b_crack,skill_obj.sid,skill_obj.slv);
+		self.gen_s2c_warrior_propchg(actor_prop,actor.get_restoreprop(),value,actor,False,skill_obj.sid,skill_obj.slv,True);
+		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,skill_obj.sid,skill_obj.slv,True);
 		b_recalc_buff_effect = False;
 		for i in skill_obj.dst_buff_list:
 			buffobj = i[0];
@@ -365,6 +500,7 @@ class combat(object):
 				continue
 			enemy = self.fighters[i];
 			self.warrior_doskill(actor,enemy,skill_obj,damage*damagerate,revive);
+
 		b_recalc_buff_effect = False;
 		for i in skill_obj.src_buff_list:
 			buffobj = i[0];
@@ -391,6 +527,10 @@ class combat(object):
 		if b_recalc_buff_effect:
 			self.reset_fighter_extra_prop(actor);
 		self.gen_s2c_warrior_skillend(actor,sid,slv);
+		for i in dst_list:
+			enemy = self.fighters[i];
+			if enemy['kickout']:
+				self.delwarrior(i);
 		return
 	def warrior_addwarrior(self,actor,cmd_data):
 		warrior_data = cmd_data;
@@ -400,13 +540,15 @@ class combat(object):
 		self.addwarrior(warrior_data);
 		return
 	def warrior_act(self,obj):
-		cmd = obj.get('cmd',0);
+		cmd = obj.get('cmd',COMBATCMD_ATTACK);
 		cmd_data = obj.get('cmd_data',None);
 		if cmd == COMBATCMD_ATTACK:
 			self.warrior_attack(obj,cmd_data);
 		elif cmd == COMBATCMD_ADDWARRIOR:
 			self.warrior_addwarrior(obj,cmd_data);
-		obj['cmd'] = 0;
+		else:
+			self.warrior_attack(obj,cmd_data);
+		obj['cmd'] = COMBATCMD_ATTACK;
 		return
 	def do_allwarrior_cmd(self):
 		for i in self.order:
@@ -416,45 +558,55 @@ class combat(object):
 			if self.is_warrior_dead(actor):
 				continue;
 			self.warrior_act(actor);
-			self.check_autodel_warrior();
-			if self.is_end():
+			if self.check_end():
 				return;
 		return
 	def delwarrior(self,pos):
 		if self.fighters.has_key(pos) == False:
 			return
-		delwarrior = self.fighters[pos];
-		self.gen_s2c_delwarrior(delwarrior);
+		delw = self.fighters[pos];
+		self.gen_s2c_delwarrior(delw);
 		del self.fighters[pos];
 		for i in self.act_list:
-			if i == delwarrior:
+			if i == delw:
 				self.act_list.remove(i);
 				break;
 		for i in self.pas_list:
-			if i == delwarrior:
+			if i == delw:
 				self.pas_list.remove(i);
 				break;
 		return
-	def check_autodel_warrior(self):
-		for k,v in self.fighters.items():
-			if self.is_warrior_dead(v) and self.is_warrior_autodel(v):
-				self.delwarrior(k);
+	
+	def tick_1s(self):
+		if self.wait_cmd_curtm >= 0:
+			self.wait_cmd_curtm -= 1;
+			if self.wait_cmd_curtm < 0:
+				self.on_turn();
 		return
 	def on_turn_doing(self):
 		return
 	def on_turn(self):
-		if self.is_end():
+		if self.check_end():
+			if not self.b_is_end:
+				self.b_is_end = True;
+				self.end();
 			return
 		self.on_turn_doing();
 		self.gen_s2c_turn_start();
 		self.reset_allfighter_extra_prop();
 		self.execute_buff_turneffect();
-		self.check_autodel_warrior();
-		if self.is_end():
+		if self.check_end():
 			self.gen_s2c_turn_end();
+			self.b_is_end = True;
+			self.end();
 			return
 		self.init_order();
 		self.do_allwarrior_cmd();
 		self.process_buff_cd();
 		self.gen_s2c_turn_end();
+		if self.check_end():
+			self.b_is_end = True;
+			self.end();
+			return
+		self.curbout = self.curbout + 1;
 		return

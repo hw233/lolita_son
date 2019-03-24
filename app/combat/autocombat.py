@@ -11,16 +11,7 @@ class autocombat(combat.combat):
         super(autocombat,self).__init__();
         return
     def get_autoskill_dst(self,actor):
-        group = actor['group'];
-        pos_map = None;
-        if group == 0:
-            pos_map = combat.COMBAT_POS_MAP[1];
-        else:
-            pos_map = combat.COMBAT_POS_MAP[0];
-        for i in pos_map:
-            if self.fighters.has_key(i) and (not self.is_warrior_dead(self.fighters[i])):
-                return i;
-        return None;
+        return self.get_default_dst(actor);
     def on_turn_doing(self):
         for k,v in self.fighters.items():
             if self.is_warrior_dead(v):

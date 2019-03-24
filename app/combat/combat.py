@@ -247,7 +247,17 @@ class combat(object):
 			self.parent.gen_s2c_warrior_protect(self.send_list,actor['id'],vic);
 		return
 	###send s2c packet end
-	
+	def get_default_dst(self,actor):
+        group = actor['group'];
+        pos_map = None;
+        if group == 0:
+            pos_map = combat.COMBAT_POS_MAP[1];
+        else:
+            pos_map = combat.COMBAT_POS_MAP[0];
+        for i in pos_map:
+            if self.fighters.has_key(i) and (not self.is_warrior_dead(self.fighters[i])):
+                return i;
+        return None;
 	def addwarrior(self,obj):
 		if self.fighters.has_key(obj['id']):
 			return 
@@ -478,12 +488,23 @@ class combat(object):
 		return
 	def warrior_attack(self,obj,atk_data):
 		#todo
-		sid = atk_data['sid'];
-		slv = atk_data['slv'];
-		dst = atk_data['dst'];
+		sid = 1;
+		slv = 1;
+		dst = None;
+		if atk_data:
+			sid = atk_data['sid'];
+			slv = atk_data['slv'];
+			dst = atk_data['dst'];
+		else:
+			dst = self.get_default_dst(obj);
+			if dst == None:
+				return;
 		skill_obj = skill.create_skill(sid,slv);
 		actor = obj;
 		enemy = self.get_fighter(dst);
+		if enemy == None:
+			return;
+
 		dst_list = self.get_dst_list(actor,enemy,skill_obj);
 		if len(dst_list) <= 0:
 			return
@@ -493,7 +514,8 @@ class combat(object):
 		revive = 0;
 
 		eff = skill_obj.get_effect();
-		exec(eff);
+		if eff != None and len(eff) > 0:
+			exec(eff);
 
 		for i in dst_list:
 			if self.fighters.has_key(i) == False:

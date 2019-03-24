@@ -4,7 +4,7 @@ Created on 2018-1-26
 
 @author: xiaomi
 '''
-import app.config.buff as buffconfig
+import app.config.simplebuff as buffconfig
 class buff(object):
 	def __init__(self,bid,cd = 0,inst_id = 0):
 		self.bid = bid;

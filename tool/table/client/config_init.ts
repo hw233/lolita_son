@@ -2,9 +2,9 @@ module config{
 export function config_init(config_obj:Object):void{
 	assist_info_map_init(config_obj);
 	randomname_map_init(config_obj);
-	cardbuff_map_init(config_obj);
-	cardskill_map_init(config_obj);
-	cardskillpassive_map_init(config_obj);
+	simplebuff_map_init(config_obj);
+	simpleskill_map_init(config_obj);
+	simpleskillpassive_map_init(config_obj);
 	item_map_init(config_obj);
 	itemmerge_map_init(config_obj);
 	player_exp_map_init(config_obj);

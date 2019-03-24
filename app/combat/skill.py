@@ -4,7 +4,7 @@ Created on 2018-1-26
 
 @author: xiaomi
 '''
-import app.config.skill as skillconfig
+import app.config.simpleskill as skillconfig
 import buff
 class skill(object):
 	def __init__(self,sid,slv):

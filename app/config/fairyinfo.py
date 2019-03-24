@@ -53,8 +53,10 @@ fairyinfo_map[128] = {"id":128,"aid":50016,};
 fairyinfo_map[129] = {"id":129,"aid":50017,};
 fairyinfo_map[130] = {"id":130,"aid":50018,};
 fairyinfo_map[131] = {"id":131,"aid":50019,};
-fairyinfo_map[132] = {"id":132,"aid":50016,};
-fairyinfo_map[133] = {"id":133,"aid":50016,};
+fairyinfo_map[132] = {"id":132,"aid":50020,};
+fairyinfo_map[133] = {"id":133,"aid":50021,};
+fairyinfo_map[134] = {"id":134,"aid":50022,};
+fairyinfo_map[135] = {"id":135,"aid":50023,};
 
 
 class Fairyinfo:

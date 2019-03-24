@@ -33,9 +33,15 @@ winginfo_map[128] = {"id":128,"aid":40016,};
 winginfo_map[129] = {"id":129,"aid":40017,};
 winginfo_map[130] = {"id":130,"aid":40018,};
 winginfo_map[131] = {"id":131,"aid":40019,};
-winginfo_map[132] = {"id":132,"aid":40020,};
-winginfo_map[133] = {"id":133,"aid":40020,};
+winginfo_map[132] = {"id":132,"aid":40021,};
+winginfo_map[133] = {"id":133,"aid":40022,};
 winginfo_map[134] = {"id":134,"aid":40020,};
+winginfo_map[135] = {"id":135,"aid":40023,};
+winginfo_map[136] = {"id":136,"aid":40024,};
+winginfo_map[137] = {"id":137,"aid":40025,};
+winginfo_map[138] = {"id":138,"aid":40026,};
+winginfo_map[139] = {"id":139,"aid":40027,};
+winginfo_map[140] = {"id":140,"aid":40028,};
 
 
 class Winginfo:

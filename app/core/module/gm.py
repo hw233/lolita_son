@@ -32,6 +32,7 @@ class gm_main(app.base.game_module_mgr.game_module):
 			data['team2'] = [cId];
 			GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
 		elif gm_cmd == "lvup":
+			print "_parse_gm_cmd lvup"
 			roledata = memmode.tb_character_admin.getObj(cId);
 			if not roledata:
 				return
@@ -47,6 +48,7 @@ class gm_main(app.base.game_module_mgr.game_module):
 		dId = ud["dId"];
 		cId = ud["cId"];
 		data = ud["data"];
+		print "gm on_chat_gm %d %d %s"%(dId,cId,str(data));
 		game_ins = self.get_module(game_module_def.GAME_MAIN);
 		if not game_ins._is_cId_valid(cId):
 			return

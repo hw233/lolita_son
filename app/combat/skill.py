@@ -43,7 +43,7 @@ class skill(object):
 						ret.append([j,brate]);
 		return ret
 	def init(self):
-		skilldata = skillconfig.create_Skill(self.sid);
+		skilldata = skillconfig.create_Simpleskill(self.sid);
 		for i in skilldata.skilldata:
 			if i['lv'] == self.slv:
 				self.min_dstcnt = i['targetmin'];

@@ -16,7 +16,7 @@ class buff(object):
 		self.init();
 		return
 	def init(self):
-		bufdata = buffconfig.create_Buff(self.bid);
+		bufdata = buffconfig.create_Simplebuff(self.bid);
 		self.effect = bufdata.effect;
 		self.groupid = bufdata.group;
 		self.btype = bufdata.btype;

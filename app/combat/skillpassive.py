@@ -14,7 +14,7 @@ class skillpassive(object):
         self.init();
         return
     def init(self):
-        skilldata = skillpassiveconfig.create_Skillpassive(self.sid);
+        skilldata = skillpassiveconfig.create_Simpleskillpassive(self.sid);
         for i in skilldata.skilldata:
             if i['lv'] == self.slv:
                 self.effect = i['effect'];

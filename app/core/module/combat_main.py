@@ -106,7 +106,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		
 		team1 = data['team1'];
 		team2 = data['team2'];
-		combat_inst = app.combat.combat.combat();.parent = self;
+		combat_inst = app.combat.combat.combat();
 		combat_inst.parent = self;
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
 		pos_idx = 0;
@@ -146,7 +146,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['hpmax'] = staminia*3;
 			w_inst['atk'] = spirit*2;
 			w_inst['spd'] = dex*2;
-			
+
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
 		combat_inst.start();

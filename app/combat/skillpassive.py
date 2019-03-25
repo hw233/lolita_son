@@ -4,7 +4,7 @@ Created on 2018-1-29
 
 @author: xiaomi
 '''
-import app.config.cardskillpassive as skillpassiveconfig
+import app.config.simpleskillpassive as skillpassiveconfig
 class skillpassive(object):
     def __init__(self,sid,slv):
         self.sid = sid;

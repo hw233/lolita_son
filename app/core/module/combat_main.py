@@ -187,7 +187,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		print "combat s2c end"
 		
 		#S2C_WAR_END force
-		self._send2clientbycidlist(S2C_WAR_PROTECT,S2C_WAR_END,{"force":force});
+		self._send2clientbycidlist(S2C_WAR_END,wid_list,{"force":force});
 		return
 	def gen_s2c_turn_start(self,wid_list,bout):
 		print "combat s2c turn start"

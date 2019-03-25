@@ -251,7 +251,8 @@ class combat(object):
 			self.act_list.append(obj);
 		else:
 			self.pas_list.append(obj);
-		self.send_list.append(obj['id']);
+		if obj['id'] not in self.send_list:
+			self.send_list.append(obj['id']);
 
 		self.fighters[obj['pos']] = obj;
 		self.gen_s2c_addwarrior(obj);

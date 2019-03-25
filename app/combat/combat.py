@@ -62,7 +62,7 @@ class combat(object):
 		return self.buff_id_begin;
 	###send s2c packet start
 	def gen_s2c_combat_start(self):
-		print "combat s2c start"
+		print "combat s2c start %s"%(self.parent);
 		#S2C_WAR_START id type subtype lineup playmode skip maxbout
 		if self.parent:
 			for i in self.act_list:

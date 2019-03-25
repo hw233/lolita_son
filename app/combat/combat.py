@@ -30,7 +30,7 @@ War_AttackedResult_Normal = 0;
 War_AttackedResult_Dead = 1;
 War_AttackedResult_FlyAway = 2;
 War_AttackedResult_Revive = 4;
-        
+		
 COMBAT_START_ID = 0;
 class combat(object):
 	def __init__(self):
@@ -143,18 +143,18 @@ class combat(object):
 		print "newhp,oldhp,dead:%s %s %s"%(new_prop['hp'],old_prop['hp'],new_prop['dead'])
 		if not b_skill and damage == 0:
 			return;
-        global War_AttackedBehave_Normal
-        global War_AttackedBehave_Hit
-        global War_AttackedBehave_Defence
-        global War_AttackedBehave_Dodge
-        global War_AttackedBehave_BLOOD
-        global War_AttackType_Crack
-        global War_AttackedResult_Normal
-        global War_AttackedResult_Dead
-        global War_AttackedResult_FlyAway
-        global War_AttackedResult_Revive
-        status = 0;
-        if b_crack:
+		global War_AttackedBehave_Normal
+		global War_AttackedBehave_Hit
+		global War_AttackedBehave_Defence
+		global War_AttackedBehave_Dodge
+		global War_AttackedBehave_BLOOD
+		global War_AttackType_Crack
+		global War_AttackedResult_Normal
+		global War_AttackedResult_Dead
+		global War_AttackedResult_FlyAway
+		global War_AttackedResult_Revive
+		status = 0;
+		if b_crack:
 			status = status | (War_AttackType_Crack << 2);
 		if new_prop['kickout'] == True:
 			if not old_prop['kickout']:
@@ -232,16 +232,16 @@ class combat(object):
 		return
 	###send s2c packet end
 	def get_default_dst(self,actor):
-        group = actor['group'];
-        pos_map = None;
-        if group == 0:
-            pos_map = combat.COMBAT_POS_MAP[1];
-        else:
-            pos_map = combat.COMBAT_POS_MAP[0];
-        for i in pos_map:
-            if self.fighters.has_key(i) and (not self.is_warrior_dead(self.fighters[i])):
-                return i;
-        return None;
+		group = actor['group'];
+		pos_map = None;
+		if group == 0:
+			pos_map = combat.COMBAT_POS_MAP[1];
+		else:
+			pos_map = combat.COMBAT_POS_MAP[0];
+		for i in pos_map:
+			if self.fighters.has_key(i) and (not self.is_warrior_dead(self.fighters[i])):
+				return i;
+		return None;
 	def addwarrior(self,obj):
 		if self.fighters.has_key(obj['id']):
 			return 

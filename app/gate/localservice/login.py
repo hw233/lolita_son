@@ -135,6 +135,7 @@ def selectrole_276(key,dynamicId,request_proto):
     SceneSerManager().addClient(scenenode, dynamicId)
 
     GlobalObject().root.callChild("chat",1,dynamicId, rid)
+    GlobalObject().root.callChild("combat",1,dynamicId,rid)
 
     response = {}
     buf = netutil.s2c_data2buf("S2C_LOGIN_SELECTROLE",response)

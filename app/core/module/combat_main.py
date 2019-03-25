@@ -219,7 +219,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 	def gen_s2c_delwarrior(self,wid_list,wid):
 		print "combat s2c delwarrior %s"%(wid)
 		#S2C_WAR_LEAVE id
-		self._send2clientbycidlist(S2C_WAR_LEAVE,wid_list,{"id":wid});
+		self._send2clientbycidlist(S2C_WAR_LEAVE,wid_list,{"warid":wid});
 		return
 	def gen_s2c_warrior_skillbegin(self,wid_list,wid,skill_id,skill_lv,rd,dst_list):
 		print "combat s2c skillbegin %s %s %s %s"%(wid,skill_id,skill_lv,dst_list)
@@ -277,7 +277,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		#todo need code
 		print "combat s2c warrior status %s %s "%(wid,hprate);
 		#S2C_WAR_STATUS id hprate
-		self._send2clientbycidlist(S2C_WAR_STATUS,wid_list,{"id":wid,'hprate':hprate});
+		self._send2clientbycidlist(S2C_WAR_STATUS,wid_list,{"warid":wid,'hprate':hprate});
 		return
 	def gen_s2c_warrior_partnerattack(self,wid_list,wid,vic):
 		#todo need code

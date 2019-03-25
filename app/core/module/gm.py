@@ -20,18 +20,18 @@ class gm_main(app.base.game_module_mgr.game_module):
 		return
 	def _parse_gm_cmd(self,params,dId,cId):
 		gm_cmd = params[0];
-		if gm_cmd == "addgold":
+		if gm_cmd == "$addgold":
 			if len(params) > 1:
 				game_ins = self.get_module(game_module_def.GAME_MAIN);
 				count = int(params[1]);
 				if game_ins._add_gold(dId,cId,count):
 					game_ins._push_role_info(dId,cId);
-		elif gm_cmd == "fightself":
+		elif gm_cmd == "$fightself":
 			data = {};
 			data['team1'] = [cId];
 			data['team2'] = [cId];
 			GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
-		elif gm_cmd == "lvup":
+		elif gm_cmd == "$lvup":
 			print "_parse_gm_cmd lvup"
 			roledata = memmode.tb_character_admin.getObj(cId);
 			if not roledata:

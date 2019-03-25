@@ -125,7 +125,7 @@ class WebSocketLiberateProtocol(LiberateProtocol):
             if opcode == 0x8:
                 print 'protoc quit';
                 #self.transport.loseConnection()
-                return;
+                #return;
             self.buff = self.parsepacketfrombuff(self.buff,buff_len);
             ######################
             #use_len, c_buff = self.parse_buff(self.buff, buff_len);

@@ -123,9 +123,9 @@ class WebSocketLiberateProtocol(LiberateProtocol):
                 log.err('warning !! fin is zero')
             opcode = self.get_opcode(self.buff);
             if opcode == 0x8:
-                log.msg('protoc quit ');
-                self.transport.loseConnection()
-                break;
+                log.msg('protoc quit');
+                #self.transport.loseConnection()
+                return;
             self.buff = self.parsepacketfrombuff(self.buff,buff_len);
             ######################
             #use_len, c_buff = self.parse_buff(self.buff, buff_len);

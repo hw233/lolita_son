@@ -125,6 +125,8 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['hpmax'] = staminia*3;
 			w_inst['atk'] = spirit*2;
 			w_inst['spd'] = dex*2;
+			w_inst['name'] = c_info["nickname"];
+			w_inst['shape'] = c_info["figure"];
 			
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;

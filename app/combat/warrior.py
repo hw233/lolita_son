@@ -22,7 +22,7 @@ class warrior(combatbase.combatbase):
 		else:
 			self['group'] = 1;
 		self['shape'] = 101;
-		self.['name'] = str(self.m_id);
+		self['name'] = str(self.m_id);
 		return
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];

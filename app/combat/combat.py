@@ -143,34 +143,18 @@ class combat(object):
 		print "newhp,oldhp,dead:%s %s %s"%(new_prop['hp'],old_prop['hp'],new_prop['dead'])
 		if not b_skill and damage == 0:
 			return;
-		#S2C_WAR_ATTACK_STATUS target status value
-		######
-		#//status1
         global War_AttackedBehave_Normal
         global War_AttackedBehave_Hit
         global War_AttackedBehave_Defence
         global War_AttackedBehave_Dodge
-        #
         global War_AttackedBehave_BLOOD
-        #status2
         global War_AttackType_Crack
-        #status3
         global War_AttackedResult_Normal
         global War_AttackedResult_Dead
         global War_AttackedResult_FlyAway
         global War_AttackedResult_Revive
-        #let status1:number = status & 0x3;//
-        #let status2:number = status & 0x4;
-        #status2 = status2 >> 2;//bcrack
-        #
-        #let status4:number = status & 0x8;
-        #status4 = status4 >> 3;
-        #
-        #let status3:number = status & 0xF0;
-        #status3 = status3 >> 4;
-		######
-		#
-		status = 0;
+        
+		status = 0
 		if b_crack:
 			status = status | (War_AttackType_Crack << 2);
 		if new_prop['kickout']:

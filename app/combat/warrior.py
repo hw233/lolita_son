@@ -9,7 +9,7 @@ import random
 import combatbase
 import skill
 import buff
-import cardskillpassive as skillpassive
+import skillpassive as skillpassive
 class warrior(combatbase.combatbase):
 	def __init__(self,wid,pos):
 		super(warrior,self).__init__();

@@ -31,6 +31,17 @@ class gm_main(app.base.game_module_mgr.game_module):
 			data['team1'] = [cId];
 			data['team2'] = [cId];
 			GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
+		elif gm_cmd == "lvup":
+			roledata = memmode.tb_character_admin.getObj(cId);
+			if not roledata:
+				return
+			roleinfo = roledata.get('data');
+			if not roleinfo:
+				return
+			lv = roleinfo["level"]
+			roledata.update_multi({"level":lv+1});
+			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
+			game_ins._push_role_info(dId,cId);
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

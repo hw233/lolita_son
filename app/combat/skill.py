@@ -45,19 +45,19 @@ class skill(object):
 	def init(self):
 		skilldata = skillconfig.create_Simpleskill(self.sid);
 		for i in skilldata.skilldata:
-			if i['lv'] == self.slv:
-				self.min_dstcnt = i['targetmin'];
-				self.max_dstcnt = i['targetmax'];
-				self.effect = i['effect'];
-				self.groupid = i['group'];
-				self.stype = i['stype'];
-				addbuff = i['addbuff'];
+			if i.get('lv',0) == self.slv:
+				self.min_dstcnt = i.get('targetmin',1);
+				self.max_dstcnt = i.get('targetmax',1);
+				self.effect = i.get('effect',"");
+				self.groupid = i.get('group',0);
+				self.stype = i.get('stype',0);
+				addbuff = i.get('addbuff',"");
 				self.dst_buff_list = self._parse_bufflist(addbuff,True)
-				clrbuff = i['clrbuff'];
+				clrbuff = i.get('clrbuff',"");
 				self.clr_dst_buff_list = self._parse_bufflist(clrbuff);
-				addbuffself = i['addbuffself'];
+				addbuffself = i.get('addbuffself',"");
 				self.src_buff_list = self._parse_bufflist(addbuffself,True);
-				clrbuffself = i['clrbuffself'];
+				clrbuffself = i.get('clrbuffself',"");
 				self.clr_src_buff_list = self._parse_bufflist(clrbuffself);
 				return;
 		return

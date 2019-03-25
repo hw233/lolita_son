@@ -153,9 +153,8 @@ class combat(object):
         global War_AttackedResult_Dead
         global War_AttackedResult_FlyAway
         global War_AttackedResult_Revive
-        
-		status = 0
-		if b_crack:
+        status = 0;
+        if b_crack:
 			status = status | (War_AttackType_Crack << 2);
 		if new_prop['kickout']:
 			if not old_prop['kickout']:

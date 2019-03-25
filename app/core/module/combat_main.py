@@ -149,6 +149,8 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['hpmax'] = staminia*3;
 			w_inst['atk'] = spirit*2;
 			w_inst['spd'] = dex*2;
+			w_inst['name'] = c_info["nickname"];
+			w_inst['shape'] = c_info["figure"];
 
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
@@ -188,6 +190,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		print "combat s2c end"
 		
 		#S2C_WAR_END force
+		self._send2clientbycidlist(S2C_WAR_PREEND,wid_list,{});
 		self._send2clientbycidlist(S2C_WAR_END,wid_list,{"force":force});
 		return
 	def gen_s2c_turn_start(self,wid_list,bout):

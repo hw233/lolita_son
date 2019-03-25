@@ -156,14 +156,14 @@ class combat(object):
         status = 0;
         if b_crack:
 			status = status | (War_AttackType_Crack << 2);
-		if new_prop['kickout']:
+		if new_prop['kickout'] == True:
 			if not old_prop['kickout']:
 				status = status | (War_AttackedResult_FlyAway << 4);
-		else if new_prop['dead']:
+		else if new_prop['dead'] == True:
 			if not old_prop['dead']:
 				status = status | (War_AttackedResult_Dead << 4);
 		else:
-			if old_prop['dead'] and not new_prop['dead']:
+			if old_prop['dead'] == True and not new_prop['dead']:
 				status = status | (War_AttackedResult_Revive << 4);
 
 		status = status | War_AttackedBehave_Hit;

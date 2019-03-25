@@ -169,6 +169,7 @@ class combat(object):
         #let status3:number = status & 0xF0;
         #status3 = status3 >> 4;
 		######
+		#
 		status = 0;
 		if b_crack:
 			status = status | (War_AttackType_Crack << 2);

@@ -11,9 +11,10 @@ import skill
 import buff
 import skillpassive as skillpassive
 class warrior(combatbase.combatbase):
-	def __init__(self,wid,pos):
+	def __init__(self,wid,pos,cid):
 		super(warrior,self).__init__();
 		self.m_id = wid;
+		self['cid'] = cid;
 		self['id'] = wid;
 		self.init_data();
 		self['pos'] = pos;

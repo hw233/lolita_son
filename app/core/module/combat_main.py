@@ -120,7 +120,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			staminia = c_info["staminia"];
 			spirit = c_info["spirit"];
 			dex = c_info["dex"];
-			w_inst = app.combat.warrior.warrior(i,team_pos[pos_idx]);
+			w_inst = app.combat.warrior.warrior(team_pos[pos_idx],team_pos[pos_idx],i);
 			w_inst['group'] = 0;
 			w_inst['hp'] = staminia*3;
 			w_inst['hpmax'] = staminia*3;
@@ -143,7 +143,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			staminia = c_info["staminia"];
 			spirit = c_info["spirit"];
 			dex = c_info["dex"];
-			w_inst = app.combat.warrior.warrior(i,team_pos[pos_idx]);
+			w_inst = app.combat.warrior.warrior(team_pos[pos_idx],team_pos[pos_idx],i);
 			w_inst['group'] = 1;
 			w_inst['hp'] = staminia*3;
 			w_inst['hpmax'] = staminia*3;

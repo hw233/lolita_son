@@ -66,9 +66,9 @@ class combat(object):
 		#S2C_WAR_START id type subtype lineup playmode skip maxbout
 		if self.parent:
 			for i in self.act_list:
-				self.parent.gen_s2c_combat_start(i['id'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playmode,self.skip,self.maxbout);
+				self.parent.gen_s2c_combat_start(i['cid'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playmode,self.skip,self.maxbout);
 			for i in self.pas_list:
-				self.parent.gen_s2c_combat_start(i['id'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playmode,self.skip,self.maxbout);
+				self.parent.gen_s2c_combat_start(i['cid'],self.combat_id,self.combat_type,self.combat_subtype,i['group'],self.playmode,self.skip,self.maxbout);
 		return
 	def gen_s2c_combat_end(self):
 		print "combat s2c end"
@@ -251,8 +251,8 @@ class combat(object):
 			self.act_list.append(obj);
 		else:
 			self.pas_list.append(obj);
-		if obj['id'] not in self.send_list:
-			self.send_list.append(obj['id']);
+		if obj['cid'] not in self.send_list:
+			self.send_list.append(obj['cid']);
 
 		self.fighters[obj['pos']] = obj;
 		self.gen_s2c_addwarrior(obj);

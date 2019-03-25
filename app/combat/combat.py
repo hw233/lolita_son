@@ -159,7 +159,7 @@ class combat(object):
 		if new_prop['kickout'] == True:
 			if not old_prop['kickout']:
 				status = status | (War_AttackedResult_FlyAway << 4);
-		else if new_prop['dead'] == True:
+		elif new_prop['dead'] == True:
 			if not old_prop['dead']:
 				status = status | (War_AttackedResult_Dead << 4);
 		else:

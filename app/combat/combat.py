@@ -423,7 +423,7 @@ class combat(object):
 		damage = int(damage);
 		if skill_obj.is_attacktype():
 			hp = enemy['hp'];
-			hp -= damage; = damage;
+			hp -= damage;
 			value = damage;
 			if hp <= 0:
 				enemy['hp'] = 0;

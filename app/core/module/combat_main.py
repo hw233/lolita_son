@@ -57,6 +57,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		GlobalObject().remote['gate'].callRemote("pushObject",cmd,buf, [dId])
 		return
 	def _send2clientbycidlist(self,cmd,cid_list,data):
+		print "combat_main _send2clientbycidlist %x %s"%(cmd,cid_list);
 		dId_list = [];
 		for i in cid_list:
 			dId = self._getdidbycid(i);

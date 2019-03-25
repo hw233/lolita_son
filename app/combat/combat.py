@@ -255,11 +255,16 @@ class combat(object):
 			self.send_list.append(obj['cid']);
 
 		self.fighters[obj['pos']] = obj;
-		self.gen_s2c_addwarrior(obj);
-		self.gen_s2c_warrior_status(obj);
+		
 		return
 	def start(self):
 		self.gen_s2c_combat_start();
+		for i in self.act_list:
+			self.gen_s2c_addwarrior(i);
+			self.gen_s2c_warrior_status(i);
+		for i in self.pas_list:
+			self.gen_s2c_addwarrior(i);
+			self.gen_s2c_warrior_status(i);
 		return
 	def end(self):
 		self.gen_s2c_combat_end();

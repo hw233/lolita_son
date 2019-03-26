@@ -13,6 +13,11 @@ import app.core.game_module_def as game_module_def
 
 import app.combat.combat
 import app.combat.warrior
+
+import app.config.fightgroup as fightgroup
+import app.config.fightconfig as fightconfig
+import app.config.fightdata as fightdata
+
 class combat_main(app.base.game_module_mgr.game_module):
 	def __init__(self):
 		super(combat_main,self).__init__();
@@ -99,7 +104,115 @@ class combat_main(app.base.game_module_mgr.game_module):
 		if self.character_map.has_key(cId):
 			del self.character_map[cId];
 		return
+	def _add_combatgroup_monster(self,combat_inst,group,pos_idx,cfgid,count,cnum):
+		if count <= 0:
+			return pos_idx;
+		hpstr = "";
+		attackstr = "";
+		speedstr = "";
+
+		cfightdata = fightdata.create_Fightdata(cfgid);
+		cfightconfig = None;
+		cfightnumconfig = None;
+
+		if cfightdata:
+			cfightconfig = fightconfig.create_Fightconfig(cfightdata.get("fight",0));
+			if cfightconfig:
+				mfcd = cfightconfig["data"];
+				for i in mfcd:
+					if i["num"] == cnum:
+						hpstr = i["hp"];
+						attackstr = i["attack"];
+						speedstr = i["speed"];
+						break;
+		if cfightdata and cfightconfig:
+			lv = cfightdata.get("lv",0);
+			name = cfightdata.get("mname",str(main));
+			shape = cfightdata.get("shape",1000);
+			hp = 1;
+			attack = 1;
+			speed = 1;
+			if len(hpstr) > 0:
+				exec("hp = "+hpstr);
+				hp = int(hp);
+			if len(attackstr) > 0:
+				exec("attack = "+attackstr);
+				attack = int(attack);
+			if len(speedstr) > 0:
+				exec("speed = "+speedstr);
+				speed = int(speed);
+
+			team_pos = app.combat.combat.COMBAT_POS_MAP[1];
+			for i in xrange(0,count):
+				if pos_idx >= len(team_pos):
+					break;
+				w_inst = app.combat.warrior.warrior(team_pos[pos_idx],team_pos[pos_idx],team_pos[pos_idx]);
+				pos_idx = pos_idx + 1;
+				w_inst['group'] = group;
+				w_inst['hp'] = hp;
+				w_inst['hpmax'] = hp;
+				w_inst['atk'] = attack;
+				w_inst['spd'] = speed;
+				w_inst['name'] = name;
+				w_inst['shape'] = shape;
+			
+				combat_inst.addwarrior(w_inst);
+		return pos_idx
 	def _combat_group(self,cid,group):
+		groupcfg = fightgroup.create_Fightgroup(group);
+		if not groupcfg:
+			return
+		group_data = groupcfg.get("data",None);
+		cfg = group_data[0];#todo
+		main = cfg.get("main",0);
+		mainnum = cfg.get("mainnum",0);
+		sub = cfg.get("sub",0);
+		subnum = cfg.get("subnum",0);
+		small = cfg.get("small",0);
+		smallnum = cfg.get("smallnum",0);
+		other = cfg.get("other",0);
+		othernum = cfg.get("othernum",0);
+		if mainnum + subnum + smallnum + othernum <= 0:
+			return
+
+		team1 = [cId];
+		combat_inst = app.combat.combat.combat();
+		combat_inst.parent = self;
+
+		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
+		
+		c_data = memmode.tb_character_admin.getObj(cId);
+		if not c_data:
+			log.msg('combat_main on_startcombat _combat_group fatal err %d'%(cId));
+			return;
+		c_info = c_data.get('data');
+		staminia = c_info["staminia"];
+		spirit = c_info["spirit"];
+		dex = c_info["dex"];
+		w_inst = app.combat.warrior.warrior(team_pos[0],team_pos[0],cId);
+		w_inst['group'] = 0;
+		w_inst['hp'] = staminia*3;
+		w_inst['hpmax'] = staminia*3;
+		w_inst['atk'] = spirit*2;
+		w_inst['spd'] = dex*2;
+		w_inst['name'] = c_info["nickname"];
+		w_inst['shape'] = c_info["figure"];
+		
+		combat_inst.addwarrior(w_inst);
+
+		pos_idx = 0;
+
+		pos_idx = self._add_combatgroup_monster(combat_inst,1,pos_idx,main,mainnum,1)
+		pos_idx = self._add_combatgroup_monster(combat_inst,1,pos_idx,sub,subnum,1)
+		pos_idx = self._add_combatgroup_monster(combat_inst,1,pos_idx,small,smallnum,1)
+		pos_idx = self._add_combatgroup_monster(combat_inst,1,pos_idx,other,othernum,1)
+
+		combat_inst.start();
+		while True:
+			#combat_inst.addwarriorcmd();
+			combat_inst.on_turn();
+			if combat_inst.is_end():
+				break;
 		return
 	def _combat_character(self,team1,team2):
 		combat_inst = app.combat.combat.combat();

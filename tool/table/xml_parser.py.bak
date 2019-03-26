@@ -173,7 +173,7 @@ def parseValueToStr(var_value, var_type = None):
 	str = "";
 	#print("[%s] [%s] [%s]" % (var_value, type(var_value), var_type));
 	if var_type == "int":
-		if var_value == None or len(var_value)<=0:
+		if var_value == None or var_value == "":
 			var_value = 0;
 		else:
 			try:
@@ -182,7 +182,7 @@ def parseValueToStr(var_value, var_type = None):
 				var_value = 0;
 		str = "%d" % var_value;
 	elif var_type == "float":
-		if var_value == None or len(var_value)<=0:
+		if var_value == None or var_value == "":
 			var_value = 0.0;
 		else:
 			try:

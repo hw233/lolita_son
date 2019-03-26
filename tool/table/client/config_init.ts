@@ -54,5 +54,14 @@ export function config_init(config_obj:Object):void{
 	cli_round_detail_cfg_map_init(config_obj);
 	skillperform_map_init(config_obj);
 	skillperformconfig_map_init(config_obj);
+	fightgroup_map_init(config_obj);
+	fightdata_map_init(config_obj);
+	fightconfig_map_init(config_obj);
+	fightaidefine_map_init(config_obj);
+	fightai_map_init(config_obj);
+	fightcombatai_map_init(config_obj);
+	fightdialog_map_init(config_obj);
+	fightdungeon_map_init(config_obj);
+	fightarray_map_init(config_obj);
 }
 }

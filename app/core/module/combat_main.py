@@ -98,15 +98,10 @@ class combat_main(app.base.game_module_mgr.game_module):
 		cId = ud["cId"];
 		if self.character_map.has_key(cId):
 			del self.character_map[cId];
-
 		return
-	def on_startcombat(self,ud):
-		dId = ud["dId"];
-		cId = ud["cId"];#发起者
-		data = ud["data"];#team1:[],team2:[]
-		
-		team1 = data['team1'];
-		team2 = data['team2'];
+	def _combat_group(self,cid,group):
+		return
+	def _combat_character(self,team1,team2):
 		combat_inst = app.combat.combat.combat();
 		combat_inst.parent = self;
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
@@ -160,6 +155,19 @@ class combat_main(app.base.game_module_mgr.game_module):
 			combat_inst.on_turn();
 			if combat_inst.is_end():
 				break;
+		return
+	def on_startcombat(self,ud):
+		dId = ud["dId"];
+		cId = ud["cId"];#发起者
+		data = ud["data"];#team1:[],team2:[]
+		tp = data['type'];
+		if tp == 0:
+			team1 = data['team1'];
+			team2 = data['team2'];
+			self._combat_character(team1,team2);
+		elif tp == 1:
+			group = data['group'];
+			self._combat_group(cId,group);
 		return
 	def on_endcombat(self,ud):
 		dId = ud["dId"];

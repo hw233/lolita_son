@@ -133,8 +133,8 @@ def parseExcelTable(excel_table, head_list, start_r, start_c, width, height, is_
 					var_name = head[:head.find("@")];
 					var_type = head[head.find("@") + 1:];
 				var_value = excel_table.cell(r, c).value;
-				if var_value == "":
-					continue
+				#if var_value == "":
+				#	continue
 				#print("var_value:[%s] var_type:[%s]" % (var_value, var_type));
 				var_str = parseValueToStr(var_value, var_type);
 				if isinstance(var_name, unicode):
@@ -168,10 +168,12 @@ def getRowHight(excel_table, start_r, col):
 # @param {string} var_type 
 # @params {string} 
 def parseValueToStr(var_value, var_type = None):
+	if var_value == None:
+		var_value ="";
 	str = "";
 	#print("[%s] [%s] [%s]" % (var_value, type(var_value), var_type));
 	if var_type == "int":
-		if var_value == None:
+		if var_value == None or var_value == "":
 			var_value = 0;
 		else:
 			try:
@@ -180,7 +182,14 @@ def parseValueToStr(var_value, var_type = None):
 				var_value = 0;
 		str = "%d" % var_value;
 	elif var_type == "float":
-		str = "%f" % float(var_value);
+		if var_value == None or var_value == "":
+			var_value = 0.0;
+		else:
+			try:
+				var_value = float(var_value);
+			except:
+				var_value = 0.0;
+		str = "%f" % var_value;
 	elif var_type == "string":
 		#print "var_type var_value:%s %s %s"%(var_type,var_value,type(var_value))
 		if isinstance(var_value, unicode):

@@ -28,9 +28,16 @@ class gm_main(app.base.game_module_mgr.game_module):
 					game_ins._push_role_info(dId,cId);
 		elif gm_cmd == "$fightself":
 			data = {};
+			data['type'] = 0;
 			data['team1'] = [cId];
 			data['team2'] = [cId];
 			GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
+		elif gm_cmd == "$fight":
+			if len(params) > 1:
+				data = {};
+				data['type'] = 1;
+				data['group'] = [int(params[1])];
+				GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
 		elif gm_cmd == "$lvup":
 			print "_parse_gm_cmd lvup"
 			roledata = memmode.tb_character_admin.getObj(cId);

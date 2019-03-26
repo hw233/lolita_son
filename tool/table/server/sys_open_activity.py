@@ -52,8 +52,8 @@ sys_open_activity_map["主城"] = {"sys_name":"主城","condition":"1.0","value"
 sys_open_activity_map["西游福利"] = {"sys_name":"西游福利","condition":"1.0","value":90,"isshow":1,"tips":"达到90级开启西游福利",};
 sys_open_activity_map["自动战斗"] = {"sys_name":"自动战斗","condition":"1.0","value":20,"isshow":1,"tips":"达到20级开启自动战斗",};
 sys_open_activity_map["聊天"] = {"sys_name":"聊天","condition":"1.0","value":0,"isshow":1,"tips":"达到1级开启聊天",};
-sys_open_activity_map["系统预告"] = {"sys_name":"系统预告","condition":"1.0","value":10,"isshow":0,};
-sys_open_activity_map["元宝转盘"] = {"sys_name":"元宝转盘","condition":"1.0","value":30,"isshow":0,};
+sys_open_activity_map["系统预告"] = {"sys_name":"系统预告","condition":"1.0","value":10,"isshow":0,"tips":"",};
+sys_open_activity_map["元宝转盘"] = {"sys_name":"元宝转盘","condition":"1.0","value":30,"isshow":0,"tips":"",};
 
 
 class Sys_open_activity:

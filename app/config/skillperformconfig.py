@@ -9,13 +9,13 @@ NOTE: Don't modify this file, it's build by xml-to-python!!!
 
 
 skillperformconfig_map = {};
-skillperformconfig_map[1] = {"skillid":1,"data":[{"skilllv":1,"config1":1,"config2":1,},],};
-skillperformconfig_map[2] = {"skillid":2,"data":[{"skilllv":1,"config1":2,"config2":2,},],};
+skillperformconfig_map[1] = {"skillid":1,"cryout":"","data":[{"skilllv":1,"config1":1,"config2":1,},],};
+skillperformconfig_map[2] = {"skillid":2,"cryout":"","data":[{"skilllv":1,"config1":2,"config2":2,},],};
 skillperformconfig_map[3] = {"skillid":3,"cryout":"群体攻击","data":[{"skilllv":1,"config1":3,"config2":4,},],};
 skillperformconfig_map[4] = {"skillid":4,"cryout":"群体魔法","data":[{"skilllv":1,"config1":5,"config2":5,},],};
 skillperformconfig_map[5] = {"skillid":5,"cryout":"测试技能","data":[{"skilllv":1,"config1":999,"config2":999,},],};
-skillperformconfig_map[107] = {"skillid":107,"data":[{"skilllv":1,"config1":161,"config2":161,},],};
-skillperformconfig_map[10001] = {"skillid":10001,"data":[{"skilllv":1,"config1":161,"config2":161,},],};
+skillperformconfig_map[107] = {"skillid":107,"cryout":"","data":[{"skilllv":1,"config1":161,"config2":161,},],};
+skillperformconfig_map[10001] = {"skillid":10001,"cryout":"","data":[{"skilllv":1,"config1":161,"config2":161,},],};
 skillperformconfig_map[1001] = {"skillid":1001,"cryout":"杀神斩","data":[{"skilllv":1,"config1":3,"config2":4,},],};
 skillperformconfig_map[1002] = {"skillid":1002,"cryout":"力劈华山","data":[{"skilllv":1,"config1":5,"config2":6,},],};
 skillperformconfig_map[1003] = {"skillid":1003,"cryout":"破釜沉舟","data":[{"skilllv":1,"config1":7,"config2":8,},],};

@@ -155,7 +155,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 				w_inst['spd'] = speed;
 				w_inst['name'] = name;
 				w_inst['shape'] = shape;
-			
+				w_inst.gen_orgprop();
 				combat_inst.addwarrior(w_inst);
 		return pos_idx
 	def _combat_group(self,cid,group):
@@ -196,7 +196,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		w_inst['spd'] = dex*2;
 		w_inst['name'] = c_info["nickname"];
 		w_inst['shape'] = c_info["figure"];
-		
+		w_inst.gen_orgprop();
 		combat_inst.addwarrior(w_inst);
 
 		pos_idx = 0;
@@ -235,7 +235,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
-			
+			w_inst.gen_orgprop();
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
 
@@ -258,7 +258,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
-
+			w_inst.gen_orgprop();
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
 		combat_inst.start();

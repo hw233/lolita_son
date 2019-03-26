@@ -117,7 +117,7 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		point = roleinfo["point"]
 		roledata.update_multi({"exp":exp,"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 		
-		self._push_role_info(0,cid):
+		self._push_role_info(0,cid);
 		return
 	def _sync_role_produce_reward(self,cId):
 		c_data = memmode.tb_character_admin.getObj(cId);

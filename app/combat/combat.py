@@ -448,7 +448,7 @@ class combat(object):
 			if hp > hpmax:
 				hp = hpmax;
 			enemy['hp'] = hp;
-		self.gen_s2c_warrior_propchg(actor_prop,actor.get_restoreprop(),value,actor,False,skill_obj.sid,skill_obj.slv,True);
+		#self.gen_s2c_warrior_propchg(actor_prop,actor.get_restoreprop(),value,actor,False,skill_obj.sid,skill_obj.slv,True);
 		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,skill_obj.sid,skill_obj.slv,True);
 		b_recalc_buff_effect = False;
 		for i in skill_obj.dst_buff_list:

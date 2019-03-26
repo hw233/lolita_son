@@ -162,16 +162,16 @@ class combat_main(app.base.game_module_mgr.game_module):
 		groupcfg = fightgroup.create_Fightgroup(group);
 		if not groupcfg:
 			return
-		group_data = groupcfg.get("data",None);
+		group_data = groupcfg["data"];
 		cfg = group_data[0];#todo
-		main = cfg.get("main",0);
-		mainnum = cfg.get("mainnum",0);
-		sub = cfg.get("sub",0);
-		subnum = cfg.get("subnum",0);
-		small = cfg.get("small",0);
-		smallnum = cfg.get("smallnum",0);
-		other = cfg.get("other",0);
-		othernum = cfg.get("othernum",0);
+		main = cfg["main"]
+		mainnum = cfg["mainnum"];
+		sub = cfg["sub"];
+		subnum = cfg["subnum"];
+		small = cfg["small"];
+		smallnum = cfg["smallnum"];
+		other = cfg["other"];
+		othernum = cfg["othernum"];
 		if mainnum + subnum + smallnum + othernum <= 0:
 			return
 

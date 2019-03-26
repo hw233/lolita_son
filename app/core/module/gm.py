@@ -46,8 +46,12 @@ class gm_main(app.base.game_module_mgr.game_module):
 			roleinfo = roledata.get('data');
 			if not roleinfo:
 				return
-			lv = roleinfo["level"]
-			roledata.update_multi({"level":lv+1});
+			lv = roleinfo["level"];
+			staminia = roleinfo["staminia"];
+			spirit = roleinfo["spirit"];
+			dex = roleinfo["dex"];
+			point = roleinfo["point"]
+			roledata.update_multi({"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
 			game_ins._push_role_info(dId,cId);
 		return

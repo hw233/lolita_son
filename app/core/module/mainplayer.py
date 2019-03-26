@@ -115,7 +115,7 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		spirit = c_info["spirit"];
 		dex = c_info["dex"];
 		point = c_info["point"];
-		roledata.update_multi({"exp":exp,"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
+		c_data.update_multi({"exp":exp,"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 		
 		self._push_role_info(0,cid);
 		return

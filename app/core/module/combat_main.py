@@ -116,7 +116,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		cfightnumconfig = None;
 
 		if cfightdata:
-			cfightconfig = fightconfig.create_Fightconfig(cfightdata.get("fight",0));
+			cfightconfig = fightconfig.create_Fightconfig(cfightdata.fight);
 			if cfightconfig:
 				mfcd = cfightconfig["data"];
 				for i in mfcd:
@@ -126,9 +126,9 @@ class combat_main(app.base.game_module_mgr.game_module):
 						speedstr = i["speed"];
 						break;
 		if cfightdata and cfightconfig:
-			lv = cfightdata.get("lv",0);
-			name = cfightdata.get("mname",str(main));
-			shape = cfightdata.get("shape",1000);
+			lv = cfightdata.lv;
+			name = cfightdata.mname;
+			shape = cfightdata.shape;
 			hp = 1;
 			attack = 1;
 			speed = 1;

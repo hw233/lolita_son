@@ -476,6 +476,7 @@ class combat(object):
 					self.gen_s2c_warrior_delbuff(enemy,delbuffobj);
 		if b_recalc_buff_effect:
 			self.reset_fighter_extra_prop(enemy);
+		self.gen_s2c_warrior_status(enemy);
 		return
 	def warrior_attack(self,obj,atk_data):
 		#todo

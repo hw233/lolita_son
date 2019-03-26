@@ -40,20 +40,8 @@ class gm_main(app.base.game_module_mgr.game_module):
 				GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
 		elif gm_cmd == "$lvup":
 			print "_parse_gm_cmd lvup"
-			roledata = memmode.tb_character_admin.getObj(cId);
-			if not roledata:
-				return
-			roleinfo = roledata.get('data');
-			if not roleinfo:
-				return
-			lv = roleinfo["level"];
-			staminia = roleinfo["staminia"];
-			spirit = roleinfo["spirit"];
-			dex = roleinfo["dex"];
-			point = roleinfo["point"]
-			roledata.update_multi({"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
-			game_ins._push_role_info(dId,cId);
+			game_ins.req_lvup(cId,False);
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

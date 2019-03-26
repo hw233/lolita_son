@@ -118,7 +118,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		if cfightdata:
 			cfightconfig = fightconfig.create_Fightconfig(cfightdata.fight);
 			if cfightconfig:
-				mfcd = cfightconfig["data"];
+				mfcd = cfightconfig.data;
 				for i in mfcd:
 					if i["num"] == cnum:
 						hpstr = i["hp"];

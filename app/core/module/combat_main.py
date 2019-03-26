@@ -162,7 +162,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		groupcfg = fightgroup.create_Fightgroup(group);
 		if not groupcfg:
 			return
-		group_data = groupcfg["data"];
+		group_data = groupcfg.data;
 		cfg = group_data[0];#todo
 		main = cfg["main"]
 		mainnum = cfg["mainnum"];

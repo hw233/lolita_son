@@ -175,21 +175,20 @@ class combat_main(app.base.game_module_mgr.game_module):
 		if mainnum + subnum + smallnum + othernum <= 0:
 			return
 
-		team1 = [cId];
 		combat_inst = app.combat.combat.combat();
 		combat_inst.parent = self;
 
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
 		
-		c_data = memmode.tb_character_admin.getObj(cId);
+		c_data = memmode.tb_character_admin.getObj(cid);
 		if not c_data:
-			log.msg('combat_main on_startcombat _combat_group fatal err %d'%(cId));
+			log.msg('combat_main on_startcombat _combat_group fatal err %d'%(cid));
 			return;
 		c_info = c_data.get('data');
 		staminia = c_info["staminia"];
 		spirit = c_info["spirit"];
 		dex = c_info["dex"];
-		w_inst = app.combat.warrior.warrior(team_pos[0],team_pos[0],cId);
+		w_inst = app.combat.warrior.warrior(team_pos[0],team_pos[0],cid);
 		w_inst['group'] = 0;
 		w_inst['hp'] = staminia*3;
 		w_inst['hpmax'] = staminia*3;

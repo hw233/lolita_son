@@ -36,7 +36,7 @@ class gm_main(app.base.game_module_mgr.game_module):
 			if len(params) > 1:
 				data = {};
 				data['type'] = 1;
-				data['group'] = [int(params[1])];
+				data['group'] = int(params[1]);
 				GlobalObject().remote['gate'].callRemote("startCombat",dId,cId,data);
 		elif gm_cmd == "$lvup":
 			print "_parse_gm_cmd lvup"

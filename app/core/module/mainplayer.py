@@ -111,10 +111,10 @@ class mainplayer(app.base.game_module_mgr.game_module):
 				self._float_msg(lang_config.LANG_NOTENOUGHEXP);
 				return
 			exp -= req_exp;
-		staminia = roleinfo["staminia"];
-		spirit = roleinfo["spirit"];
-		dex = roleinfo["dex"];
-		point = roleinfo["point"]
+		staminia = c_info["staminia"];
+		spirit = c_info["spirit"];
+		dex = c_info["dex"];
+		point = c_info["point"];
 		roledata.update_multi({"exp":exp,"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 		
 		self._push_role_info(0,cid);

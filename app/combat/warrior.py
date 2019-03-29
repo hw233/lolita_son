@@ -16,7 +16,36 @@ class warrior(combatbase.combatbase):
 		self.m_id = wid;
 		self['cid'] = cid;
 		self['id'] = wid;
-		self.init_data();
+		self['hp'] = 100;
+		self['hpmax'] = 100;
+		self['spd'] = 100;
+		self['sp'] = 100;
+		self['enegy'] = 100;
+		self['mp'] = 100;
+		self['atk'] = 100;
+		self['def'] = 0;
+		self['hit'] = 0;
+		self['dodge'] = 0;
+		self['crk'] = 0;
+		self['crkdef'] = 0;
+		self['crkdmgrate'] = 100;#暴击伤害，基础100%
+		self['crkdmgdefrate'] = 0;
+		self['dmgrate'] = 0;#伤害加深百分比,基础0%
+		self['dmgdefrate'] = 0;
+		self['absdmg'] = 0;#伤害加深绝对值
+		self['absdmgdef'] = 0;#无视伤害加深绝对值
+		self['ignoredef'] = 0;#无视防御绝对值
+		self['ignoredefdef'] = 0;#无视无视防御（无视减免)绝对值
+		self['skill'] = {};
+		self['buff'] = {};
+		self['passive'] = {};
+		self['pet'] = {};
+		self['dead'] = False;
+		self['group'] = 0;
+		self['pos'] = 0;
+		self['cankickout'] = False;
+		self['kickout'] = False;
+		
 		self['pos'] = pos;
 		if pos <= 12:
 			self['group'] = 0;
@@ -24,6 +53,8 @@ class warrior(combatbase.combatbase):
 			self['group'] = 1;
 		self['shape'] = 101;
 		self['name'] = str(self.m_id);
+
+		self.gen_orgprop();
 		return
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];
@@ -34,6 +65,14 @@ class warrior(combatbase.combatbase):
 		self['dodge'] = self['orgdodge'];
 		self['crk'] = self['orgcrk'];
 		self['crkdef'] = self['orgcrkdef'];
+		self['crkdmgrate'] = self['orgcrkdmgrate'];
+		self['crkdmgdefrate'] = self['orgcrkdmgdefrate'];
+		self['dmgrate'] = self['orgdmgrate'];
+		self['dmgdefrate'] = self['orgdmgdefrate'];
+		self['absdmg'] = self['orgabsdmg'];
+		self['absdmgdef'] = self['orgabsdmgdef'];
+		self['ignoredef'] = self['orgignoredef'];
+		self['ignoredefdef'] = self['orgignoredefdef'];
 		return
 	def set_data(self,data_dict):
 		super(warrior,self).set_data(data_dict);
@@ -48,33 +87,18 @@ class warrior(combatbase.combatbase):
 		self['orgdodge'] = self['dodge'];
 		self['orgcrk'] = self['crk'];
 		self['orgcrkdef'] = self['crkdef'];
+		self['orgcrkdmgrate'] = self['crkdmgrate'];
+		self['orgcrkdmgdefrate'] = self['crkdmgdefrate'];
+		self['orgdmgrate'] = self['dmgrate'];
+		self['orgdmgdefrate'] = self['dmgdefrate'];
+		self['orgabsdmg'] = self['absdmg'];
+		self['orgabsdmgdef'] = self['absdmgdef'];
+		self['orgignoredef'] = self['ignoredef'];
+		self['orgignoredefdef'] = self['ignoredefdef'];
 		return
 	def get_restoreprop(self):
 		return copy.deepcopy(self);
-	def init_data(self):
-		self['hp'] = 100;
-		self['hpmax'] = 100;
-		self['spd'] = 100;
-		self['sp'] = 100;
-		self['enegy'] = 100;
-		self['mp'] = 100;
-		self['atk'] = 100;
-		self['def'] = 0;
-		self['hit'] = 0;
-		self['dodge'] = 0;
-		self['crk'] = 0;
-		self['crkdef'] = 0;
-		self['skill'] = {};
-		self['buff'] = {};
-		self['pet'] = {};
-		self['passive'] = {};
-		self['dead'] = False;
-		self['group'] = 0;
-		self['pos'] = 0;
-		self['cankickout'] = False;
-		self['kickout'] = False;
-		self.gen_orgprop();
-		return
+	
 	def gen_testdata(self):
 		ret = {};
 		ret['hp'] = 10000;

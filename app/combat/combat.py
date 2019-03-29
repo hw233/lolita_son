@@ -8,6 +8,18 @@ import copy
 import random
 import skill
 
+#（己方命中-敌方闪避）/（敌方等级*3+50）=命中概率
+#（己方暴击-敌方暴抗）/（敌方等级*3+50）=暴击概率
+#基础暴击伤害200%
+#攻击计算
+#（己方攻击+技能伤害-敌人防御）*（1 +（伤害加深百分比-伤害减少百分比）+（暴击伤害-暴击伤害减免）……）+（（无视防御-无视减免）+（伤害加深-伤害减少）……）
+#时间点效果触发需要计算玩家速度，效果自身也可以自带速度和速率（后发携带了技能速率）
+#所有属性，效果和buff默认自身ID用作先后顺序判断，除非自身额外增加速度或速率
+#BUFF和被动技能是用来实时维护效果，BUFF，属性配置和实际数值的实体，不可将实际数值放到效果，BUFF，属性配置中
+#主动技能也可以用来做为维护当前回合的效果和实际数值的实体
+#进战斗时，速度乘以100+pos，方便排序
+#H5进去之后当前速度*100*100%，回合则是95~105随机值
+#最终结果是负数的时候回合战斗攻击方攻击*5%，H5则为1
 COMBAT_TRIGER_ENTER = 1;
 COMBAT_TRIGER_TURNSTART = 2;
 COMBAT_TRIGER_SKILLSTART = 3;
@@ -276,6 +288,7 @@ class combat(object):
 		for i in self.pas_list:
 			self.gen_s2c_addwarrior(i);
 			self.gen_s2c_warrior_status(i);
+		self.on_start_state()#处理战斗开始时间点的效果
 		return
 	def end(self):
 		self.gen_s2c_combat_end();
@@ -616,8 +629,9 @@ class combat(object):
 				self.b_is_end = True;
 				self.end();
 			return
-		self.on_turn_doing();
+		self.on_turn_doing();#处理各单位指令相关
 		self.gen_s2c_turn_start();
+		self.on_turn_start();#处理回合开始时间点效果
 		self.reset_allfighter_extra_prop();
 		self.execute_buff_turneffect();
 		if self.check_end():
@@ -628,10 +642,42 @@ class combat(object):
 		self.init_order();
 		self.do_allwarrior_cmd();
 		self.process_buff_cd();
+
+		self.on_turn_end();#处理回合结束时间点效果
 		self.gen_s2c_turn_end();
 		if self.check_end():
 			self.b_is_end = True;
 			self.end();
 			return
 		self.curbout = self.curbout + 1;
+		return
+	#战斗开始时间点，触发和计算所有玩家身上的组合BUFF和被动技能上的效果，BUFF，属性等
+	def on_start_state(self):
+		return
+	#回合开始时间点,计算所有玩家
+	def on_turn_start(self):
+		return
+	#攻击开始时间点,针对单人出手,计算攻击发起者和所有受击者
+	def on_attack_start(self,actor,dst_list):
+		return
+	#伤害开始时间点，针对单人出手，计算攻击发起者和当前受击者，用在吸血和反击？
+	def on_attack_hurt(self,actor,dst):
+		return
+	#攻击命中时，主要用在封印？
+	def on_attack_hit(self,actor,dst):
+		return
+	#伤害被miss时,主要是闪避和封印未命中？
+	def on_attack_miss(self,actor,dst):
+		return
+	#击倒时
+	def on_attack_dead(self,actor,dst):
+		return
+	#击飞出场时
+	def on_attack_flyout(self,actor,dst):
+		return
+	#攻击结束时间点，针对单人出手，计算攻击发起者和所有受击者
+	def on_attack_end(self,actor,dst_list):
+		return
+	#回合结束时间点，计算所有玩家
+	def on_turn_end(self):
 		return

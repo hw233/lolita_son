@@ -36,7 +36,7 @@ class combatwrapper(cwrapperbase):
 		return
 	def do(self):
 		return
-class combatbuffwrapper(object):
+class combatbuffwrapper(object):#用来添加BUFF
 	def __init__(self,inst,value,rate,dst,triger,bout):
 		super(combatbuffwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return

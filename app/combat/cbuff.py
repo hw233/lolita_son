@@ -27,7 +27,8 @@ class buffbase(object):
 		return self.effect;
 	def get_group(self):
 		return self.groupid;
-
+	def do(self,actor):
+		return
 class combatbuffeff(buffbase):
 	def __init__(self,bid,cd = 0,inst_id = 0):
 		super(combatbuffeff,self).__init__(bid,cd,inst_id);

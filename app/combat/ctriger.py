@@ -6,6 +6,7 @@ Created on 2018-1-26
 '''
 import app.config.fighteffecttime as fighteffecttime
 
+COMBAT_TRIGER_NOW = 0;
 COMBAT_TRIGER_ENTER = 1;
 COMBAT_TRIGER_TURNSTART = 2;
 COMBAT_TRIGER_SKILLSTART = 3;
@@ -25,6 +26,8 @@ class combattriger(object):
 	def get_id(self):
 		return self.id;
 	def is_triger(self,tid):
+		if self.id == COMBAT_TRIGER_NOW:
+			return True;
 		return tid == self.id;
 
 def create_triger(tid,name):
@@ -40,7 +43,7 @@ def get_triger_by_name(name):
 			if v["name"] == name:
 				g_triger_map[name] = create_triger(k,name);
 				return g_triger_map[name];
-	return create_triger(0,"");
+	return create_triger(COMBAT_TRIGER_NOW,"");
 def get_triger_by_id(id):
 	global g_triger_map
 	for k,v in g_triger_map.items():
@@ -51,4 +54,4 @@ def get_triger_by_id(id):
 			name = v["name"]
 			g_triger_map[name] = create_triger(k,name);
 			return g_triger_map[name];
-	return create_triger(0,"");
+	return create_triger(COMBAT_TRIGER_NOW,"");

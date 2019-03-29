@@ -89,14 +89,15 @@ def get_buffcfg(bid):
 			for i in cfg.data:
 				prop = i["prop"]
 				v = i["value"]
-				tm = i["ptime"];
-				rate = i["prate"];
+				tm = ctriger.COMBAT_TRIGER_NOW;
+				rate = 0;
+				dst = 0;
 				pins = None;
 				if not pins and ceffect.have_effect_by_name(prop):
 					pins = ceffect.get_effect_by_name(prop);
 				if not pins and cproperty.have_cprop_by_name(prop):
 					pins = cproperty.get_cprop_by_name(prop);
-				wrapper_ins = cwrapper.combatwrapper(pins,v,rate,0,ctriger.get_triger_by_name(tm));
+				wrapper_ins = cwrapper.combatwrapper(pins,v,rate,dst,ctriger.get_triger_by_id(tm));
 				ret.proplist.append(wrapper_ins);
 			g_buffcfg_map[bid] = ret;
 		else:

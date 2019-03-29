@@ -682,8 +682,8 @@ class combat(object):
 		self.curbout = self.curbout + 1;
 		return
 	#战斗开始时间点，触发和计算所有玩家身上的组合BUFF和被动技能上的效果，属性等
-	def on_start_state(self):
-		#先玩家身上的被动技能和当前使用主动技能上的效果，属性
+	def _calc_allwarrior_skill_effect(self,tm):
+		#玩家身上的被动技能和当前使用主动技能上的效果，属性
 		wrapper_list = [];
 		for k,v in self.fighters.items():
 			cur_skill = self._get_warrior_curbout_skill(v);
@@ -699,14 +699,14 @@ class combat(object):
 					enemy = self.get_fighter(i);
 					if enemy:
 						enemy_list.append(enemy);
-				cur_wrapper_list = cur_skill.get_wrapperlist_bystate(ctriger.COMBAT_TRIGER_ENTER);
+				cur_wrapper_list = cur_skill.get_wrapperlist_bystate(tm);
 				for i in cur_wrapper_list:
 					i.gen_spd(v['spd']);
 					i.set_actor(v);
 					i.set_enemy_list(enemy_list);
 					wrapper_list.append(i);
 			for m,n in v['passive'].items():
-				cur_wrapper_list = n.get_wrapperlist_bystate(ctriger.COMBAT_TRIGER_ENTER);
+				cur_wrapper_list = n.get_wrapperlist_bystate(tm);
 				for i in cur_wrapper_list:
 					i.gen_spd(v['spd']);
 					i.set_actor(v);
@@ -715,10 +715,18 @@ class combat(object):
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
 			i.do();
-		#再是玩家身上的组合BUFF和BUFF计算
+		return
+	def on_start_state(self):
+		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_ENTER)
+		
 		return
 	#回合开始时间点,计算所有玩家
 	def on_turn_start(self):
+		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_TURNSTART)
+		#再是玩家身上的组合BUFF和BUFF计算
+		for k,v in self.fighters.items():
+			for i in v["buff"]:
+				i.do(v);
 		return
 	#攻击开始时间点,针对单人出手,计算攻击发起者和所有受击者
 	def on_attack_start(self,actor,dst_list):
@@ -743,4 +751,5 @@ class combat(object):
 		return
 	#回合结束时间点，计算所有玩家
 	def on_turn_end(self):
+		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_TURNEND)
 		return

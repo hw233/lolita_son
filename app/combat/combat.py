@@ -4,6 +4,7 @@ Created on 2018-1-26
 
 @author: xiaomi
 '''
+import ctriger
 import copy
 import random
 import skill
@@ -20,23 +21,15 @@ import skill
 #进战斗时，速度乘以100+pos，方便排序
 #H5进去之后当前速度*100*100%，回合则是95~105随机值
 #最终结果是负数的时候回合战斗攻击方攻击*5%，H5则为1
-COMBAT_TRIGER_ENTER = 1;
-COMBAT_TRIGER_TURNSTART = 2;
-COMBAT_TRIGER_SKILLSTART = 3;
-COMBAT_TRIGER_ATK = 4;
-COMBAT_TRIGER_HIT = 5;
-COMBAT_TRIGER_MISS = 6;
-COMBAT_TRIGER_FLYOUT = 7;
-COMBAT_TRIGER_DEAD = 8;
-COMBAT_TRIGER_SKILLEND = 9;
-COMBAT_TRIGER_TURNEND = 10;
+
 
 COMBAT_POS_MAP = {};
 COMBAT_POS_MAP[0] = [1,2,3,4,5,6,7,8,9,10,11,12];
 COMBAT_POS_MAP[1] = [21,22,23,24,25,26,27,28,29,30,31,32];
 
 COMBATCMD_ATTACK = 1;
-COMBATCMD_ADDWARRIOR = 2;
+COMBATCMD_SKILL = 2;
+COMBATCMD_ADDWARRIOR = 3;
 
 
 #status1
@@ -502,7 +495,7 @@ class combat(object):
 			self.reset_fighter_extra_prop(enemy);
 		self.gen_s2c_warrior_status(enemy);
 		return
-	def warrior_attack(self,obj,atk_data):
+	def warrior_attack(self,obj,dst):
 		#todo
 		sid = 1;
 		slv = 1;
@@ -515,11 +508,18 @@ class combat(object):
 			dst = self.get_default_dst(obj);
 			if dst == None:
 				return;
-		skill_obj = skill.create_skill(sid,slv);
+		
+		return
+	def warrior_skill(self,obj,sid,dst):
+		#todo
+		skill_obj = obj.get_skill(sid);
+		if skill_obj == None:
+			return;
 		actor = obj;
 		enemy = self.get_fighter(dst);
 		if enemy == None:
-			return;
+			dst = self.get_default_dst(obj);
+			enemy = self.get_fighter(dst);
 
 		dst_list = self.get_dst_list(actor,enemy,skill_obj);
 		if len(dst_list) <= 0:
@@ -580,14 +580,44 @@ class combat(object):
 	def warrior_act(self,obj):
 		cmd = obj.get('cmd',COMBATCMD_ATTACK);
 		cmd_data = obj.get('cmd_data',None);
-		if cmd == COMBATCMD_ATTACK:
-			self.warrior_attack(obj,cmd_data);
+		if cmd == COMBATCMD_SKILL:
+			dst = None;
+			if cmd_data == None:
+				dst = self.get_default_dst(obj);
+				self.warrior_attack(obj,dst);
+			else:
+				sid = cmd_data["sid"];
+				dst = cmd_data["dst"];
+				self.warrior_skill(obj,sid,dst);
 		elif cmd == COMBATCMD_ADDWARRIOR:
 			self.warrior_addwarrior(obj,cmd_data);
 		else:
-			self.warrior_attack(obj,cmd_data);
+			dst = None;
+			if cmd_data == None:
+				dst = self.get_default_dst(obj);
+			else:
+				dst = cmd_data["dst"];
+			self.warrior_attack(obj,dst);
 		obj['cmd'] = COMBATCMD_ATTACK;
 		return
+	def _get_warrior_curbout_skill(self,obj):
+		cmd = obj.get('cmd',COMBATCMD_ATTACK);
+		if cmd != COMBATCMD_SKILL:
+			return
+		cmd_data = obj.get('cmd_data',None);
+		if cmd_data == None:
+			return
+		sid = cmd_data['sid'];
+		slv = cmd_data['slv'];
+		return obj.get_skill(sid);
+	def _get_warrior_curbout_dst(self,obj):
+		cmd = obj.get('cmd',COMBATCMD_ATTACK);
+		if cmd != COMBATCMD_SKILL:
+			return
+		cmd_data = obj.get('cmd_data',None);
+		if cmd_data == None:
+			return
+		return cmd_data['dst'];
 	def do_allwarrior_cmd(self):
 		for i in self.order:
 			if self.fighters.has_key(i) == False:
@@ -651,8 +681,41 @@ class combat(object):
 			return
 		self.curbout = self.curbout + 1;
 		return
-	#战斗开始时间点，触发和计算所有玩家身上的组合BUFF和被动技能上的效果，BUFF，属性等
+	#战斗开始时间点，触发和计算所有玩家身上的组合BUFF和被动技能上的效果，属性等
 	def on_start_state(self):
+		#先玩家身上的被动技能和当前使用主动技能上的效果，属性
+		wrapper_list = [];
+		for k,v in self.fighters.items():
+			cur_skill = self._get_warrior_curbout_skill(v);
+			dst = self._get_warrior_curbout_dst(v);
+			if cur_skill:
+				enemy = self.get_fighter(dst);
+				if enemy == None:
+					dst = self.get_default_dst(v);
+					enemy = self.get_fighter(dst);
+				dst_list = self.get_dst_list(actor,enemy,cur_skill);
+				enemy_list = [];
+				for i in dst_list:
+					enemy = self.get_fighter(i);
+					if enemy:
+						enemy_list.append(enemy);
+				cur_wrapper_list = cur_skill.get_wrapperlist_bystate(ctriger.COMBAT_TRIGER_ENTER);
+				for i in cur_wrapper_list:
+					i.gen_spd(v['spd']);
+					i.set_actor(v);
+					i.set_enemy_list(enemy_list);
+					wrapper_list.append(i);
+			for m,n in v['passive'].items():
+				cur_wrapper_list = n.get_wrapperlist_bystate(ctriger.COMBAT_TRIGER_ENTER);
+				for i in cur_wrapper_list:
+					i.gen_spd(v['spd']);
+					i.set_actor(v);
+					i.set_enemy_list([]);
+					wrapper_list.append(i);
+		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
+		for i in wrapper_list:
+			i.do();
+		#再是玩家身上的组合BUFF和BUFF计算
 		return
 	#回合开始时间点,计算所有玩家
 	def on_turn_start(self):

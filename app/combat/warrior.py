@@ -36,9 +36,9 @@ class warrior(combatbase.combatbase):
 		self['absdmgdef'] = 0;#无视伤害加深绝对值
 		self['ignoredef'] = 0;#无视防御绝对值
 		self['ignoredefdef'] = 0;#无视无视防御（无视减免)绝对值
-		self['skill'] = {};
-		self['buff'] = {};
-		self['passive'] = {};
+		self['skill'] = {};#sid:sid+slv
+		self['buff'] = [];
+		self['passive'] = {};#sid:sid+slv
 		self['pet'] = {};
 		self['dead'] = False;
 		self['group'] = 0;
@@ -55,6 +55,10 @@ class warrior(combatbase.combatbase):
 		self['name'] = str(self.m_id);
 
 		self.gen_orgprop();
+		return
+	def get_skill(self,sid):
+		if self['skill'].has_key(sid):
+			return self['skill'][sid]
 		return
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];
@@ -98,22 +102,7 @@ class warrior(combatbase.combatbase):
 		return
 	def get_restoreprop(self):
 		return copy.deepcopy(self);
-	
-	def gen_testdata(self):
-		ret = {};
-		ret['hp'] = 10000;
-		ret['hpmax'] = 10000;
-		ret['spd'] = random.randint(0,100);
-		ret['atk'] = random.randint(0,1000);
-		ret['def'] = random.randint(0,200);
-		ret['hit'] = random.randint(0,100);
-		ret['dodge'] = random.randint(0,100);
-		ret['crk'] = random.randint(0,100);
-		ret['crkdef'] = random.randint(0,100);
-		ret['skill'] = {1001:skill.skill(1001,1),1002:skill.skill(1002,1)};
-		ret['buff'] = {1:buff.buff(1001,3),2:buff.buff(1002,3),3:buff.buff(1003,3)};
-		ret['passive'] = {2001:skillpassive.skillpassive(2001,1),2002:skillpassive.skillpassive(2002,1),2003:skillpassive.skillpassive(2003,1)};
-		return ret;
+
 	def add_buff(self,buf_id,cd,inst_id):
 		ret = buff.buff(buf_id,cd);
 		ret.id = inst_id;
@@ -127,3 +116,4 @@ class warrior(combatbase.combatbase):
 					ret = buff.buff(buf_id);
 				del self['buff'][k];
 		return ret
+	

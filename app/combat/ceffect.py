@@ -10,7 +10,10 @@ class combateffect(object):
 	def __init__(self,tid,name):
 		self.id = tid;
 		self.name = name;
+		self.spd = 0;
 		return
+	def gen_spd(self,actor_spd):
+		return self.spd + actor_spd;
 	def do(self,*args):
 		return
 

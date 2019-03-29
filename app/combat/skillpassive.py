@@ -6,7 +6,6 @@ Created on 2018-1-29
 '''
 import ctriger
 import cproperty
-import cbuff
 import ceffect
 
 import app.config.simpleskillpassive as skillpassiveconfig
@@ -19,6 +18,8 @@ class skillpassive(object):
         self.groupid = 0;
         self.init();
         return
+    def get_wrapperlist_bystate(self,state):
+        return [];
     def init(self):
         skilldata = skillpassiveconfig.create_Simpleskillpassive(self.sid);
         for i in skilldata.skilldata:
@@ -41,8 +42,20 @@ class boutskillpassive(object):
         self.cryout = 0;
         self.prop_list = [];#[prop,triger,rate,dst,value]
         self.eff_list = [];#[prop,triger,rate,dst,value]
+
+        self.wrapper_map = {};
         self.init();
         return
+    def add_wrapper(self,wrapper):
+        state = wrapper.get_triger_state();
+        if not self.wrapper_map.has_key(state):
+            self.wrapper_map[state] = [];
+        self.wrapper_map[state].append(wrapper);
+        return
+    def get_wrapperlist_bystate(self,state):
+        if self.wrapper_map.has_key(state):
+            return self.wrapper_map[state];
+        return [];
     def init(self):
         skilldata = fightskillpassive.create_Fightskillpassive(self.sid);
         if skilldata == None:
@@ -57,19 +70,19 @@ class boutskillpassive(object):
                 self.eff_list = [];#[prop,triger,rate,dst,value]
                 for k in propdata:
                     prop = k["prop"];
-                    ptriger = k["ptime"];
-                    prate = k["prate"];
+                    ptriger = ctriger.COMBAT_TRIGER_ENTER;
+                    prate = 0;
                     pdst = 0;
                     pvalue = k["pvalue"];
                     if prop != "无":
                         pins = None;
-                        if not pins and cbuff.have_cbuffeff_by_name(prop):
-                            pins = cbuff.get_cbuffeff_by_name(prop);
                         if not pins and ceffect.have_effect_by_name(prop):
                             pins = ceffect.get_effect_by_name(prop);
                         if not pins and cproperty.have_cprop_by_name(prop):
                             pins = cproperty.get_cprop_by_name(prop);
-                        self.prop_list.append([pins,ctriger.get_triger_by_name(ptriger),prate,pdst,pvalue]);
+                        wrapper_ins = cwrapper.combatwrapper(pins,pvalue,prate,pdst,ctriger.get_triger_by_id(ptriger));
+                        self.prop_list.append(wrapper_ins);
+                        self.add_wrapper(wrapper_ins);
                     effdata = k["effdata"];
                     for j in effdata:
                         prop = j["efftype"];
@@ -79,13 +92,13 @@ class boutskillpassive(object):
                         pvalue = j["effvalue"];
                         if prop != "无":
                             pins = None;
-                            if not pins and cbuff.have_cbuffeff_by_name(prop):
-                                pins = cbuff.get_cbuffeff_by_name(prop);
                             if not pins and ceffect.have_effect_by_name(prop):
                                 pins = ceffect.get_effect_by_name(prop);
                             if not pins and cproperty.have_cprop_by_name(prop):
                                 pins = cproperty.get_cprop_by_name(prop);
-                            self.eff_list.append([pins,ctriger.get_triger_by_name(ptriger),prate,pdst,pvalue]);
+                            wrapper_ins = cwrapper.combatwrapper(pins,pvalue,prate,pdst,ctriger.get_triger_by_name(ptriger));
+                            self.eff_list.append(wrapper_ins);
+                            self.add_wrapper(wrapper_ins);
 
         return
     def get_effect(self):

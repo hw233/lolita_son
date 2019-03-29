@@ -6,17 +6,42 @@ Created on 2018-1-26
 '''
 import app.config.fightbuffeffect as fightbuffeffect
 
-class combatbuffeff(object):
-	def __init__(self,tid,name,tp):
-		self.id = tid;
-		self.name = name;
-		self.tp = tp;
+class buffbase(object):
+	def __init__(self,bid,cd = 0,inst_id = 0):
+		self.bid = bid;
+		self.id = inst_id;
+		self.cd = cd;
+		self.btype = 0;
+		self.effect = "";
+		self.groupid = 0;
+		self.spd = 0;
+		self.init();
+		return;
+	def gen_spd(self,actor_spd):
+		return self.spd + actor_spd;
+	def init(self):
 		return
-	def do(self,*args):
+	def is_immediate(self):
+		return self.btype == 0;
+	def get_effect(self):
+		return self.effect;
+	def get_group(self):
+		return self.groupid;
+
+class combatbuffeff(buffbase):
+	def __init__(self,bid,cd = 0,inst_id = 0):
+		super(combatbuffeff,self).__init__(bid,cd,inst_id);
+		self.name = "";
+		self.tp = "";
 		return
 		
 def create_cbuffeff(tid,name,tp):
-	return combatbuffeff(tid,name,tp)
+	#if tid == 101:
+	#	ret = XXXXX;
+	ret = combatbuffeff(tid);
+	ret.name = name;
+	ret.tp = tp;
+	return ret
 g_cbuffeff_map = {};
 
 def have_cbuffeff_by_name(name):

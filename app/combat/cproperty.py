@@ -11,7 +11,10 @@ class combatprop(object):
 		self.id = tid;
 		self.name = name;
 		self.key = key;
+		self.spd = 0;
 		return
+	def gen_spd(self,actor_spd):
+		return self.spd + actor_spd;
 	def do(self,*args):
 		return
 		

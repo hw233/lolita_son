@@ -12,24 +12,31 @@ import ceffect
 import app.config.simpleskill as skillconfig
 import buff
 import app.config.fightskill as boutskillconfig
-
-class skill(object):
+class skillbase(object):
 	def __init__(self,sid,slv):
 		self.sid = sid;
 		self.slv = slv;
-		self.stype = 0;#0 攻击 1 回复 2 辅助
+		self.stype = 0;#0 攻击 1 回复 2 辅助 3 复活 4 封印
 		self.min_dstcnt = 1;
 		self.max_dstcnt = 1;
 		self.effect = "";
 		self.groupid = 0;
+		return
+	def is_attacktype(self):
+		return self.stype == 0;
+	def get_effect(self):
+		return self.effect;
+class skill(skillbase):
+	def __init__(self,sid,slv):
+		super(skill,self).__init__(sid,slv);
 		self.dst_buff_list = [];#buff:rate
 		self.clr_dst_buff_list = [];#buff:rate
 		self.src_buff_list = [];#buff:rate
 		self.clr_src_buff_list = [];#buff:rate
 		self.init();
 		return
-	def is_attacktype(self):
-		return self.stype == 0;
+	def get_wrapperlist_bystate(self,state):
+		return [];
 	def _parse_bufflist(self,buff_str,b_add = False):
 		ret = [];
 		if buff_str != None and len(buff_str) > 0:
@@ -68,22 +75,14 @@ class skill(object):
 				self.clr_src_buff_list = self._parse_bufflist(clrbuffself);
 				return;
 		return
-	def get_effect(self):
-		return self.effect;
 
 
-class boutskill(object):
+class boutskill(skillbase):
 	def __init__(self,sid,slv):
-		self.sid = sid;
-		self.slv = slv;
-		self.stype = 0;#0 攻击 1 回复 2 辅助 3 复活 4 封印
+		super(boutskill,self).__init__(sid,slv);
 		self.sstype = "";
 		self.name = "";
 		self.tm = 0;
-
-		self.min_dstcnt = 1;
-		self.max_dstcnt = 1;
-		self.effect = "";
 
 		self.senegytp = "";
 		self.enegytp = 0;#0 mp 1 sp 2 enegy
@@ -111,12 +110,20 @@ class boutskill(object):
 		
 		self.eff_list = [];#[prop,triger,rate,dst,value]
 		self.buff_list = [];#[buff,triger,rate,dst,value,bout]
+
+		self.wrapper_map = {};
 		self.init();
 		return
-	def is_attacktype(self):
-		return self.stype == 0;
-	def get_effect(self):
-		return self.effect;
+	def add_wrapper(self,wrapper):
+		state = wrapper.get_triger_state();
+		if not self.wrapper_map.has_key(state):
+			self.wrapper_map[state] = [];
+		self.wrapper_map[state].append(wrapper);
+		return
+	def get_wrapperlist_bystate(self,state):
+		if self.wrapper_map.has_key(state):
+			return self.wrapper_map[state];
+		return [];
 	def init(self):
 		skilldata = boutskillconfig.create_Fightskill(self.sid);
 		if skilldata == None:
@@ -176,13 +183,13 @@ class boutskill(object):
 					pvalue = k["effvalue"];
 					if prop != "无":
 						pins = None;
-						if not pins and cbuff.have_cbuffeff_by_name(prop):
-							pins = cbuff.get_cbuffeff_by_name(prop);
 						if not pins and ceffect.have_effect_by_name(prop):
 							pins = ceffect.get_effect_by_name(prop);
 						if not pins and cproperty.have_cprop_by_name(prop):
 							pins = cproperty.get_cprop_by_name(prop);
-						self.eff_list.append([pins,ctriger.get_triger_by_name(ptriger),prate,pdst,pvalue]);
+						wrapper_ins = cwrapper.combatwrapper(pins,pvalue,prate,pdst,ctriger.get_triger_by_name(ptriger));
+						self.eff_list.append(wrapper_ins);
+						self.add_wrapper(wrapper_ins);
 					buffdata = k["buffdata"];
 					for j in buffdata:
 						bname = j["buff"];
@@ -193,9 +200,17 @@ class boutskill(object):
 						bbout = j["buffbout"];
 						if buff.have_buff_byname(bname):
 							bid = buff.get_buffbid_byname(bname);
-							bcfg = buff.get_buffcfg(bid);
-							self.buff_list.append([bcfg,ctriger.get_triger_by_name(btriger),brate,bdst,bvalue,bbout]);
+							pins = buff.get_buffcfg(bid);
+							wrapper_ins = cwrapper.combatbuffwrapper(pins,bvalue,brate,bdst,ctriger.get_triger_by_name(btriger),bbout);
+							self.buff_list.append(wrapper_ins);
+							self.add_wrapper(wrapper_ins);
+						elif cbuff.have_cbuffeff_by_name(bname):
+							pins = cbuff.get_cbuffeff_by_name(bname);
+							wrapper_ins = cwrapper.combatbuffwrapper(pins,bvalue,brate,bdst,ctriger.get_triger_by_name(btriger),bbout);
+							self.buff_list.append(wrapper_ins);
+							self.add_wrapper(wrapper_ins);
 		return
+
 g_skill_config = {};
 def create_skill(sid,slv):
 	global g_skill_config

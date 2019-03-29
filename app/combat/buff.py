@@ -10,8 +10,11 @@ import ctriger
 import cproperty
 import cbuff
 import ceffect
-class buff(object):
+import cwrapper
+
+class buff(cbuff.buffbase):
 	def __init__(self,bid,cd = 0,inst_id = 0):
+		super(buff,self).__init__(bid,cd,inst_id);
 		self.bid = bid;
 		self.id = inst_id;
 		self.cd = cd;
@@ -26,12 +29,7 @@ class buff(object):
 		self.groupid = bufdata.group;
 		self.btype = bufdata.btype;
 		return
-	def is_immediate(self):
-		return self.btype == 0;
-	def get_effect(self):
-		return self.effect;
-	def get_group(self):
-		return self.groupid;
+	
 
 def get_bufflist_bygroup(groupid):
 	ret = [];
@@ -94,13 +92,12 @@ def get_buffcfg(bid):
 				tm = i["ptime"];
 				rate = i["prate"];
 				pins = None;
-				if not pins and cbuff.have_cbuffeff_by_name(prop):
-					pins = cbuff.get_cbuffeff_by_name(prop);
 				if not pins and ceffect.have_effect_by_name(prop):
 					pins = ceffect.get_effect_by_name(prop);
 				if not pins and cproperty.have_cprop_by_name(prop):
 					pins = cproperty.get_cprop_by_name(prop);
-				ret.proplist.append([pins,v,ctriger.get_triger_by_name(tm),rate]);
+				wrapper_ins = cwrapper.combatwrapper(pins,v,rate,0,ctriger.get_triger_by_name(tm));
+				ret.proplist.append(wrapper_ins);
 			g_buffcfg_map[bid] = ret;
 		else:
 			g_buffcfg_map[bid] = boutbuffcfg(0);
@@ -108,12 +105,11 @@ def get_buffcfg(bid):
 def have_buff_byname(name):
 	bid = get_buffbid_byname(name);
 	return bid != 0;
-class boutbuff(object):
-	def __init__(self,inst_id,bid,value,count):
-		self.iid = inst_id;
-		self.bid = bid;
-		self.value = value;
-		self.count = count;
+class boutbuff(cbuff.buffbase):
+	def __init__(self,bid,cd = 0,inst_id = 0):
+		super(boutbuff,self).__init__(bid,cd,inst_id);
+		self.value = "";
+		self.count = 0;
 		self.bcfg = get_buffcfg(bid);
 		return
 	def is_immediate(self):

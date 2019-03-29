@@ -4,8 +4,15 @@ Created on 2018-1-26
 
 @author: xiaomi
 '''
+import ctriger
+import cproperty
+import cbuff
+import ceffect
+
 import app.config.simpleskill as skillconfig
 import buff
+import app.config.fightskill as boutskillconfig
+
 class skill(object):
 	def __init__(self,sid,slv):
 		self.sid = sid;
@@ -63,10 +70,136 @@ class skill(object):
 		return
 	def get_effect(self):
 		return self.effect;
+
+
+class boutskill(object):
+	def __init__(self,sid,slv):
+		self.sid = sid;
+		self.slv = slv;
+		self.stype = 0;#0 攻击 1 回复 2 辅助 3 复活 4 封印
+		self.sstype = "";
+		self.name = "";
+		self.tm = 0;
+
+		self.min_dstcnt = 1;
+		self.max_dstcnt = 1;
+		self.effect = "";
+
+		self.senegytp = "";
+		self.enegytp = 0;#0 mp 1 sp 2 enegy
+		self.enegy_num = 0;
+		self.hp = 0;
+		self.hp_min = 0;
+		self.cd = 0;
+
+		self.dst_self = 0;
+		self.dst_selfpet = 0;
+		self.dst_selffri = 0;
+		self.dst_selffripet = 0;
+		self.dst_summon = 0;
+		self.dst_enemy = 0;
+		self.dst_enemypet = 0;
+		self.dst_enemymonster = 0;
+
+		self.damage = 0;
+		self.damage_rate = 1.0;
+
+		self.hit = 0;
+		self.spd = 1.0;
+
+		self.sub_damage = 0;
+		
+		self.eff_list = [];#[prop,triger,rate,dst,value]
+		self.buff_list = [];#[buff,triger,rate,dst,value,bout]
+		self.init();
+		return
+	def is_attacktype(self):
+		return self.stype == 0;
+	def get_effect(self):
+		return self.effect;
+	def init(self):
+		skilldata = boutskillconfig.create_Fightskill(self.sid);
+		if skilldata == None:
+			return
+		self.sstype = skilldata.stype;
+		if self.sstype == "治疗技能":
+			self.stype = 1;
+		elif self.sstype == "复活技能":
+			self.stype = 3;
+		elif self.sstype == "辅助技能":
+			self.stype = 2;
+		elif self.sstype == "封印技能":
+			self.stype = 4;
+		self.name = skilldata.name;
+		self.tm = skilldata.time;
+		for i in skilldata.data:
+			if i.get('lv',0) == self.slv:
+				self.min_dstcnt = i.get('min',1);
+				self.max_dstcnt = i.get('max',1);
+				self.senegytp = i.get('etype','');
+				if self.senegytp == "mp":
+					self.enegytp = 0;
+				elif self.senegytp == "sp":
+					self.enegytp = 1;
+				else:
+					self.enegytp = 2;
+				self.enegy_num = i.get('enegy',0);
+				self.hp = i.get('hp',0);
+				self.hp_min = i.get('hpmin',0);
+				self.cd = i.get("cd",0);
+
+				self.dst_self = i.get("self",0);
+				self.dst_selfpet = i.get("spet",0);
+				self.dst_selffri = i.get("team",0);
+				self.dst_selffripet = i.get("tpet",0);
+				self.dst_summon = i.get("summon",0);
+				self.dst_enemy = i.get("enemy",0);
+				self.dst_enemypet = i.get("epet",0);
+				self.dst_enemymonster = i.get("esummon",0);
+
+				self.damage = i.get("atk",0);
+				self.damage_rate = i.get("rate",0);
+
+				self.hit = i.get("hit",0);
+				self.spd = i.get("spd",0);
+
+				self.sub_damage = i.get("subatk",0);
+
+				effdata = i.get("effdata",[]);
+				self.eff_list = [];#[prop,triger,rate,dst,value]
+				self.buff_list = [];#[buff,triger,rate,dst,value,bout]
+				for k in effdata:
+					prop = k["efftype"];
+					ptriger = k["efftime"];
+					prate = k["effrate"];
+					pdst = k["effdst"];
+					pvalue = k["effvalue"];
+					if prop != "无":
+						pins = None;
+						if not pins and cbuff.have_cbuffeff_by_name(prop):
+							pins = cbuff.get_cbuffeff_by_name(prop);
+						if not pins and ceffect.have_effect_by_name(prop):
+							pins = ceffect.get_effect_by_name(prop);
+						if not pins and cproperty.have_cprop_by_name(prop):
+							pins = cproperty.get_cprop_by_name(prop);
+						self.eff_list.append([pins,ctriger.get_triger_by_name(ptriger),prate,pdst,pvalue]);
+					buffdata = k["buffdata"];
+					for j in buffdata:
+						bname = j["buff"];
+						btriger = j["bufftime"];
+						brate = j["buffhit"];
+						bdst = j["buffdst"];
+						bvalue = j["buffvalue"];
+						bbout = j["buffbout"];
+						if buff.have_buff_byname(bname):
+							bid = buff.get_buffbid_byname(bname);
+							bcfg = buff.get_buffcfg(bid);
+							self.buff_list.append([bcfg,ctriger.get_triger_by_name(btriger),brate,bdst,bvalue,bbout]);
+		return
 g_skill_config = {};
 def create_skill(sid,slv):
+	global g_skill_config
 	key = sid*1000+slv;
 	if g_skill_config.has_key(key) == False:
-		print 'init skill %s %s'%(sid,slv);
 		g_skill_config[key] = skill(sid,slv);
 	return g_skill_config[key];

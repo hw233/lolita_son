@@ -15,6 +15,7 @@ class buffbase(object):
 		self.effect = "";
 		self.groupid = 0;
 		self.spd = 0;
+		self.done = False;
 		self.init();
 		return;
 	def gen_spd(self,actor_spd):

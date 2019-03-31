@@ -16,6 +16,7 @@ class warrior(combatbase.combatbase):
 		self.m_id = wid;
 		self['cid'] = cid;
 		self['id'] = wid;
+		self['lv'] = 1;
 		self['hp'] = 100;
 		self['hpmax'] = 100;
 		self['spd'] = 100;

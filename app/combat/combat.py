@@ -497,18 +497,76 @@ class combat(object):
 		return
 	def warrior_attack(self,obj,dst):
 		#todo
+		actor = obj;
+		enemy = self.get_fighter(dst);
+		if enemy == None:
+			dst = self.get_default_dst(obj);
+			enemy = self.get_fighter(dst);
+		if enemy == None:
+			return
+		actor_prop = actor.get_restoreprop();
+		enemy_prop = enemy.get_restoreprop();
 		sid = 1;
 		slv = 1;
-		dst = None;
-		if atk_data:
-			sid = atk_data['sid'];
-			slv = atk_data['slv'];
-			dst = atk_data['dst'];
+		self.gen_s2c_warrior_skillbegin(actor,sid,slv,[dst]);
+		self.on_attack_start(actor,[dst]);
+		shit = actor['hit'];
+		edodge = enemy['dodge'];
+		hitrate = (shit - edodge)/(enemy['lv']*3+50)*1000;
+		if hitrate < random.randint(0,1000):
+			self.on_attack_miss(actor,dst);
+			self.gen_s2c_warrior_dodge(enemy,sid,slv);
+			self.on_attack_end(actor,dst);
+			self.gen_s2c_warrior_skillend(actor,sid,slv);
+			return
+		self.on_attack_hit(actor,dst);
+		self.on_attack_hurt(actor,dst);
+		scrk = actor['crk'];
+		ecrkdef = enemy['crkdef'];
+		crkrate = (scrk - ecrkdef)/(enemy['lv']*3+50)*1000;
+		b_crack = False;
+		if crkrate >= random.randint(0,1000):
+			b_crack = True;
+		satk = actor['atk'];
+		edef = enemy['def'];
+		dmgaddrate = actor['dmgrate'];
+		dmgdefrate = enemy['dmgdefrate'];
+		if b_crack:
+			dmgaddrate = dmgaddrate + actor['crkdmgrate'];
+			dmgdefrate = dmgdefrate + enemy['crkdmgdefrate'];
+
+		absdmg = actor['absdmg'];
+		absdmgdef = enemy['absdmgdef'];
+		ignoredef = actor['ignoredef'];
+		ignoredefdef = enemy['ignoredefdef'];
+
+		absdmg = absdmg - absdmgdef +  ignoredef - ignoredefdef;
+
+		if dmgaddrate < dmgdefrate:
+			dmgaddrate = 0;
 		else:
-			dst = self.get_default_dst(obj);
-			if dst == None:
-				return;
+			dmgaddrate = dmgaddrate - dmgdefrate;
 		
+		damage = (satk - edef)*(100 + dmgaddrate)/100 + absdmg;
+		if damage <= 0:
+			damage = 1;
+		damage = int(damage);
+		hp = enemy['hp'];
+		hp -= damage;
+		value = damage;
+		if hp <= 0:
+			enemy['hp'] = 0;
+			if enemy['cankickout']:
+				enemy['kickout'] = True;
+				self.on_attack_flyout(actor,dst);
+			else:
+				enemy['dead'] = True;
+				self.on_attack_dead(actor,dst);
+		else:
+			enemy['hp'] = hp;
+		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,sid,slv,False);
+		self.on_attack_end(actor,[dst]);
+		self.gen_s2c_warrior_skillend(actor,sid,slv);
 		return
 	def warrior_skill(self,obj,sid,dst):
 		#todo
@@ -689,6 +747,7 @@ class combat(object):
 			cur_skill = self._get_warrior_curbout_skill(v);
 			dst = self._get_warrior_curbout_dst(v);
 			if cur_skill:
+				actor_spd = v['spd']*cur_skill.spd/100;
 				enemy = self.get_fighter(dst);
 				if enemy == None:
 					dst = self.get_default_dst(v);
@@ -701,14 +760,14 @@ class combat(object):
 						enemy_list.append(enemy);
 				cur_wrapper_list = cur_skill.get_wrapperlist_bystate(tm);
 				for i in cur_wrapper_list:
-					i.gen_spd(v['spd']);
+					i.gen_spd(actor_spd);
 					i.set_actor(v);
 					i.set_enemy_list(enemy_list);
 					wrapper_list.append(i);
 			for m,n in v['passive'].items():
 				cur_wrapper_list = n.get_wrapperlist_bystate(tm);
 				for i in cur_wrapper_list:
-					i.gen_spd(v['spd']);
+					i.gen_spd(actor_spd);
 					i.set_actor(v);
 					i.set_enemy_list([]);
 					wrapper_list.append(i);
@@ -729,25 +788,30 @@ class combat(object):
 				i.do(v);
 		return
 	#攻击开始时间点,针对单人出手,计算攻击发起者和所有受击者
-	def on_attack_start(self,actor,dst_list):
+	def on_attack_start(self,actor,dst_list,skill_obj = None):
 		return
 	#伤害开始时间点，针对单人出手，计算攻击发起者和当前受击者，用在吸血和反击？
-	def on_attack_hurt(self,actor,dst):
+	def on_attack_hurt(self,actor,dst,skill_obj = None):
+		wrapper_list = [];
+		enemy_list = [];
+		enemy = self.get_fighter(dst);
+		enemy_list.append(enemy);
+		
 		return
 	#攻击命中时，主要用在封印？
-	def on_attack_hit(self,actor,dst):
+	def on_attack_hit(self,actor,dst,skill_obj = None):
 		return
 	#伤害被miss时,主要是闪避和封印未命中？
-	def on_attack_miss(self,actor,dst):
+	def on_attack_miss(self,actor,dst,skill_obj = None):
 		return
 	#击倒时
-	def on_attack_dead(self,actor,dst):
+	def on_attack_dead(self,actor,dst,skill_obj = None):
 		return
 	#击飞出场时
-	def on_attack_flyout(self,actor,dst):
+	def on_attack_flyout(self,actor,dst,skill_obj = None):
 		return
 	#攻击结束时间点，针对单人出手，计算攻击发起者和所有受击者
-	def on_attack_end(self,actor,dst_list):
+	def on_attack_end(self,actor,dst_list,skill_obj = None):
 		return
 	#回合结束时间点，计算所有玩家
 	def on_turn_end(self):

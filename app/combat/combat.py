@@ -73,9 +73,7 @@ class combat(object):
 		global COMBAT_START_ID
 		COMBAT_START_ID = COMBAT_START_ID + 1;
 		return COMBAT_START_ID
-	def gen_buff_id(self):
-		self.buff_id_begin += 1;
-		return self.buff_id_begin;
+	
 	###send s2c packet start
 	def gen_s2c_combat_start(self):
 		print "combat s2c start %s"%(self.parent);
@@ -200,11 +198,15 @@ class combat(object):
 		print "combat s2c warrior addbuff %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,buffobj.id,buffobj.bid,buffobj.cd)
 		#gen s2c netpacket
 		#S2C_WAR_BUFF_ADD warid bid overlay bout datas
+		if self.parent:
+			self.parent.gen_s2c_warrior_addbuff(self.send_list,actor['id'],buffobj.bid,buffobj.count,buffobj.cd,[]);
 		return
-	def gen_s2c_warrior_delbuff(self,actor,buffobj):
+	def gen_s2c_warrior_delbuff(self,actor,bid):
 		#gen s2c netpacket
-		print "combat s2c warrior delbuff %s %s %s %s"%(actor['pos'],actor['group'],buffobj.id,buffobj.bid);
-		#S2C_WAR_BUFF_DEL bid
+		print "combat s2c warrior delbuff %s %s %s"%(actor['pos'],actor['group'],bid);
+		#S2C_WAR_BUFF_DEL warid bid
+		if self.parent:
+			self.parent.gen_s2c_warrior_delbuff(self.send_list,actor['id'],bid);
 		return
 	def gen_s2c_warrior_status(self,actor):
 		#todo need code
@@ -323,62 +325,16 @@ class combat(object):
 	def is_end(self):
 		return self.b_is_end;
 	
-	def calc_passive_effect(self,actor):
-		#todo
-		for i,j in actor['passive'].items():
-			eff = j.get_effect();
-			if eff and len(eff) > 0:
-				restore_prop = actor.get_restoreprop();
-				damage = 0;
-				exec(eff);
-				self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),damage,actor,False,j.sid,j.slv);
-		return
-	def execute_fighter_buff(self,actor,buffobj,b_immed = False):
-		if b_immed:
-			if not buffobj.is_immediate():
-				return
-		else:
-			if buffobj.is_immediate():
-				return 
-		eff = buffobj.get_effect();
-		if eff and len(eff) > 0:
-			restore_prop = actor.get_restoreprop();
-			damage = 0;
-			exec(eff);
-			self.gen_s2c_warrior_propchg(restore_prop,actor.get_restoreprop(),damage,actor,False,buffobj.bid,-1);
-		return
-	def reset_allfighter_extra_prop(self):
-		for k,v in self.fighters.items():
-			self.reset_fighter_extra_prop(v);
-		return
-	def calc_buff_extraprop(self,actor):
-		for i,j in actor['buff'].items():
-			self.execute_fighter_buff(actor,j,True);
-		return
-	def reset_fighter_extra_prop(self,actor):
-		actor.reset_orgprop();
-		self.calc_passive_effect(actor);
-		self.calc_buff_extraprop(actor);
-		self.gen_s2c_warrior_status(actor);
-		return
-	def execute_buff_turneffect(self):# only calc 
-		#todo
-		for k,v in self.fighters.items():
-			actor = v;
-			for i,j in actor['buff'].items():
-				self.execute_fighter_buff(actor,j,False);
-		return
 	def process_buff_cd(self):
 		for k,v in self.fighters.items():
 			actor = v;
 			for i,j in v['buff'].items():
 				j.cd = j.cd - 1;
 				if j.cd <= 0:
-					self.gen_s2c_warrior_delbuff(actor,j);
-					del v['buff'][i];
+					self.gen_s2c_warrior_delbuff(actor,i);
 				else:
 					self.gen_s2c_warrior_buffcd_change(actor,j);
-
+			v.clear_invalid_buff();
 		return
 	def get_fighter(self,wid):
 		return self.fighters[wid]
@@ -696,8 +652,6 @@ class combat(object):
 		self.on_turn_doing();#处理各单位指令相关
 		self.gen_s2c_turn_start();
 		self.on_turn_start();#处理回合开始时间点效果
-		self.reset_allfighter_extra_prop();
-		self.execute_buff_turneffect();
 		if self.check_end():
 			self.gen_s2c_turn_end();
 			self.b_is_end = True;
@@ -705,9 +659,9 @@ class combat(object):
 			return
 		self.init_order();
 		self.do_allwarrior_cmd();
-		self.process_buff_cd();
-
+		
 		self.on_turn_end();#处理回合结束时间点效果
+		self.process_buff_cd();
 		self.gen_s2c_turn_end();
 		if self.check_end():
 			self.b_is_end = True;
@@ -767,8 +721,8 @@ class combat(object):
 		self.on_start_state(ctriger.COMBAT_TRIGER_TURNSTART)
 		#再是玩家身上的组合BUFF和BUFF计算
 		for k,v in self.fighters.items():
-			for i in v["buff"]:
-				i.do(v);
+			for bid,buff_ins in v["buff"].items():
+				buff_ins.do(v,self);
 		return
 	
 	#攻击开始时间点,针对单人出手,计算攻击发起者和所有受击者

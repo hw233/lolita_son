@@ -39,8 +39,9 @@ class warrior(combatbase.combatbase):
 		self['ignoredef'] = 0;#无视防御绝对值
 		self['ignoredefdef'] = 0;#无视无视防御（无视减免)绝对值
 		self['skill'] = {};#sid:sid+slv
-		self['buff'] = [];
+		self['buff'] = {};#bid:buff obj
 		self['passive'] = {};#sid:sid+slv
+		self['cur_wrapper_list'] = {};
 		self['pet'] = {};
 		self['dead'] = False;
 		self['group'] = 0;
@@ -57,6 +58,14 @@ class warrior(combatbase.combatbase):
 		self['name'] = str(self.m_id);
 
 		self.gen_orgprop();
+		return
+	def has_wrapper(self,wrapper_id):
+		return self['cur_wrapper_list'].has_key(wrapper_id);
+	def use_wrapper(self,wrapper_id):
+		self['cur_wrapper_list'][wrapper_id] = True;
+	def clear_wrapper(self,wrapper_id):
+		if self.has_wrapper(wrapper_id):
+			del self['cur_wrapper_list'][wrapper_id];
 		return
 	def is_pet(self):
 		return self['owner'] != 0;
@@ -115,17 +124,24 @@ class warrior(combatbase.combatbase):
 	def get_restoreprop(self):
 		return copy.deepcopy(self);
 
-	def add_buff(self,buf_id,cd,inst_id):
-		ret = buff.buff(buf_id,cd);
-		ret.id = inst_id;
-		self['buff'][inst_id] = ret;
-		return ret
-	def del_buff(self,buf_id):
-		ret = None
-		for k,v in self['buff'].items():
-			if v.bid == buf_id:
-				if ret == None:
-					ret = buff.buff(buf_id);
-				del self['buff'][k];
-		return ret
+	def add_buff(self,buffobj):
+		if self['buff'].has_key(buffobj.bid):
+			return False
+		self['buff'][buffobj.bid] = buffobj;
+		return True
+	def has_buff(self,bid):
+		if self['buff'].has_key(bid):
+			return self['buff'][bid];
+		return None;
+	def clear_invalid_buff(self):
+		keys = list(self['buff'].keys());
+		for i in keys:
+			if self['buff'][i].cd <= 0:
+				del self['buff'][i];
+		return
+	def del_buff(self,bid):
+		if self['buff'].has_key(buffobj.bid):
+			del self['buff'][bid];
+			return True;
+		return False; 
 	

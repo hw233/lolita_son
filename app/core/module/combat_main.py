@@ -383,20 +383,18 @@ class combat_main(app.base.game_module_mgr.game_module):
 		#S2C_WAR_ATTACK_STATUS target status value
 		self._send2clientbycidlist(S2C_WAR_ATTACK_STATUS,wid_list,{"target":wid,"status":status,'value':value});
 		return
-	def gen_s2c_warrior_dodge(self,actor,skill_id,skill_lv):
-		#gen s2c netpacket
-		#todo need code
-		print "combat s2c warrior dodge %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv)
-		return
-	def gen_s2c_warrior_addbuff(self,actor,buffobj,skill_id,skill_lv):
-		print "combat s2c warrior addbuff %s %s %s %s %s %s %s"%(actor['pos'],actor['group'],skill_id,skill_lv,buffobj.id,buffobj.bid,buffobj.cd)
+	
+	def gen_s2c_warrior_addbuff(self,wid_list,warid,bid,overlay,bout,datas):
+		print "combat s2c warrior addbuff %s %s %s %s %s"%(warid,bid,overlay,bout,datas)
 		#gen s2c netpacket
 		#S2C_WAR_BUFF_ADD warid bid overlay bout datas
+		self._send2clientbycidlist(S2C_WAR_BUFF_ADD,wid_list,{"warid":warid,"bid":bid,'overlay':overlay,'bout':bout,'datas':datas});
 		return
-	def gen_s2c_warrior_delbuff(self,actor,buffobj):
+	def gen_s2c_warrior_delbuff(self,wid_list,warid,bid):
 		#gen s2c netpacket
-		print "combat s2c warrior delbuff %s %s %s %s"%(actor['pos'],actor['group'],buffobj.id,buffobj.bid);
-		#S2C_WAR_BUFF_DEL bid
+		print "combat s2c warrior delbuff %s %s"%(warid,bid);
+		#S2C_WAR_BUFF_DEL warid bid
+		self._send2clientbycidlist(S2C_WAR_BUFF_DEL,wid_list,{'warid':warid,'bid':bid});
 		return
 	def gen_s2c_warrior_status(self,wid_list,wid,hprate):
 		#todo need code

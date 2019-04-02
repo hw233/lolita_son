@@ -13,15 +13,8 @@ import ceffect
 import cwrapper
 
 class buff(cbuff.buffbase):
-	def __init__(self,bid,cd = 0,inst_id = 0):
-		super(buff,self).__init__(bid,cd,inst_id);
-		self.bid = bid;
-		self.id = inst_id;
-		self.cd = cd;
-		self.btype = 0;
-		self.effect = "";
-		self.groupid = 0;
-		self.init();
+	def __init__(self,bid,cd = 0):
+		super(buff,self).__init__(bid,cd);
 		return
 	def init(self):
 		bufdata = buffconfig.create_Simplebuff(self.bid);
@@ -44,7 +37,7 @@ class boutbuffcfg(object):
 		self.name = "";
 		self.tp = "";
 		self.refresh = 0;
-		self.overlap = 0;
+		self.overlap = 1;
 		self.proplist = [];#cprop,value,ctriger,rate
 		return
 
@@ -107,10 +100,8 @@ def have_buff_byname(name):
 	bid = get_buffbid_byname(name);
 	return bid != 0;
 class boutbuff(cbuff.buffbase):
-	def __init__(self,bid,cd = 0,inst_id = 0):
-		super(boutbuff,self).__init__(bid,cd,inst_id);
-		self.value = "";
-		self.count = 0;
+	def __init__(self,bid,cd = 0):
+		super(boutbuff,self).__init__(bid,cd);
 		self.bcfg = get_buffcfg(bid);
 		return
 	def is_immediate(self):
@@ -119,3 +110,9 @@ class boutbuff(cbuff.buffbase):
 		return "";
 	def get_group(self):
 		return 0;
+	def do(self,actor,combat_ins):
+		for i in self.bcfg.proplist:#wrapp_ins
+			i.set_actor(actor);
+			i.do(combat_ins,self.done);
+		self.done = True;
+		return

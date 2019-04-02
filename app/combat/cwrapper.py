@@ -4,19 +4,27 @@ Created on 2018-1-26
 
 @author: xiaomi
 '''
+import random
+import buff
+
+g_wrapper_id_start = 0;
 class cwrapperbase(object):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
-		self.inst = inst;#cbuff or boutbuff
+		self.inst = inst;#cproperty or ceffect or combatbuffeff or boutbuffcfg(ceffect+cproperty)
 		self.value = value;
 		self.rate = rate;#如果为0等于100
-		self.dst = dst;#0为自己，1为敌人
+		self.dst = dst;#1为自己，0为敌人
 		self.triger = triger;
 		self.bout = bout;
 		self.spd = 0;
 		self.actor = None;
 		self.enemy_list = [];
-		self.done = False;
+		self.id = self._gen_id();
 		return
+	def _gen_id(self):
+		global g_wrapper_id_start;
+		g_wrapper_id_start = g_wrapper_id_start + 1;
+		return g_wrapper_id_start
 	def get_triger_state(self):
 		return self.triger.get_id();
 	def gen_spd(self,actor_spd):
@@ -28,19 +36,61 @@ class cwrapperbase(object):
 	def set_enemy_list(self,e_list):
 		self.enemy_list = e_list;
 		return
-	def do(self):
+	def do(self,combat_ins,b_done = False):
+		#if self.actor.has_wrapper(self.id) == False:
+		#	self.actor.use_wrapper(self.id);
 		return
 class combatwrapper(cwrapperbase):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
 		super(combatwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
-	def do(self):
+	def do(self,combat_ins,b_done = False):
 		return
 class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 	def __init__(self,inst,value,rate,dst,triger,bout):
 		super(combatbuffwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
-	def do(self):
+	def do(self,combat_ins,b_done = False):
+		bhit = False;
+		if self.rate >= 100:
+			bhit = True;
+		else:
+			if self.rate >= random.randint(0,100):
+				bhit = True;
+		if not bhit:
+			return
+		add_list = [];
+		if dst == 1:
+			add_list.append(self.actor);
+		else:
+			for i in self.enemy_list:
+				add_list.append(i);
+		bid = self.inst.bid;
+		refresh = self.inst.refresh;
+		overlapmax = self.inst.overlap;
+		addcd = self.bout;
+		buffvalue = self.value;
+		for i in add_list:
+			old_buff = i.has_buff(bid);
+			if not old_buff:
+				addbuff = buff.boutbuff(bid,addcd);
+				addbuff.value = buffvalue;
+				i.add_buff(addbuff);
+				combat_ins.gen_s2c_warrior_addbuff(i,addbuff,0,0);
+				addbuff.do(i,combat_ins);
+			else:
+				bAdd = False;
+				if old_buff.count <= overlapmax:
+					old_buff.count += 1;
+					bAdd = True;
+				brefresh_cd = False;
+				if refresh == 1:
+					old_buff.cd = addcd;
+					brefresh_cd = True;
+				if bAdd or brefresh_cd:
+					combat_ins.gen_s2c_warrior_addbuff(i,old_buff,0,0);
+				if bAdd:
+					old_buff.do(i,combat_ins);
 		return
 
 

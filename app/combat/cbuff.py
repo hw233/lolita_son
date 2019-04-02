@@ -6,11 +6,14 @@ Created on 2018-1-26
 '''
 import app.config.fightbuffeffect as fightbuffeffect
 
+g_buff_id_start = 0;
 class buffbase(object):
-	def __init__(self,bid,cd = 0,inst_id = 0):
+	def __init__(self,bid,cd = 0):
 		self.bid = bid;
-		self.id = inst_id;
-		self.cd = cd;
+		self.id = self._gen_id();
+		self.cd = cd;#bout count
+		self.value = "";
+		self.count = 1;#overlap
 		self.btype = 0;
 		self.effect = "";
 		self.groupid = 0;
@@ -18,6 +21,10 @@ class buffbase(object):
 		self.done = False;
 		self.init();
 		return;
+	def _gen_id(self):
+		global g_buff_id_start
+		g_buff_id_start = g_buff_id_start + 1;
+		return g_buff_id_start
 	def gen_spd(self,actor_spd):
 		return self.spd + actor_spd;
 	def init(self):
@@ -28,13 +35,15 @@ class buffbase(object):
 		return self.effect;
 	def get_group(self):
 		return self.groupid;
-	def do(self,actor):
+	def do(self,actor,combat_ins):
 		return
-class combatbuffeff(buffbase):
-	def __init__(self,bid,cd = 0,inst_id = 0):
-		super(combatbuffeff,self).__init__(bid,cd,inst_id);
+class combatbuffeff(object):
+	def __init__(self,bid):
+		self.bid = bid;
 		self.name = "";
 		self.tp = "";
+		self.refresh = 0;
+		self.overlap = 1;
 		return
 		
 def create_cbuffeff(tid,name,tp):

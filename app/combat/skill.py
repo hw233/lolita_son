@@ -232,5 +232,5 @@ def create_skill(sid,slv):
 	global g_skill_config
 	key = sid*1000+slv;
 	if g_skill_config.has_key(key) == False:
-		g_skill_config[key] = skill(sid,slv);
+		g_skill_config[key] = boutskill(sid,slv);
 	return g_skill_config[key];

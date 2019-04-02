@@ -12,18 +12,28 @@ import ceffect
 import app.config.simpleskill as skillconfig
 import buff
 import app.config.fightskill as boutskillconfig
+SKILLTYPE_ATTACK = 0;
+SKILLTYPE_CURE = 1;
+SKILLTYPE_FUZHU = 2;
+SKILLTYPE_REVIVE = 3;
+SKILLTYPE_FENGYIN = 4;
 class skillbase(object):
 	def __init__(self,sid,slv):
 		self.sid = sid;
 		self.slv = slv;
-		self.stype = 0;#0 攻击 1 回复 2 辅助 3 复活 4 封印
+		self.stype = SKILLTYPE_ATTACK;#0 攻击 1 回复 2 辅助 3 复活 4 封印
+		self.can_dodge = False;
 		self.min_dstcnt = 1;
 		self.max_dstcnt = 1;
 		self.effect = "";
 		self.groupid = 0;
 		return
+	def is_canrevive(self):
+		return self.stype == SKILLTYPE_REVIVE;
+	def is_candodge(self):
+		return self.can_dodge
 	def is_attacktype(self):
-		return self.stype == 0;
+		return self.stype == SKILLTYPE_ATTACK;
 	def get_effect(self):
 		return self.effect;
 class skill(skillbase):
@@ -130,13 +140,19 @@ class boutskill(skillbase):
 			return
 		self.sstype = skilldata.stype;
 		if self.sstype == "治疗技能":
-			self.stype = 1;
+			self.stype = SKILLTYPE_CURE;
 		elif self.sstype == "复活技能":
-			self.stype = 3;
+			self.stype = SKILLTYPE_REVIVE;
 		elif self.sstype == "辅助技能":
-			self.stype = 2;
+			self.stype = SKILLTYPE_FUZHU;
 		elif self.sstype == "封印技能":
-			self.stype = 4;
+			self.stype = SKILLTYPE_FENGYIN;
+		else:
+			self.stype = SKILLTYPE_ATTACK;
+		if self.sstype == "物理技能":
+			self.can_dodge = True;
+		else:
+			self.can_dodge = False;
 		self.name = skilldata.name;
 		self.tm = skilldata.time;
 		for i in skilldata.data:

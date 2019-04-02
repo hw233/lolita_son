@@ -267,7 +267,7 @@ class combat(object):
 			self.act_list.append(obj);
 		else:
 			self.pas_list.append(obj);
-		if obj['cid'] not in self.send_list:
+		if obj['cid'] not in self.send_list and cid != 0:
 			self.send_list.append(obj['cid']);
 
 		self.fighters[obj['pos']] = obj;
@@ -286,8 +286,14 @@ class combat(object):
 	def end(self):
 		self.gen_s2c_combat_end();
 		return
+	def _get_warrior_curbout_spd(self,v):
+		return self._calc_warrior_spd_byskill(v,self._get_warrior_curbout_skill(v));
+	def _calc_warrior_spd_byskill(self,v,skill_obj):
+		if not skill_obj:
+			return v['spd']
+		return v['spd']*skill_obj.spd/100;
 	def init_order(self):
-		self.order = sorted(self.fighters.keys(),reverse=True,key = lambda d:(self.fighters[d]['spd']*1000000-self.fighters[d].get('pos',0)))
+		self.order = sorted(self.fighters.keys(),reverse=True,key = lambda d:(self._get_warrior_curbout_spd(self.fighters[d])*1000000-self.fighters[d].get('pos',0)))
 		return
 	def addwarriorcmd(self,id,cmd,cmd_data):
 		if self.fighters.has_key(id):
@@ -376,125 +382,93 @@ class combat(object):
 		return
 	def get_fighter(self,wid):
 		return self.fighters[wid]
+	def _is_dst_valid(self,actor,enemy,skill_obj):
+		if skill_obj.dst_enemymonster and enemy.is_summon():
+			return True;
+		if skill_obj.dst_summon and enemy.is_summon() and self.is_teammate(actor,enemy):
+			return True;
+
+		if skill_obj.dst_self != 0 and enemy == actor:
+			return True;
+		if skill_obj.selfpet != 0 and enemy.is_pet() and enemy.get_owner() == actor.get_cid():
+			return True;
+		if skill_obj.dst_selffri != 0 and enemy.is_character() and self.is_teammate(actor,enemy):
+			return True;
+		if skill_obj.dst_selffripet != 0 and enemy.is_pet() and self.is_teammate(actor,enemy):
+			return True;
+
+		if skill_obj.dst_enemy != 0 and enemy.is_character() and not self.is_teammate(actor,enemy):
+			return True;
+		if skill_obj.dst_enemypet != 0 and enemy.is_pet() and not self.is_teammate(actor,enemy):
+			return True;
+		return False;
+
+
 	def get_dst_list(self,actor,enemy,skill_obj):
 		ret = [];
-		if self.is_warrior_dead(enemy) and self.skill_obj.is_attacktype():
+		max_cnt = skill_obj.max_dstcnt;
+		if self.skill_obj.is_canrevive():
+			if self.is_warrior_dead(enemy) and self._is_dst_valid(actor,enemy,skill_obj):
+				ret.append(enemy['pos']);
+				max_cnt -= 1;
 			for i in self.order:
-				if self.fighters.has_key(i) == False:
-					continue;
-				tempplayer = self.fighters[i];
-				if self.is_teammate(enemy,tempplayer) and not self.is_warrior_dead(tempplayer):
-					enemy = tempplayer;
+				if max_cnt <= 0:
 					break;
-		ret.append(enemy['pos']);
-		if skill_obj.max_dstcnt > 1:
-			extracnt = skill_obj.max_dstcnt - 1;
-			for j in self.order:
 				if self.fighters.has_key(i) == False:
 					continue;
+				if i == enemy['pos']:
+					continue;
 				tempplayer = self.fighters[i];
-				if tempplayer == enemy:
-					continue;
-				if not self.is_teammate(enemy,tempplayer):
-					continue;
-				if skill_obj.is_attacktype():
-					if not self.is_warrior_dead(tempplayer):
-						ret.append(tempplayer['pos']);
-						extracnt -= 1;
-						if extracnt <= 0:
-							return ret;
-				else:
-					ret.append(tempplayer['pos']);
-					extracnt -= 1;
-					if extracnt <= 0:
-						return ret;
+				if self.is_warrior_dead(tempplayer) and self._is_dst_valid(actor,tempplayer,skill_obj):
+					ret.append(i);
+					max_cnt -= 1;
+			return ret;
+		if not self.is_warrior_dead(enemy) and self._is_dst_valid(actor,enemy,skill_obj):
+			ret.append(enemy['pos']);
+			max_cnt -= 1;
+		for i in self.order:
+			if max_cnt <= 0:
+				break;
+			if self.fighters.has_key(i) == False:
+				continue;
+			if i == enemy['pos']:
+				continue;
+			tempplayer = self.fighters[i];
+			if not self.is_warrior_dead(tempplayer) and self._is_dst_valid(actor,tempplayer,skill_obj):
+				ret.append(i);
+				max_cnt -= 1;
 		return ret;
-	def warrior_doskill(self,actor,enemy,skill_obj,damage,revive):
-		actor_prop = actor.get_restoreprop();
-		enemy_prop = enemy.get_restoreprop();
-		if revive != 0:
-			if self.is_warrior_dead(enemy):
-				enemy['dead'] = False;
-		hp = enemy['hp']
-		defend = enemy['def'];
-		#min 0 max 10000
-		basehit = 8000;
-		hit = actor['hit'];
-		dodge = enemy['dodge'];
-		basehit = basehit + hit - dodge;
-		if basehit <= 0:
-			#dodge
-			self.gen_s2c_warrior_dodge(enemy,skill_obj.sid,skill_obj.slv);
-			return;
-		if basehit < 10000:
-			hitnum = random.randint(0,10000);
-			if hitnum > basehit:
-				self.gen_s2c_warrior_dodge(enemy,skill_obj.sid,skill_obj.slv);
-				return
-		if skill_obj.is_attacktype():
-			damage = damage - defend;
+	def _calc_attack_damage(self,actor,enemy,b_crack,atkadd = 0,atkaddrate = 1.0,b_attack = True):
+		satk = actor['atk'];
+		satk = (satk + atkadd)*atkaddrate;:
 
-		basecrk = 2000;
-		crk = actor['crk'];
-		crkdef = enemy['crkdef'];
-		basecrk = basecrk + crk - crkdef;
-		crknum = random.randint(0,10000);
-		b_crack = False;
-		value = 0;
-		if crknum <= basecrk:
-			damage = damage*2;#twice damage;
-			b_crack = True;
-		damage = int(damage);
-		if skill_obj.is_attacktype():
-			hp = enemy['hp'];
-			hp -= damage;
-			value = damage;
-			if hp <= 0:
-				enemy['hp'] = 0;
-				if enemy['cankickout']:
-					enemy['kickout'] = True;
-				else:
-					enemy['dead'] = True;
-			else:
-				enemy['hp'] = hp;
+		edef = enemy['def'];
+		dmgaddrate = actor['dmgrate'];
+		dmgdefrate = enemy['dmgdefrate'];
+		if b_crack:
+			dmgaddrate = dmgaddrate + actor['crkdmgrate'];
+			dmgdefrate = dmgdefrate + enemy['crkdmgdefrate'];
+
+		absdmg = actor['absdmg'];
+		absdmgdef = enemy['absdmgdef'];
+		ignoredef = actor['ignoredef'];
+		ignoredefdef = enemy['ignoredefdef'];
+
+		absdmg = absdmg - absdmgdef +  ignoredef - ignoredefdef;
+
+		if dmgaddrate < dmgdefrate:
+			dmgaddrate = 0;
 		else:
-			hp = enemy['hp'];
-			hp += damage;
-			value = 0-damage;
-			hpmax = enemy['hpmax'];
-			if hp > hpmax:
-				hp = hpmax;
-			enemy['hp'] = hp;
-		#self.gen_s2c_warrior_propchg(actor_prop,actor.get_restoreprop(),value,actor,False,skill_obj.sid,skill_obj.slv,True);
-		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,skill_obj.sid,skill_obj.slv,True);
-		b_recalc_buff_effect = False;
-		for i in skill_obj.dst_buff_list:
-			buffobj = i[0];
-			rate = i[1];
-			#
-			temp = random.randint(0,10000);
-			if temp <= rate:
-				addbuffobj = enemy.add_buff(buffobj.bid,buffobj.cd,self.gen_buff_id());
-				if addbuffobj:
-					if addbuffobj.is_immediate():
-						b_recalc_buff_effect = True;
-					self.gen_s2c_warrior_addbuff(enemy,addbuffobj,skill_obj.sid,skill_obj.slv);
-
-		for i in skill_obj.clr_dst_buff_list:
-			buffobj = i[0];
-			rate = i[1];
-			#
-			temp = random.randint(0,10000);
-			if temp <= rate:
-				delbuffobj = enemy.del_buff(buffobj.bid);
-				if delbuffobj:
-					if delbuffobj.is_immediate():
-						b_recalc_buff_effect = True;
-					self.gen_s2c_warrior_delbuff(enemy,delbuffobj);
-		if b_recalc_buff_effect:
-			self.reset_fighter_extra_prop(enemy);
-		self.gen_s2c_warrior_status(enemy);
-		return
+			dmgaddrate = dmgaddrate - dmgdefrate;
+		damage = 0;
+		if not b_attack:
+			edef = 0;
+			absdmg = 0;
+		damage = (satk - edef)*(100 + dmgaddrate)/100 + absdmg;
+		if damage <= 0:
+			damage = 1;
+		damage = int(damage);
+		return damage;
 	def warrior_attack(self,obj,dst):
 		#todo
 		actor = obj;
@@ -527,30 +501,7 @@ class combat(object):
 		b_crack = False;
 		if crkrate >= random.randint(0,1000):
 			b_crack = True;
-		satk = actor['atk'];
-		edef = enemy['def'];
-		dmgaddrate = actor['dmgrate'];
-		dmgdefrate = enemy['dmgdefrate'];
-		if b_crack:
-			dmgaddrate = dmgaddrate + actor['crkdmgrate'];
-			dmgdefrate = dmgdefrate + enemy['crkdmgdefrate'];
-
-		absdmg = actor['absdmg'];
-		absdmgdef = enemy['absdmgdef'];
-		ignoredef = actor['ignoredef'];
-		ignoredefdef = enemy['ignoredefdef'];
-
-		absdmg = absdmg - absdmgdef +  ignoredef - ignoredefdef;
-
-		if dmgaddrate < dmgdefrate:
-			dmgaddrate = 0;
-		else:
-			dmgaddrate = dmgaddrate - dmgdefrate;
-		
-		damage = (satk - edef)*(100 + dmgaddrate)/100 + absdmg;
-		if damage <= 0:
-			damage = 1;
-		damage = int(damage);
+		damage = self._calc_attack_damage(actor,enemy,b_crack);
 		hp = enemy['hp'];
 		hp -= damage;
 		value = damage;
@@ -565,8 +516,13 @@ class combat(object):
 		else:
 			enemy['hp'] = hp;
 		self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,sid,slv,False);
+		self.gen_s2c_warrior_status(enemy);
 		self.on_attack_end(actor,[dst]);
 		self.gen_s2c_warrior_skillend(actor,sid,slv);
+		if enemy['kickout']:
+			self.delwarrior(dst);
+		if actor['kickout']:
+			self.delwarrior(actor['pos']);
 		return
 	def warrior_skill(self,obj,sid,dst):
 		#todo
@@ -576,57 +532,77 @@ class combat(object):
 		actor = obj;
 		enemy = self.get_fighter(dst);
 		if enemy == None:
-			dst = self.get_default_dst(obj);
+			dst = self.get_default_dst(actor);
 			enemy = self.get_fighter(dst);
 
 		dst_list = self.get_dst_list(actor,enemy,skill_obj);
 		if len(dst_list) <= 0:
 			return
 		self.gen_s2c_warrior_skillbegin(actor,sid,slv,dst_list);
-		damage = actor['atk'];
-		damagerate = 1;
-		revive = 0;
+		self.on_attack_start(actor,dst_list,skill_obj);
+		atkadd = skill_obj.damage;
+		atkrate = 1.0;
+		if skill_obj.damage_rate != 0:
+			atkrate = skill_obj.damage_rate;
 
-		eff = skill_obj.get_effect();
-		if eff != None and len(eff) > 0:
-			exec(eff);
+		skillhit = skill_obj.hit;
 
 		for i in dst_list:
-			if self.fighters.has_key(i) == False:
-				continue
-			enemy = self.fighters[i];
-			self.warrior_doskill(actor,enemy,skill_obj,damage*damagerate,revive);
-
-		b_recalc_buff_effect = False;
-		for i in skill_obj.src_buff_list:
-			buffobj = i[0];
-			rate = i[1];
-			#
-			temp = random.randint(0,10000);
-			if temp <= rate:
-				addbuffobj = actor.add_buff(buffobj.bid,buffobj.cd,self.gen_buff_id());
-				if addbuffobj:
-					if addbuffobj.is_immediate():
-						b_recalc_buff_effect = True;
-					self.gen_s2c_warrior_addbuff(actor,addbuffobj,sid,slv);
-		for i in skill_obj.clr_src_buff_list:
-			buffobj = i[0];
-			rate = i[1];
-			#
-			temp = random.randint(0,10000);
-			if temp <= rate:
-				delbuffobj = actor.del_buff(buffobj.bid);
-				if delbuffobj:
-					if delbuffobj.is_immediate():
-						b_recalc_buff_effect = True;
-					self.gen_s2c_warrior_delbuff(actor,delbuffobj);
-		if b_recalc_buff_effect:
-			self.reset_fighter_extra_prop(actor);
+			enemy = self.get_fighter(i);
+			if not enemy:
+				continue;
+			actor_prop = actor.get_restoreprop();
+			enemy_prop = enemy.get_restoreprop();
+			if skill_obj.is_candodge():
+				shit = skillhit;#actor['hit'];
+				edodge = enemy['dodge'];
+				hitrate = (shit - edodge)/(enemy['lv']*3+50)*1000;
+				if hitrate < random.randint(0,1000):
+					self.on_attack_miss(actor,i,skill_obj);
+					self.gen_s2c_warrior_dodge(enemy,sid,slv);
+					continue;
+			self.on_attack_hit(actor,i,skill_obj);
+			self.on_attack_hurt(actor,i,skill_obj);
+			scrk = actor['crk'];
+			ecrkdef = enemy['crkdef'];
+			crkrate = (scrk - ecrkdef)/(enemy['lv']*3+50)*1000;
+			b_crack = False;
+			if crkrate >= random.randint(0,1000):
+				b_crack = True;
+			damage = self._calc_attack_damage(actor,enemy,b_crack,atkadd,atkrate,skill_obj.is_attacktype());
+			if skill_obj.is_attacktype():
+				hp = enemy['hp'];
+				hp -= damage;
+				value = damage;
+				if hp <= 0:
+					enemy['hp'] = 0;
+					if enemy['cankickout']:
+						enemy['kickout'] = True;
+						self.on_attack_flyout(actor,i,skill_obj);
+					else:
+						enemy['dead'] = True;
+						self.on_attack_dead(actor,i,skill_obj);
+				else:
+					enemy['hp'] = hp;
+			else:
+				hp = enemy['hp'];
+				hp += damage;
+				value = 0-damage;
+				hpmax = enemy['hpmax'];
+				if hp > hpmax:
+					hp = hpmax;
+				enemy['hp'] = hp;
+			self.gen_s2c_warrior_propchg(enemy_prop,enemy.get_restoreprop(),value,enemy,b_crack,sid,slv,True);
+			self.gen_s2c_warrior_status(enemy);
+		self.on_attack_end(actor,dst_list,skill_obj)
+		
 		self.gen_s2c_warrior_skillend(actor,sid,slv);
 		for i in dst_list:
 			enemy = self.fighters[i];
 			if enemy['kickout']:
 				self.delwarrior(i);
+		if actor['kickout']:
+			self.delwarrior(actor['pos']);
 		return
 	def warrior_addwarrior(self,actor,cmd_data):
 		warrior_data = cmd_data;
@@ -739,81 +715,132 @@ class combat(object):
 			return
 		self.curbout = self.curbout + 1;
 		return
+	################
+	def _get_warrior_alleffect(self,tm,actor,dst_list,skill_obj):
+		############
+		wrapper_list = [];
+		enemy_list = [];
+		for i in dst_list:
+			enemy = self.get_fighter(i);
+			if enemy:
+				enemy_list.append(enemy);
+		actor_spd = actor['spd'];
+		if skill_obj:
+			actor_spd = self._calc_warrior_spd_byskill(actor,skill_obj);
+			cur_wrapper_list = skill_obj.get_wrapperlist_bystate(tm);
+			for i in cur_wrapper_list:
+				i.gen_spd(actor_spd);
+				i.set_actor(actor);
+				i.set_enemy_list(enemy_list);
+				wrapper_list.append(i);
+		for m,n in actor['passive'].items():
+			cur_wrapper_list = n.get_wrapperlist_bystate(tm);
+			for i in cur_wrapper_list:
+				i.gen_spd(actor_spd);
+				i.set_actor(actor);
+				i.set_enemy_list(enemy_list);
+				wrapper_list.append(i);
+		return wrapper_list
 	#战斗开始时间点，触发和计算所有玩家身上的组合BUFF和被动技能上的效果，属性等
-	def _calc_allwarrior_skill_effect(self,tm):
+	def on_start_state(self,tm = ctriger.COMBAT_TRIGER_ENTER):
 		#玩家身上的被动技能和当前使用主动技能上的效果，属性
 		wrapper_list = [];
 		for k,v in self.fighters.items():
 			cur_skill = self._get_warrior_curbout_skill(v);
 			dst = self._get_warrior_curbout_dst(v);
+			dst_list = [dst];
 			if cur_skill:
-				actor_spd = v['spd']*cur_skill.spd/100;
 				enemy = self.get_fighter(dst);
 				if enemy == None:
 					dst = self.get_default_dst(v);
 					enemy = self.get_fighter(dst);
-				dst_list = self.get_dst_list(actor,enemy,cur_skill);
-				enemy_list = [];
-				for i in dst_list:
-					enemy = self.get_fighter(i);
-					if enemy:
-						enemy_list.append(enemy);
-				cur_wrapper_list = cur_skill.get_wrapperlist_bystate(tm);
-				for i in cur_wrapper_list:
-					i.gen_spd(actor_spd);
-					i.set_actor(v);
-					i.set_enemy_list(enemy_list);
-					wrapper_list.append(i);
-			for m,n in v['passive'].items():
-				cur_wrapper_list = n.get_wrapperlist_bystate(tm);
-				for i in cur_wrapper_list:
-					i.gen_spd(actor_spd);
-					i.set_actor(v);
-					i.set_enemy_list([]);
-					wrapper_list.append(i);
+				dst_list = self.get_dst_list(v,enemy,cur_skill);
+			sub_wrapper_list = self._get_warrior_alleffect(tm,v,dst_list,cur_skill);
+			for i in sub_wrapper_list:
+				wrapper_list.append(i);
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
 			i.do();
 		return
-	def on_start_state(self):
-		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_ENTER)
-		
-		return
 	#回合开始时间点,计算所有玩家
 	def on_turn_start(self):
-		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_TURNSTART)
+		self.on_start_state(ctriger.COMBAT_TRIGER_TURNSTART)
 		#再是玩家身上的组合BUFF和BUFF计算
 		for k,v in self.fighters.items():
 			for i in v["buff"]:
 				i.do(v);
 		return
+	
 	#攻击开始时间点,针对单人出手,计算攻击发起者和所有受击者
-	def on_attack_start(self,actor,dst_list,skill_obj = None):
+	def on_attack_start(self,actor,dst_list,skill_obj = None,tm = ctriger.COMBAT_TRIGER_SKILLSTART):
+		wrapper_list = [];
+		wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
+		for i in dst_list:
+			enemy = self.get_fighter(i);
+			if enemy:
+				cur_skill = self._get_warrior_curbout_skill(enemy);
+				dst = self._get_warrior_curbout_dst(enemy);
+				dst_list = [dst];
+				if cur_skill:
+					eenemy = self.get_fighter(dst);
+					if eenemy == None:
+						dst = self.get_default_dst(enemy);
+						eenemy = self.get_fighter(dst);
+					dst_list = self.get_dst_list(enemy,eenemy,cur_skill);
+				sub_wrapper_list = self._get_warrior_alleffect(tm,enemy,dst_list,cur_skill);
+				for i in sub_wrapper_list:
+					wrapper_list.append(i);
+		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
+		for i in wrapper_list:
+			i.do();
 		return
 	#伤害开始时间点，针对单人出手，计算攻击发起者和当前受击者，用在吸血和反击？
-	def on_attack_hurt(self,actor,dst,skill_obj = None):
+	def on_attack_hurt(self,actor,dst,skill_obj = None,b_onlydst = False,tm = ctriger.COMBAT_TRIGER_ATK):
 		wrapper_list = [];
-		enemy_list = [];
-		enemy = self.get_fighter(dst);
-		enemy_list.append(enemy);
-		
+		dst_list = [dst];
+		if not b_onlydst:
+			wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
+		############
+		enemy = self._get_fighter(dst);
+		cur_skill = self._get_warrior_curbout_skill(enemy);
+		edst = self._get_warrior_curbout_dst(enemy);
+		dst_list = [edst];
+		if cur_skill:
+			eenemy = self.get_fighter(edst);
+			if eenemy == None:
+				edst = self.get_default_dst(eenemy);
+				eenemy = self.get_fighter(edst);
+			dst_list = self.get_dst_list(enemy,eenemy,cur_skill);
+		sub_wrapper_list = self._get_warrior_alleffect(tm,enemy,dst_list,cur_skill);
+		for i in sub_wrapper_list:
+			wrapper_list.append(i);
+		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
+		for i in wrapper_list:
+			i.do();
+		############
 		return
 	#攻击命中时，主要用在封印？
-	def on_attack_hit(self,actor,dst,skill_obj = None):
+	def on_attack_hit(self,actor,dst,skill_obj = None,b_onlydst = False):
+		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_HIT);
 		return
+
 	#伤害被miss时,主要是闪避和封印未命中？
-	def on_attack_miss(self,actor,dst,skill_obj = None):
+	def on_attack_miss(self,actor,dst,skill_obj = None,b_onlydst = False):
+		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_MISS);
 		return
 	#击倒时
-	def on_attack_dead(self,actor,dst,skill_obj = None):
+	def on_attack_dead(self,actor,dst,skill_obj = None,b_onlydst = False):
+		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_DEAD);
 		return
 	#击飞出场时
-	def on_attack_flyout(self,actor,dst,skill_obj = None):
+	def on_attack_flyout(self,actor,dst,skill_obj = None,b_onlydst = False):
+		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_FLYOUT);
 		return
 	#攻击结束时间点，针对单人出手，计算攻击发起者和所有受击者
 	def on_attack_end(self,actor,dst_list,skill_obj = None):
+		self.on_attack_start(actor,dst_list,skill_obj,ctriger.COMBAT_TRIGER_SKILLEND);
 		return
 	#回合结束时间点，计算所有玩家
 	def on_turn_end(self):
-		self._calc_allwarrior_skill_effect(ctriger.COMBAT_TRIGER_TURNEND)
+		self.on_start_state(ctriger.COMBAT_TRIGER_TURNEND)
 		return

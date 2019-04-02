@@ -14,8 +14,9 @@ class warrior(combatbase.combatbase):
 	def __init__(self,wid,pos,cid):
 		super(warrior,self).__init__();
 		self.m_id = wid;
-		self['cid'] = cid;
+		self['cid'] = cid;#only character have this id,pet and summon have not
 		self['id'] = wid;
+		self['owner'] = 0;#only pet have this id,
 		self['lv'] = 1;
 		self['hp'] = 100;
 		self['hpmax'] = 100;
@@ -57,6 +58,16 @@ class warrior(combatbase.combatbase):
 
 		self.gen_orgprop();
 		return
+	def is_pet(self):
+		return self['owner'] != 0;
+	def get_owner(self):
+		return self['owner'];
+	def get_cid(self):
+		return self['cid'];
+	def is_summon(self):
+		return self['cid'] == 0 and self['owner'] == 0;
+	def is_character(self):
+		return self['cid'] != 0;
 	def get_skill(self,sid):
 		if self['skill'].has_key(sid):
 			return self['skill'][sid]

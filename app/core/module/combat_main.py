@@ -295,6 +295,8 @@ class combat_main(app.base.game_module_mgr.game_module):
 	###send s2c packet start
 	def gen_s2c_combat_start(self,wid,cid,ctype,csubtype,wlineup,cplaymode,cskip,cmaxbout):
 		print "combat s2c start"
+		if wid == 0:
+			return;
 		#S2C_WAR_START id type subtype lineup playmode skip maxbout
 		data = {};
 		data['id'] = cid;

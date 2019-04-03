@@ -17,7 +17,7 @@ class combatprop(object):
 		return self.spd + actor_spd;
 	def do(self,*args):
 		return
-		
+	
 def create_cprop(tid,name,key):
 	return combatprop(tid,name,key)
 g_cprop_map = {};

@@ -40,6 +40,10 @@ class cwrapperbase(object):
 		#if self.actor.has_wrapper(self.id) == False:
 		#	self.actor.use_wrapper(self.id);
 		return
+	def clear(self,combat_ins,b_done = False):
+		#if self.actor.has_wrapper(self.id) == False:
+		#	self.actor.use_wrapper(self.id);
+		return
 class combatwrapper(cwrapperbase):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
 		super(combatwrapper,self).__init__(inst,value,rate,dst,triger,bout)

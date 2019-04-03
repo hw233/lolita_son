@@ -133,12 +133,6 @@ class warrior(combatbase.combatbase):
 		if self['buff'].has_key(bid):
 			return self['buff'][bid];
 		return None;
-	def clear_invalid_buff(self):
-		keys = list(self['buff'].keys());
-		for i in keys:
-			if self['buff'][i].cd <= 0:
-				del self['buff'][i];
-		return
 	def del_buff(self,bid):
 		if self['buff'].has_key(buffobj.bid):
 			del self['buff'][bid];

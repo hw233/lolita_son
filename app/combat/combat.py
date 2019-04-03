@@ -334,7 +334,11 @@ class combat(object):
 					self.gen_s2c_warrior_delbuff(actor,i);
 				else:
 					self.gen_s2c_warrior_buffcd_change(actor,j);
-			v.clear_invalid_buff();
+			keys = list(v['buff'].keys());
+			for i in keys:
+				if v['buff'][i].cd <= 0:
+					v['buff'][i].clear(v,self);
+					del v['buff'][i];
 		return
 	def get_fighter(self,wid):
 		return self.fighters[wid]

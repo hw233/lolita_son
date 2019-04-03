@@ -116,3 +116,8 @@ class boutbuff(cbuff.buffbase):
 			i.do(combat_ins,self.done);
 		self.done = True;
 		return
+	def clear(self,actor,combat_ins):
+		for i in self.bcfg.proplist:#wrapp_ins
+			i.set_actor(actor);
+			i.clear(combat_ins,self.done);
+		return

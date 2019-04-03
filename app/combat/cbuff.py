@@ -37,6 +37,8 @@ class buffbase(object):
 		return self.groupid;
 	def do(self,actor,combat_ins):
 		return
+	def clear(self,actor,combat_ins):
+		return
 class combatbuffeff(object):
 	def __init__(self,bid):
 		self.bid = bid;

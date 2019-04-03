@@ -47,10 +47,51 @@ class combatbuffeff(object):
 		self.refresh = 0;
 		self.overlap = 1;
 		return
-		
+	def do(self,actor,combat_ins,value,b_done = None):
+		return
+	def clear(self,actor,combat_ins,value,b_done = None):
+		return
+class hide_3109(combatbuffeff):
+	def __init__(self,bid):
+		super(hide_3109,self).__init__(bid);
+		return
+	def do(self,actor,combat_ins,value,b_done = None):
+		actor['m_hide'] = True;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None):
+		actor['m_hide'] = False;
+		return
+class addhp_201(combatbuffeff):
+	def __init__(self,bid):
+		super(addhp_201,self).__init__(bid);
+		return
+	def do(self,actor,combat_ins,value,b_done = None):
+		if value == None or len(value <= 0):
+			return
+		if combat_ins.is_warrior_dead(actor):
+			return
+		hpmax = actor['hpmax'];
+		hp = actor['hp'];
+		hp += int(value);
+		if hp > hpmax:
+			hp = hpmax;
+		actor['hp'] = hp;
+		combat_ins.gen_s2c_warrior_propchg(None,None,int(value),actor,False,0,0,False);
+		combat_ins.gen_s2c_warrior_status(actor);
+		return
+	def clear(self,actor,combat_ins,value,b_done = None):
+		return
 def create_cbuffeff(tid,name,tp):
-	#if tid == 101:
-	#	ret = XXXXX;
+	if tid == 3109:
+		ret = hide_3109(tid);
+		ret.name = name;
+		ret.tp = tp;
+		return;
+	if tid == 201:
+		ret = addhp_201(tid);
+		ret.name = name;
+		ret.tp = tp;
+		return;
 	ret = combatbuffeff(tid);
 	ret.name = name;
 	ret.tp = tp;
@@ -64,6 +105,10 @@ def have_cbuffeff_by_name(name):
 	for k,v in fightbuffeffect.fightbuffeffect_map.items():
 		if v["name"] == name:
 			return True;
+	return False
+def have_cbuffeff_by_bid(bid):
+	if fightbuffeffect.fightbuffeffect_map.has_key(bid):
+		return True
 	return False
 def get_cbuffeff_by_name(name):
 	ret = None;

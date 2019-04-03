@@ -170,15 +170,16 @@ class combat(object):
 		status = 0;
 		if b_crack:
 			status = status | (War_AttackType_Crack << 2);
-		if new_prop['kickout'] == True:
-			if not old_prop['kickout']:
-				status = status | (War_AttackedResult_FlyAway << 4);
-		elif new_prop['dead'] == True:
-			if not old_prop['dead']:
-				status = status | (War_AttackedResult_Dead << 4);
-		else:
-			if old_prop['dead'] == True and not new_prop['dead']:
-				status = status | (War_AttackedResult_Revive << 4);
+		if old_prop and new_prop:
+			if new_prop['kickout'] == True:
+				if not old_prop['kickout']:
+					status = status | (War_AttackedResult_FlyAway << 4);
+			elif new_prop['dead'] == True:
+				if not old_prop['dead']:
+					status = status | (War_AttackedResult_Dead << 4);
+			else:
+				if old_prop['dead'] == True and not new_prop['dead']:
+					status = status | (War_AttackedResult_Revive << 4);
 
 		status = status | War_AttackedBehave_Hit;
 		if self.parent:#todo

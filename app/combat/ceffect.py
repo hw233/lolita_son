@@ -17,7 +17,32 @@ class combateffect(object):
 	def do(self,*args):
 		return
 
+class leech_1006(combateffect):
+	def __init__(self,tid,name):
+		super(leech_1006,self).__init__(tid,name);
+		return
+	def do(self,*args):
+		return
+class revive_1001(combateffect):
+	def __init__(self,tid,name):
+		super(revive_1001,self).__init__(tid,name);
+		return
+	def do(self,*args):
+		return
+class clearbuff_1038(combateffect):
+	def __init__(self,tid,name):
+		super(clearbuff_1038,self).__init__(tid,name);
+		return
+	def do(self,*args):
+		return
+
 def create_effect(tid,name):
+	if tid == 1006:
+		return leech_1006(tid,name);
+	if tid == 1001:
+		return revive_1001(tid,name);
+	if tid == 1038:
+		return clearbuff_1038(tid,name);
 	return combateffect(tid,name)
 g_effect_map = {};
 

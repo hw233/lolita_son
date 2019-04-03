@@ -102,7 +102,8 @@ def have_buff_byname(name):
 class boutbuff(cbuff.buffbase):
 	def __init__(self,bid,cd = 0):
 		super(boutbuff,self).__init__(bid,cd);
-		self.bcfg = get_buffcfg(bid);
+		self.bcfg = None;
+		self.b_buffeff = cbuff.have_cbuffeff_by_bid(bid);
 		return
 	def is_immediate(self):
 		return True;
@@ -111,13 +112,20 @@ class boutbuff(cbuff.buffbase):
 	def get_group(self):
 		return 0;
 	def do(self,actor,combat_ins):
-		for i in self.bcfg.proplist:#wrapp_ins
-			i.set_actor(actor);
-			i.do(combat_ins,self.done);
+		if self.b_buffeff:
+			self.bcfg.do(actor,combat_ins,self.value,self.done);
+		else:
+			for i in self.bcfg.proplist:#wrapp_ins
+				i.set_actor(actor);
+				i.do(combat_ins,self.done);
 		self.done = True;
 		return
 	def clear(self,actor,combat_ins):
-		for i in self.bcfg.proplist:#wrapp_ins
-			i.set_actor(actor);
-			i.clear(combat_ins,self.done);
+		if self.b_buffeff:
+			self.bcfg.clear(actor,combat_ins,self.value,self.done);
+		else:
+			for i in self.bcfg.proplist:#wrapp_ins
+				i.set_actor(actor);
+				i.clear(combat_ins,self.done);
+		self.done = False;
 		return

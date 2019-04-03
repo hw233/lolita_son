@@ -24,6 +24,9 @@ class warrior(combatbase.combatbase):
 		self['sp'] = 100;
 		self['enegy'] = 100;
 		self['mp'] = 100;
+		self['spmax'] = 100;
+		self['enegymax'] = 100;
+		self['mpmax'] = 100;
 		self['atk'] = 100;
 		self['def'] = 0;
 		self['hit'] = 0;
@@ -49,6 +52,10 @@ class warrior(combatbase.combatbase):
 		self['cankickout'] = False;
 		self['kickout'] = False;
 		
+		######extra prop start
+		self['m_sense'] = False;
+		self['m_hide'] = False;
+		######extra prop end
 		self['pos'] = pos;
 		if pos <= 12:
 			self['group'] = 0;
@@ -83,6 +90,9 @@ class warrior(combatbase.combatbase):
 		return
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];
+		self['mpmax'] = self['orgmpmax'];
+		self['enegymax'] = self['orgenegymax'];
+		self['spmax'] = self['orgspmax'];
 		self['spd'] = self['orgspd'];
 		self['atk'] = self['orgatk'];
 		self['def'] = self['orgdef'];
@@ -105,6 +115,10 @@ class warrior(combatbase.combatbase):
 		return
 	def gen_orgprop(self):
 		self['orghpmax'] = self['hpmax'];
+		self['orgspmax'] = self['spmax'];
+		self['orgmpmax'] = self['mpmax'];
+		self['orgenegymax'] = self['enegymax'];
+
 		self['orgspd'] = self['spd'];
 		self['orgatk'] = self['atk'];
 		self['orgdef'] = self['def'];

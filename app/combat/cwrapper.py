@@ -6,6 +6,7 @@ Created on 2018-1-26
 '''
 import random
 import buff
+import cbuff
 
 g_wrapper_id_start = 0;
 class cwrapperbase(object):
@@ -36,11 +37,12 @@ class cwrapperbase(object):
 	def set_enemy_list(self,e_list):
 		self.enemy_list = e_list;
 		return
-	def do(self,combat_ins,b_done = False):
+	def do(self,combat_ins,b_done = None):
+
 		#if self.actor.has_wrapper(self.id) == False:
 		#	self.actor.use_wrapper(self.id);
 		return
-	def clear(self,combat_ins,b_done = False):
+	def clear(self,combat_ins,b_done = None):
 		#if self.actor.has_wrapper(self.id) == False:
 		#	self.actor.use_wrapper(self.id);
 		return
@@ -48,10 +50,16 @@ class combatwrapper(cwrapperbase):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
 		super(combatwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
-	def do(self,combat_ins,b_done = False):
+	def do(self,combat_ins,b_done = None):
+		#if self.actor.has_wrapper(self.id) == False:
+		#	self.actor.use_wrapper(self.id);
+		return
+	def clear(self,combat_ins,b_done = None):
+		#if self.actor.has_wrapper(self.id) == False:
+		#	self.actor.use_wrapper(self.id);
 		return
 class combatbuffwrapper(cwrapperbase):#用来添加BUFF
-	def __init__(self,inst,value,rate,dst,triger,bout):
+	def __init__(self,inst,value,rate,dst,triger,bout):#inst maybe is cbuffeff or buffcfg
 		super(combatbuffwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
 	def do(self,combat_ins,b_done = False):
@@ -78,6 +86,7 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 			old_buff = i.has_buff(bid);
 			if not old_buff:
 				addbuff = buff.boutbuff(bid,addcd);
+				addbuff.bcfg = self.inst;
 				addbuff.value = buffvalue;
 				i.add_buff(addbuff);
 				combat_ins.gen_s2c_warrior_addbuff(i,addbuff,0,0);

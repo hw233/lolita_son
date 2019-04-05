@@ -14,30 +14,21 @@ class autocombat(combat.combat):
         return self.get_default_dst(actor);
     def on_turn_doing(self):
         for k,v in self.fighters.items():
-            if self.is_warrior_dead(v):
-                continue;
             dst = self.get_autoskill_dst(v);
             if dst == None:
                 continue;
-            skill_id = 1001;
+            skill_id = 1;
             skill_lv = 1;
-            skill_list = v['skill'].keys();
-            if len(skill_list) > 0:
-                last_id = v.get('lastskill',None);
+            last_id = v.get('lastskill',None);
+            for k,v in v['skill'].items():
                 if last_id == None:
-                    skill_id = skill_list[0];
-                    skill_lv = v['skill'][skill_id].slv;
+                    skill_id = k;
+                    skill_lv = v.slv;
                 else:
-                    idx = 0;
-                    for i in skill_list:
-                        if i == last_id:
-                            break;
-                        idx += 1;
-                    if idx >= (len(skill_list) - 1):
-                        idx = 0;
-                    else:
-                        idx = idx + 1;
-                    skill_id = skill_list[idx];
-                    skill_lv = v['skill'][skill_id].slv;
-            self.addwarriorcmd(k,combat.COMBATCMD_ATTACK,{'sid':skill_id,'slv':skill_lv,'dst':dst})
+                    if last_id == k:
+                        skill_lv = v.slv;
+            if skill_id == 1:
+                self.addwarriorcmd(k,combat.COMBATCMD_ATTACK,{'sid':skill_id,'slv':skill_lv,'dst':dst})
+            else:
+                self.addwarriorcmd(k,combat.COMBATCMD_SKILL,{'sid':skill_id,'slv':skill_lv,'dst':dst})
         return

@@ -12,6 +12,8 @@ from firefly.server.globalobject import GlobalObject
 import app.core.game_module_def as game_module_def
 
 import app.combat.combat
+import app.combat.autocombat
+
 import app.combat.warrior
 
 import app.config.fightgroup as fightgroup
@@ -175,7 +177,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		if mainnum + subnum + smallnum + othernum <= 0:
 			return
 
-		combat_inst = app.combat.combat.combat();
+		combat_inst = app.combat.autocombat.autocombat();
 		combat_inst.parent = self;
 
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
@@ -214,7 +216,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 				break;
 		return
 	def _combat_character(self,team1,team2):
-		combat_inst = app.combat.combat.combat();
+		combat_inst = app.combat.combat.autocombat();
 		combat_inst.parent = self;
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
 		pos_idx = 0;

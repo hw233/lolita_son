@@ -41,9 +41,9 @@ class warrior(combatbase.combatbase):
 		self['absdmgdef'] = 0;#无视伤害加深绝对值
 		self['ignoredef'] = 0;#无视防御绝对值
 		self['ignoredefdef'] = 0;#无视无视防御（无视减免)绝对值
-		self['skill'] = {};#sid:sid+slv
+		self['skill'] = {};#sid:boutskill
 		self['buff'] = {};#bid:buff obj
-		self['passive'] = {};#sid:sid+slv
+		self['passive'] = {};#sid:boutskillpassive
 		self['cur_wrapper_list'] = {};
 		self['pet'] = {};
 		self['dead'] = False;

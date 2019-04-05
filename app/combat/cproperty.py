@@ -15,36 +15,163 @@ class combatprop(object):
 		return
 	def gen_spd(self,actor_spd):
 		return self.spd + actor_spd;
-	def do(self,*args):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
 		return
-
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		return
 class hpmaxadd_1(combatprop):
 	def __init__(self,tid,name,key):
 		super(hpmaxadd_1,self).__init__(tid,name,key);
+		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		hp = actor['hp'];
+		hpmax = actor['hpmax'];
+		v = int(value);
+		if b_minus:
+			hpmax = hpmax - v;
+			if hp > hpmax:
+				hp = hpmax;
+		else:
+			hpmax = hpmax + v;
+		actor["hpmax"] = hpmax;
+		actor["hp"] = hp;
+		combat_ins.gen_s2c_warrior_status(actor);
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		hp = actor['hp'];
+		hpmax = actor['hpmax'];
+		v = int(value);
+		if b_minus:
+			hpmax = hpmax + v;
+		else:
+			hpmax = hpmax - v;
+			if hp > hpmax:
+				hp = hpmax;
+		actor["hpmax"] = hpmax;
+		actor["hp"] = hp;
+		combat_ins.gen_s2c_warrior_status(actor);
 		return
 class mpmaxadd_2(combatprop):
 	def __init__(self,tid,name,key):
 		super(mpmaxadd_2,self).__init__(tid,name,key);
 		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		mp = actor['mp'];
+		mpmax = actor['mpmax'];
+		v = int(value);
+		if b_minus:
+			mpmax = mpmax - v;
+			if mp > mpmax:
+				mp = mpmax;
+		else:
+			mpmax = mpmax + v;
+		actor["mpmax"] = mpmax;
+		actor["mp"] = mp;
+		combat_ins.gen_s2c_warrior_status(actor);
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		mp = actor['mp'];
+		mpmax = actor['mpmax'];
+		v = int(value);
+		if b_minus:
+			mpmax = mpmax + v;
+		else:
+			mpmax = mpmax - v;
+			if mp > mpmax:
+				mp = mpmax;
+		actor["mpmax"] = mpmax;
+		actor["mp"] = mp;
+		combat_ins.gen_s2c_warrior_status(actor);
+		return
 class atkadd_3(combatprop):
 	def __init__(self,tid,name,key):
 		super(atkadd_3,self).__init__(tid,name,key);
+		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		atk = actor['atk'];
+		v = int(value);
+		if b_minus:
+			atk = atk - v;
+		else:
+			atk = atk + v;
+		actor["atk"] = atk;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		atk = actor['atk'];
+		v = int(value);
+		if b_minus:
+			atk = atk + v;
+		else:
+			atk = atk - v;
+		actor["atk"] = atk;
 		return
 class defaddbylv_4(combatprop):
 	def __init__(self,tid,name,key):
 		super(defaddbylv_4,self).__init__(tid,name,key);
 		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		defv = actor['def'];
+		lv = actor['lv']
+		v = int(value);
+		if b_minus:
+			defv = defv -（lv*v/100);
+		else:
+			defv = defv +（lv*v/100);
+		actor["def"] = defv;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		defv = actor['def'];
+		lv = actor['lv']
+		v = int(value);
+		if b_minus:
+			defv = defv +（lv*v/100);
+		else:
+			defv = defv -（lv*v/100);
+		actor["def"] = defv;
+		return
 class sense_5(combatprop):
 	def __init__(self,tid,name,key):
 		super(sense_5,self).__init__(tid,name,key);
+		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		actor["m_sense"] = True;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		actor["m_sense"] = False;
 		return
 class atkseal_6(combatprop):
 	def __init__(self,tid,name,key):
 		super(atkseal_6,self).__init__(tid,name,key);
 		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		actor["m_bseal"] = True;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		actor["m_bseal"] = False;
+		return
 class mgcatkseal_7(combatprop):
 	def __init__(self,tid,name,key):
 		super(mgcatkseal_7,self).__init__(tid,name,key);
+		return
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if b_done == True:
+			return;
+		actor["m_bmgcseal"] = True;
+		return
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		actor["m_bmgcseal"] = False;
 		return
 
 def create_cprop(tid,name,key):

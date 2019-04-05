@@ -14,26 +14,51 @@ class combateffect(object):
 		return
 	def gen_spd(self,actor_spd):
 		return self.spd + actor_spd;
-	def do(self,*args):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
 		return
-
+	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		return
 class leech_1006(combateffect):
 	def __init__(self,tid,name):
 		super(leech_1006,self).__init__(tid,name);
 		return
-	def do(self,*args):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		old_prop = actor.get_restoreprop()
+		rate = int(value);
+		atk = actor['atk'];
+		addhp = atk*rate/100;
+		hpmax = actor["hpmax"];
+		hp = actor["hp"];
+		hp = hp + addhp;
+		if hp > hpmax:
+			hp = hpmax;
+		actor["hp"] = hp;
+		combat_ins.gen_s2c_warrior_propchg(old_prop,actor.get_restoreprop(),0-addhp,actor,False,0,0,False);
+		combat_ins.gen_s2c_warrior_status(actor);
 		return
 class revive_1001(combateffect):
 	def __init__(self,tid,name):
 		super(revive_1001,self).__init__(tid,name);
 		return
-	def do(self,*args):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		if actor['dead']:
+			old_prop = actor.get_restoreprop()
+			actor['dead'] = False;
+			actor['hp'] = 1;
+			combat_ins.gen_s2c_warrior_propchg(old_prop,actor.get_restoreprop(),1,actor,False,0,0,False);
+			combat_ins.gen_s2c_warrior_status(actor);
 		return
 class clearbuff_1038(combateffect):
 	def __init__(self,tid,name):
 		super(clearbuff_1038,self).__init__(tid,name);
 		return
-	def do(self,*args):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+		bid = int(value);
+		buffobj = actor.has_buff(bid);
+		if buffobj:
+			buffobj.clear(actor,combat_ins);
+			actor.del_buff(bid);
+			combat_ins.gen_s2c_warrior_delbuff(actor,bid);
 		return
 
 def create_effect(tid,name):

@@ -72,11 +72,12 @@ class addhp_201(combatbuffeff):
 			return
 		hpmax = actor['hpmax'];
 		hp = actor['hp'];
-		hp += int(value);
+		v = int(value);
+		hp = hp + v;
 		if hp > hpmax:
 			hp = hpmax;
 		actor['hp'] = hp;
-		combat_ins.gen_s2c_warrior_propchg(None,None,int(value),actor,False,0,0,False);
+		combat_ins.gen_s2c_warrior_propchg(None,None,0-v,actor,False,0,0,False);
 		combat_ins.gen_s2c_warrior_status(actor);
 		return
 	def clear(self,actor,combat_ins,value,b_done = None):

@@ -117,7 +117,8 @@ class boutbuff(cbuff.buffbase):
 		else:
 			for i in self.bcfg.proplist:#wrapp_ins
 				i.set_actor(actor);
-				i.do(combat_ins,self.done);
+				b_minus = (int(self.value) < 0);
+				i.do(combat_ins,b_minus);
 		self.done = True;
 		return
 	def clear(self,actor,combat_ins):
@@ -126,6 +127,7 @@ class boutbuff(cbuff.buffbase):
 		else:
 			for i in self.bcfg.proplist:#wrapp_ins
 				i.set_actor(actor);
-				i.clear(combat_ins,self.done);
+				b_minus = (int(self.value) < 0);
+				i.clear(combat_ins,b_minus);
 		self.done = False;
 		return

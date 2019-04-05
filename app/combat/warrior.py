@@ -55,6 +55,8 @@ class warrior(combatbase.combatbase):
 		######extra prop start
 		self['m_sense'] = False;
 		self['m_hide'] = False;
+		self['m_bseal'] = False;
+		self['m_bmgcseal'] = False;
 		######extra prop end
 		self['pos'] = pos;
 		if pos <= 12:
@@ -148,7 +150,7 @@ class warrior(combatbase.combatbase):
 			return self['buff'][bid];
 		return None;
 	def del_buff(self,bid):
-		if self['buff'].has_key(buffobj.bid):
+		if self['buff'].has_key(bid):
 			del self['buff'][bid];
 			return True;
 		return False; 

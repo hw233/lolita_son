@@ -37,12 +37,11 @@ class cwrapperbase(object):
 	def set_enemy_list(self,e_list):
 		self.enemy_list = e_list;
 		return
-	def do(self,combat_ins,b_done = None):
-
+	def do(self,combat_ins,b_minus = False):
 		#if self.actor.has_wrapper(self.id) == False:
 		#	self.actor.use_wrapper(self.id);
 		return
-	def clear(self,combat_ins,b_done = None):
+	def clear(self,combat_ins,b_minus = False):
 		#if self.actor.has_wrapper(self.id) == False:
 		#	self.actor.use_wrapper(self.id);
 		return
@@ -50,19 +49,43 @@ class combatwrapper(cwrapperbase):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
 		super(combatwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
-	def do(self,combat_ins,b_done = None):
-		#if self.actor.has_wrapper(self.id) == False:
-		#	self.actor.use_wrapper(self.id);
+	def do(self,combat_ins,b_minus = False):
+		if rate > 0 and rate < 100:
+			if rate < random.randint(0,100):
+				return
+		
+		if dst == 1:
+			b_done = False;
+			if self.actor.has_wrapper(self.id) == False:
+				self.actor.use_wrapper(self.id);
+			else:
+				b_done = True;
+			self.inst.do(self.actor,combat_ins,self.value,b_done,b_minus);
+		else:
+			for i in self.enemy_list:
+				b_done = False;
+				if i.has_wrapper(self.id) == False:
+					i.use_wrapper(self.id);
+				else:
+					b_done = True;
+				self.inst.do(i,combat_ins,self.value,b_done,b_minus);
 		return
-	def clear(self,combat_ins,b_done = None):
-		#if self.actor.has_wrapper(self.id) == False:
-		#	self.actor.use_wrapper(self.id);
+	def clear(self,combat_ins,b_minus = False):
+		if dst == 1:
+			if self.actor.has_wrapper(self.id):
+				self.actor.clear_wrapper(self.id);
+				self.inst.clear(self.actor,combat_ins,self.value,True,b_minus);
+		else:
+			for i in self.enemy_list:
+				if i.has_wrapper(self.id):
+					i.clear_wrapper(self.id);
+					self.inst.do(i,combat_ins,self.value,True,b_minus);
 		return
 class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 	def __init__(self,inst,value,rate,dst,triger,bout):#inst maybe is cbuffeff or buffcfg
 		super(combatbuffwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
-	def do(self,combat_ins,b_done = False):
+	def do(self,combat_ins,b_minus = False):
 		bhit = False;
 		if self.rate >= 100:
 			bhit = True;

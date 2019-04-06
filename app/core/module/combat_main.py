@@ -15,6 +15,7 @@ import app.combat.combat
 import app.combat.autocombat
 
 import app.combat.warrior
+import app.combat.skill
 
 import app.config.fightgroup as fightgroup
 import app.config.fightconfig as fightconfig
@@ -112,11 +113,12 @@ class combat_main(app.base.game_module_mgr.game_module):
 		hpstr = "";
 		attackstr = "";
 		speedstr = "";
-
+		dodgestr = "";
+		hitstr = "";
 		cfightdata = fightdata.create_Fightdata(cfgid);
 		cfightconfig = None;
 		cfightnumconfig = None;
-
+		skill_cfg = {};#idx:[id,lv]
 		if cfightdata:
 			cfightconfig = fightconfig.create_Fightconfig(cfightdata.fight);
 			if cfightconfig:
@@ -126,6 +128,10 @@ class combat_main(app.base.game_module_mgr.game_module):
 						hpstr = i["hp"];
 						attackstr = i["attack"];
 						speedstr = i["speed"];
+						dodgestr = i["dodge"];
+						hitstr = i["hit"];
+						for idx in xrange(1,10+1):
+							skill_cfg[idx] = [i["skill"+str(idx)],i["slv"+str(idx)]];
 						break;
 		if cfightdata and cfightconfig:
 			lv = cfightdata.lv;
@@ -134,6 +140,8 @@ class combat_main(app.base.game_module_mgr.game_module):
 			hp = 1;
 			attack = 1;
 			speed = 1;
+			dodge = 1;
+			hit = 1;
 			if len(hpstr) > 0:
 				exec("hp = "+hpstr);
 				hp = int(hp);
@@ -143,7 +151,12 @@ class combat_main(app.base.game_module_mgr.game_module):
 			if len(speedstr) > 0:
 				exec("speed = "+speedstr);
 				speed = int(speed);
-
+			if len(dodgestr) > 0:
+				exec("dodge = "+dodgestr);
+				dodge = int(dodge);
+			if len(hitstr) > 0:
+				exec("hit = "+hitstr);
+				hit = int(hit);
 			team_pos = app.combat.combat.COMBAT_POS_MAP[1];
 			for i in xrange(0,count):
 				if pos_idx >= len(team_pos):
@@ -155,8 +168,21 @@ class combat_main(app.base.game_module_mgr.game_module):
 				w_inst['hpmax'] = hp;
 				w_inst['atk'] = attack;
 				w_inst['spd'] = speed;
+				w_inst['hit'] = hit;
+				w_inst['dodge'] = dodge;
 				w_inst['name'] = name;
 				w_inst['shape'] = shape;
+				skill_idx = 0;
+				for idx in xrange(1,10+1):
+					sid = skill_cfg[idx][0];
+					slv = skill_cfg[idx][1];
+					if sid != 0:
+						if slv == 0:
+							slv = 1;
+						w_inst.add_skill(sid,slv);
+						if app.combat.skill.has_skill(sid):
+							w_inst.set_skill_order(skill_idx,sid);
+							skill_idx = skill_idx + 1;
 				w_inst.gen_orgprop();
 				combat_inst.addwarrior(w_inst);
 		return pos_idx
@@ -198,6 +224,18 @@ class combat_main(app.base.game_module_mgr.game_module):
 		w_inst['spd'] = dex*2;
 		w_inst['name'] = c_info["nickname"];
 		w_inst['shape'] = c_info["figure"];
+		###
+		skillpklist = memmode.tb_skill_admin.getAllPkByFk(cid)
+		skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
+		for skillobj in skillobjlist:
+			idata = skillobj.get('data');
+			sid = idata['skillid'];
+			slv = idata['skilllv'];
+			useidx = idata['useidx'];
+			w_inst.add_skill(sid,slv);
+			if useidx != 0:
+				w_inst.set_skill_order(useidx - 1,sid);
+		###
 		w_inst.gen_orgprop();
 		combat_inst.addwarrior(w_inst);
 
@@ -237,6 +275,18 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
+			####
+			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
+			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
+			for skillobj in skillobjlist:
+				idata = skillobj.get('data');
+				sid = idata['skillid'];
+				slv = idata['skilllv'];
+				useidx = idata['useidx'];
+				w_inst.add_skill(sid,slv);
+				if useidx != 0:
+					w_inst.set_skill_order(useidx - 1,sid);
+			####
 			w_inst.gen_orgprop();
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;
@@ -260,6 +310,16 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
+			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
+			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
+			for skillobj in skillobjlist:
+				idata = skillobj.get('data');
+				sid = idata['skillid'];
+				slv = idata['skilllv'];
+				useidx = idata['useidx'];
+				w_inst.add_skill(sid,slv);
+				if useidx != 0:
+					w_inst.set_skill_order(useidx - 1,sid);
 			w_inst.gen_orgprop();
 			combat_inst.addwarrior(w_inst);
 			pos_idx = pos_idx + 1;

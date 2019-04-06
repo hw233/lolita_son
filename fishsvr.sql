@@ -116,10 +116,12 @@ CREATE TABLE `tb_skill` (
   `characterId` int(10) DEFAULT '0' COMMENT '所属角色id',
   `skillid` int(11) DEFAULT '0' COMMENT 'skillid',
   `skilllv` int(11) NOT NULL DEFAULT '0' COMMENT 'skilllv',
+  `useidx` int(11) DEFAULT '0' COMMENT '战斗中使用的序号，未使用为0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tb_skill` */
+
 
 /*Table structure for table `tb_pet` */
 
@@ -149,6 +151,7 @@ CREATE TABLE `tb_pet_skill` (
   `characterId` int(10) DEFAULT '0' COMMENT '所属角色id',
   `skillid` int(11) DEFAULT '0' COMMENT 'skillid',
   `skilllv` int(11) NOT NULL DEFAULT '0' COMMENT 'skilllv',
+  `useidx` int(11) DEFAULT '0' COMMENT '战斗中使用的序号，未使用为0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -182,6 +185,7 @@ CREATE TABLE `tb_partner_skill` (
   `characterId` int(10) DEFAULT '0' COMMENT '所属角色id',
   `skillid` int(11) DEFAULT '0' COMMENT 'skillid',
   `skilllv` int(11) NOT NULL DEFAULT '0' COMMENT 'skilllv',
+  `useidx` int(11) DEFAULT '0' COMMENT '战斗中使用的序号，未使用为0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

@@ -111,3 +111,9 @@ def create_passiveskill(sid,slv):
     if g_skillpassive_config.has_key(key) == False:
         g_skillpassive_config[key] = skillpassive(sid,slv);
     return g_skillpassive_config[key];
+
+def has_skill(sid):
+    skilldata = fightskillpassive.create_Fightskillpassive(sid);
+    if skilldata == None:
+        return False
+    return True

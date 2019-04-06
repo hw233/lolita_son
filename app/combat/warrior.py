@@ -9,7 +9,7 @@ import random
 import combatbase
 import skill
 import buff
-import skillpassive as skillpassive
+import skillpassive
 class warrior(combatbase.combatbase):
 	def __init__(self,wid,pos,cid):
 		super(warrior,self).__init__();
@@ -42,6 +42,9 @@ class warrior(combatbase.combatbase):
 		self['ignoredef'] = 0;#无视防御绝对值
 		self['ignoredefdef'] = 0;#无视无视防御（无视减免)绝对值
 		self['skill'] = {};#sid:boutskill
+		self['skillorder'] = {};#idx:skillid
+		self['skillcuridx'] = 0;#
+		self['skillidxmax'] = 10;#
 		self['buff'] = {};#bid:buff obj
 		self['passive'] = {};#sid:boutskillpassive
 		self['cur_wrapper_list'] = {};
@@ -90,6 +93,34 @@ class warrior(combatbase.combatbase):
 		if self['skill'].has_key(sid):
 			return self['skill'][sid]
 		return
+	def add_skill(self,sid,slv):
+		old_skill = self.get_skill(sid);
+		if old_skill:
+			return;
+		if skill.has_skill(sid):
+			self["skill"][sid] = skill.create_skill(sid,slv);
+		elif skillpassive.has_skill(sid):
+			self["passive"][sid] = skillpassive.create_passiveskill(sid,slv);
+		return
+	def set_skill_order(self,idx,sid):
+		self["skillorder"][idx] = sid;
+		return
+	def get_cur_skill(self,move_next = False):
+		idx = self["skillcuridx"];
+		idxmax = self["skillidxmax"];
+		for i in xrange(idx,idxmax):
+			if self["skillorder"].has_key(i):
+				sid = self["skillorder"][i];
+				skillobj = self.get_skill(sid);
+				if skillobj != None:
+					if move_next:
+						idx = i + 1;
+						if idx >= idxmax:
+							idx = 0;
+							self["skillcuridx"] = idx;
+					return skillobj
+		return
+
 	def reset_orgprop(self):
 		self['hpmax'] = self['orghpmax'];
 		self['mpmax'] = self['orgmpmax'];

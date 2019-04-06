@@ -19,14 +19,15 @@ class autocombat(combat.combat):
                 continue;
             skill_id = 1;
             skill_lv = 1;
-            last_id = v.get('lastskill',None);
-            for k,v in v['skill'].items():
-                if last_id == None:
+            cur_skill = v.get_cur_skill(True);
+            if cur_skill != None:
+                skill_id = cur_skill.sid;
+                skill_lv = cur_skill.slv;
+            else:
+                for k,v in v['skill'].items():
                     skill_id = k;
                     skill_lv = v.slv;
-                else:
-                    if last_id == k:
-                        skill_lv = v.slv;
+                    break;
             if skill_id == 1:
                 self.addwarriorcmd(k,combat.COMBATCMD_ATTACK,{'sid':skill_id,'slv':skill_lv,'dst':dst})
             else:

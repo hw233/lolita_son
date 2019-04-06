@@ -234,3 +234,17 @@ def create_skill(sid,slv):
 	if g_skill_config.has_key(key) == False:
 		g_skill_config[key] = boutskill(sid,slv);
 	return g_skill_config[key];
+
+def has_skill(sid):
+	skilldata = boutskillconfig.create_Fightskill(sid);
+	if skilldata == None:
+		return False
+	return True
+def get_skill_max(sid):
+	skilldata = boutskillconfig.create_Fightskill(sid);
+	if skilldata == None:
+		return 0
+	count = len(skilldata.data);
+	if count <= 0:
+		return 0
+	return skilldata.data[count-1].get('lv',0);

@@ -42,6 +42,28 @@ class gm_main(app.base.game_module_mgr.game_module):
 			print "_parse_gm_cmd lvup"
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
 			game_ins.req_lvup(cId,False);
+		elif gm_cmd == "$studyskill":
+			sid = int(params[1]);
+			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
+			if game_ins._study_skill(cId,sid):
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_STUDYSKILLSUCCEED}]);
+			else:
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_STUDYSKILLFAILED}]);
+		elif gm_cmd == "$lvupskill":
+			sid = int(params[1]);
+			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
+			if game_ins._lvup_skill(cId,sid):
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_LVUPSKILLSUCCEED}]);
+			else:
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_LVUPSKILLFAILED}]);
+		elif gm_cmd == "$useskill":
+			sid = int(params[1]);
+			useidx = int(params[2]);
+			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
+			if game_ins._use_skill(cId,sid,useidx):
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLSUCCEED}]);
+			else:
+				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLFAILED}]);
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

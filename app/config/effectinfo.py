@@ -122,6 +122,8 @@ effectinfo_map[20074] = {"id":20074,"w":512,"h":512,"path":"game_ani/title/174.a
 effectinfo_map[30001] = {"id":30001,"w":512,"h":512,"path":"game_ani/buff/yun.ani","res":"res/atlas/ani_res/yun.atlas","total":12,"speed":12,"name":"ani1","cycle":1,};
 effectinfo_map[30002] = {"id":30002,"w":512,"h":512,"path":"game_ani/buff/poisoning.ani","res":"res/atlas/ani_res/poisoning.atlas","total":10,"speed":12,"name":"ani1","cycle":1,};
 effectinfo_map[30003] = {"id":30003,"w":512,"h":512,"path":"game_ani/buff/fighting.ani","res":"res/atlas/ani_res/fighting.atlas","total":5,"speed":12,"name":"ani1","cycle":1,};
+effectinfo_map[30004] = {"id":30004,"w":202,"h":202,"path":"game_ani/combat/attacked2.ani","res":"res/atlas/ani_res/attacked/2.atlas","total":7,"speed":12,"name":"ani1","cycle":0,};
+effectinfo_map[30005] = {"id":30005,"w":186,"h":186,"path":"game_ani/combat/attacked3.ani","res":"res/atlas/ani_res/attacked/3.atlas","total":7,"speed":12,"name":"ani1","cycle":0,};
 effectinfo_map[90001] = {"id":90001,"w":512,"h":512,"path":"game_ani/lvup.ani","res":"res/atlas/ani_res/lvup.atlas","total":6,"speed":12,"name":"ani1","cycle":0,};
 
 

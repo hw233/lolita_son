@@ -504,7 +504,7 @@ class combat(object):
 		atkadd = skill_obj.damage;
 		atkrate = 1.0;
 		if skill_obj.damage_rate != 0:
-			atkrate = skill_obj.damage_rate;
+			atkrate = skill_obj.damage_rate/100;
 
 		skillhit = skill_obj.hit;
 
@@ -760,19 +760,20 @@ class combat(object):
 		if not b_onlydst:
 			wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
 		############
-		enemy = self._get_fighter(dst);
-		cur_skill = self._get_warrior_curbout_skill(enemy);
-		edst = self._get_warrior_curbout_dst(enemy);
-		dst_list = [edst];
-		if cur_skill:
-			eenemy = self.get_fighter(edst);
-			if eenemy == None:
-				edst = self.get_default_dst(eenemy);
+		if dst != 0:
+			enemy = self._get_fighter(dst);
+			cur_skill = self._get_warrior_curbout_skill(enemy);
+			edst = self._get_warrior_curbout_dst(enemy);
+			dst_list = [edst];
+			if cur_skill:
 				eenemy = self.get_fighter(edst);
-			dst_list = self.get_dst_list(enemy,eenemy,cur_skill);
-		sub_wrapper_list = self._get_warrior_alleffect(tm,enemy,dst_list,cur_skill);
-		for i in sub_wrapper_list:
-			wrapper_list.append(i);
+				if eenemy == None:
+					edst = self.get_default_dst(eenemy);
+					eenemy = self.get_fighter(edst);
+				dst_list = self.get_dst_list(enemy,eenemy,cur_skill);
+			sub_wrapper_list = self._get_warrior_alleffect(tm,enemy,dst_list,cur_skill);
+			for i in sub_wrapper_list:
+				wrapper_list.append(i);
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
 			i.do();

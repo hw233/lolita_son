@@ -82,6 +82,33 @@ class addhp_201(combatbuffeff):
 		return
 	def clear(self,actor,combat_ins,value,b_done = None):
 		return
+class subhp_202(combatbuffeff):
+	def __init__(self,bid):
+		super(subhp_202,self).__init__(bid);
+		return
+	def do(self,actor,combat_ins,value,b_done = None):
+		if value == None or len(value <= 0):
+			return
+		if combat_ins.is_warrior_dead(actor):
+			return
+		old_prop = actor.(get_restoreprop)
+		hp = actor['hp'];
+		v = int(value);
+		hp = hp - v;
+		if hp <= 0:
+			hp = 0;
+			if actor['cankickout']:
+				actor['kickout'] = True;
+				combat_ins.on_attack_flyout(actor,0);
+			else:
+				actor['dead'] = True;
+				combat_ins.on_attack_dead(actor,0);
+		actor['hp'] = hp;
+		combat_ins.gen_s2c_warrior_propchg(old_prop,actor.get_restoreprop(),v,actor,False,0,0,False);
+		combat_ins.gen_s2c_warrior_status(actor);
+		return
+	def clear(self,actor,combat_ins,value,b_done = None):
+		return
 def create_cbuffeff(tid,name,tp):
 	if tid == 3109:
 		ret = hide_3109(tid);

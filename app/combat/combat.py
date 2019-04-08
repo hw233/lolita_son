@@ -465,8 +465,9 @@ class combat(object):
 		shit = actor['hit'];
 		edodge = enemy['dodge'];
 		hitrate = float(shit - edodge)/float(enemy['lv']*3+50)*1000.0;
-		print "warrior_attack hitrate %s %s %s %s %s"%(dst,hitrate,shit,edodge,enemy['lv']);
-		if hitrate < random.randint(0,1000):
+		hitran = random.randint(0,1000);
+		print "warrior_attack hitrate %s %s %s %s %s %s"%(dst,hitran,hitrate,shit,edodge,enemy['lv']);
+		if hitrate < hitran:
 			self.on_attack_miss(actor,dst);
 			self.gen_s2c_warrior_dodge(enemy,sid,slv);
 			self.on_attack_end(actor,[dst]);
@@ -537,8 +538,9 @@ class combat(object):
 				shit = skillhit;#actor['hit'];
 				edodge = enemy['dodge'];
 				hitrate = float(shit - edodge)/float(enemy['lv']*3+50)*1000.0;
-				print "warrior_skill hitrate %s %s %s %s %s"%(i,hitrate,shit,edodge,enemy['lv']);
-				if hitrate < random.randint(0,1000):
+				hitran = random.randint(0,1000);
+				print "warrior_skill hitrate %s %s %s %s %s %s"%(i,hitran,hitrate,shit,edodge,enemy['lv']);
+				if hitrate < hitran:
 					self.on_attack_miss(actor,i,skill_obj);
 					self.gen_s2c_warrior_dodge(enemy,sid,slv);
 					continue;

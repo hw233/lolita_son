@@ -50,8 +50,8 @@ class combatwrapper(cwrapperbase):
 		super(combatwrapper,self).__init__(inst,value,rate,dst,triger,bout)
 		return
 	def do(self,combat_ins,b_minus = False):
-		if rate > 0 and rate < 100:
-			if rate < random.randint(0,100):
+		if self.rate > 0 and self.rate < 100:
+			if self.rate < random.randint(0,100):
 				return
 		
 		if dst == 1:

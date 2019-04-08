@@ -524,7 +524,7 @@ class combat(object):
 		atkadd = skill_obj.damage;
 		atkrate = 1.0;
 		if skill_obj.damage_rate != 0:
-			atkrate = skill_obj.damage_rate/100;
+			atkrate = 1.0+float(skill_obj.damage_rate/100);
 
 		skillhit = skill_obj.hit;
 
@@ -553,6 +553,7 @@ class combat(object):
 			if int(crkrate) >= random.randint(0,1000):
 				b_crack = True;
 			damage = self._calc_attack_damage(actor,enemy,b_crack,atkadd,atkrate,skill_obj.is_attacktype());
+			print "warrior_skill damage %s"%(damage);
 			if skill_obj.is_attacktype():
 				hp = enemy['hp'];
 				hp -= damage;

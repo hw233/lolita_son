@@ -607,11 +607,9 @@ class combat(object):
 		return obj.get_skill(sid);
 	def _get_warrior_curbout_dst(self,obj):
 		cmd = obj.get('cmd',COMBATCMD_ATTACK);
-		if cmd != COMBATCMD_SKILL:
-			return
 		cmd_data = obj.get('cmd_data',None);
 		if cmd_data == None:
-			return
+			return self.get_default_dst()
 		return cmd_data['dst'];
 	def do_allwarrior_cmd(self):
 		for i in self.order:
@@ -707,7 +705,9 @@ class combat(object):
 		for k,v in self.fighters.items():
 			cur_skill = self._get_warrior_curbout_skill(v);
 			dst = self._get_warrior_curbout_dst(v);
-			dst_list = [dst];
+			dst_list = [];
+			if dst != None:
+				dst_list.append(dst);
 			if cur_skill:
 				enemy = self.get_fighter(dst);
 				if enemy == None:
@@ -739,7 +739,9 @@ class combat(object):
 			if enemy:
 				cur_skill = self._get_warrior_curbout_skill(enemy);
 				dst = self._get_warrior_curbout_dst(enemy);
-				dst_list = [dst];
+				dst_list = [];
+				if dst != None:
+					dst_list.append(dst);
 				if cur_skill:
 					eenemy = self.get_fighter(dst);
 					if eenemy == None:
@@ -764,7 +766,9 @@ class combat(object):
 			enemy = self._get_fighter(dst);
 			cur_skill = self._get_warrior_curbout_skill(enemy);
 			edst = self._get_warrior_curbout_dst(enemy);
-			dst_list = [edst];
+			dst_list = [];
+			if edst != None:
+				dst_list.append(edst);
 			if cur_skill:
 				eenemy = self.get_fighter(edst);
 				if eenemy == None:

@@ -270,7 +270,7 @@ class combat(object):
 			self.act_list.append(obj);
 		else:
 			self.pas_list.append(obj);
-		if obj['cid'] not in self.send_list and cid != 0:
+		if obj['cid'] not in self.send_list and obj['cid'] != 0:
 			self.send_list.append(obj['cid']);
 
 		self.fighters[obj['pos']] = obj;

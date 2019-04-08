@@ -451,7 +451,7 @@ class combat(object):
 		if hitrate < random.randint(0,1000):
 			self.on_attack_miss(actor,dst);
 			self.gen_s2c_warrior_dodge(enemy,sid,slv);
-			self.on_attack_end(actor,dst);
+			self.on_attack_end(actor,[dst]);
 			self.gen_s2c_warrior_skillend(actor,sid,slv);
 			return
 		self.on_attack_hit(actor,dst);

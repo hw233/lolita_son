@@ -763,7 +763,7 @@ class combat(object):
 			wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
 		############
 		if dst != 0:
-			enemy = self._get_fighter(dst);
+			enemy = self.get_fighter(dst);
 			cur_skill = self._get_warrior_curbout_skill(enemy);
 			edst = self._get_warrior_curbout_dst(enemy);
 			dst_list = [];

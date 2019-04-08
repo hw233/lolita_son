@@ -464,8 +464,8 @@ class combat(object):
 		self.on_attack_start(actor,[dst]);
 		shit = actor['hit'];
 		edodge = enemy['dodge'];
-		hitrate = (shit - edodge)/(enemy['lv']*3+50)*1000;
-		print "warrior_attack hitrate %s %s %s %s"%(dst,shit,edodge,enemy['lv']);
+		hitrate = float(shit - edodge)/float(enemy['lv']*3+50)*1000.0;
+		print "warrior_attack hitrate %s %s %s %s %s"%(dst,hitrate,shit,edodge,enemy['lv']);
 		if hitrate < random.randint(0,1000):
 			self.on_attack_miss(actor,dst);
 			self.gen_s2c_warrior_dodge(enemy,sid,slv);
@@ -476,7 +476,7 @@ class combat(object):
 		self.on_attack_hurt(actor,dst);
 		scrk = actor['crk'];
 		ecrkdef = enemy['crkdef'];
-		crkrate = (scrk - ecrkdef)/(enemy['lv']*3+50)*1000;
+		crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;
 		b_crack = False;
 		if crkrate >= random.randint(0,1000):
 			b_crack = True;
@@ -536,8 +536,8 @@ class combat(object):
 			if skill_obj.is_candodge():
 				shit = skillhit;#actor['hit'];
 				edodge = enemy['dodge'];
-				hitrate = (shit - edodge)/(enemy['lv']*3+50)*1000;
-				print "warrior_skill hitrate %s %s %s %s"%(i,shit,edodge,enemy['lv']);
+				hitrate = float(shit - edodge)/float(enemy['lv']*3+50)*1000.0;
+				print "warrior_skill hitrate %s %s %s %s %s"%(i,hitrate,shit,edodge,enemy['lv']);
 				if hitrate < random.randint(0,1000):
 					self.on_attack_miss(actor,i,skill_obj);
 					self.gen_s2c_warrior_dodge(enemy,sid,slv);
@@ -546,7 +546,7 @@ class combat(object):
 			self.on_attack_hurt(actor,i,skill_obj);
 			scrk = actor['crk'];
 			ecrkdef = enemy['crkdef'];
-			crkrate = (scrk - ecrkdef)/(enemy['lv']*3+50)*1000;
+			crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;
 			b_crack = False;
 			if crkrate >= random.randint(0,1000):
 				b_crack = True;

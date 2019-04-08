@@ -68,6 +68,7 @@ class combat(object):
 		self.wait_cmd_curtm = -1;
 		self.b_is_end = False;
 		self.curbout = 1;
+		self.max_bout = 100;
 		return
 	def gen_combat_id(self):
 		global COMBAT_START_ID
@@ -86,10 +87,24 @@ class combat(object):
 		return
 	def gen_s2c_combat_end(self):
 		print "combat s2c end"
-		if self.is_side_alldead(True):
-			print "challenger lose!"
+		if self.is_side_alldead(True) or self.is_side_alldead(False):
+			if self.is_side_alldead(True):
+				print "challenger lose!"
+			else:
+				print "challenger is winner!"
 		else:
-			print "challenger is winner!"
+			act_num = 0;
+			for i in self.act_list:
+				if not self.is_warrior_dead(i):
+					act_num = act_num + 1;
+			pas_num = 0;
+			for i in self.pas_list:
+				if not self.is_warrior_dead(i):
+					pas_num = pas_num + 1;
+			if act_num < pas_num:
+				print "challenger lose!"
+			else:
+				print "challenger is winner!"
 		#S2C_WAR_END force
 		if self.parent:
 			self.parent.gen_s2c_combat_end(self.send_list,0);
@@ -320,6 +335,8 @@ class combat(object):
 				break;
 		return all_dead;
 	def check_end(self):
+		if self.curbout >= self.max_bout:
+			return True;
 		if self.is_side_alldead(True) or self.is_side_alldead(False):
 			return True
 		return False

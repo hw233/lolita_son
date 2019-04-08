@@ -351,7 +351,7 @@ class combat(object):
 
 		if skill_obj.dst_self != 0 and enemy == actor:
 			return True;
-		if skill_obj.selfpet != 0 and enemy.is_pet() and enemy.get_owner() == actor.get_cid():
+		if skill_obj.dst_selfpet != 0 and enemy.is_pet() and enemy.get_owner() == actor.get_cid():
 			return True;
 		if skill_obj.dst_selffri != 0 and enemy.is_character() and self.is_teammate(actor,enemy):
 			return True;

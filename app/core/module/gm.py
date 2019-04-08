@@ -64,6 +64,8 @@ class gm_main(app.base.game_module_mgr.game_module):
 				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLSUCCEED}]);
 			else:
 				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLFAILED}]);
+		elif gm_cmd == "$flushdata":
+			GlobalObject().remote['gate'].callRemote("flushdata");
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

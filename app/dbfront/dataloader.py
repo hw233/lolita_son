@@ -17,6 +17,14 @@ def registe_madmin():
     MAdminManager().registe( memmode.tb_character_admin)
     MAdminManager().registe( memmode.tb_item_admin)
     MAdminManager().registe( memmode.tb_itemopen_admin)
+
+    MAdminManager().registe( memmode.tb_skill_admin)
+    MAdminManager().registe( memmode.tb_specskill_admin)
+    MAdminManager().registe( memmode.tb_pet_admin)
+
+    MAdminManager().registe( memmode.tb_petskill_admin)
+    MAdminManager().registe( memmode.tb_partner_admin)
+    MAdminManager().registe( memmode.tb_partnerskill_admin)
     
 def CheckMemDB(delta):
     """同步内存数据到数据库
@@ -24,7 +32,6 @@ def CheckMemDB(delta):
     MAdminManager().checkAdmins()
     reactor.callLater(delta,CheckMemDB,delta)
     
-
     
     
     

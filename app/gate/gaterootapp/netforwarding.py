@@ -77,6 +77,10 @@ def startCombat(dynamicId, characterId,data):
 def endCombat(dynamicId, characterId,data):
     GlobalObject().root.callChild("combat",6,dynamicId, characterId,data);
 
+@rootserviceHandle
+def flushdata():
+    GlobalObject().root.callChild("dbfront","flushdata")
+
 def DropClient(dynamicId):
     u = UsersManager().getUserByDynamicId(dynamicId)
     if u:

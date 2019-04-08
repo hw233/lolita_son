@@ -2,7 +2,7 @@
 "master":{"rootport":9999,"webport":9998},
 "servers":{
 "gate":{"rootport":10000,"name":"gate","db":true,"app":"app.gateserver","log":"app/logs/gate.log"},
-"dbfront":{"name":"dbfront","db":true,"mem":true,"app":"app.dbfrontserver","log":"app/logs/dbfront.log"},
+"dbfront":{"remoteport":[{"rootport":10000,"rootname":"gate"}],"name":"dbfront","db":true,"mem":true,"app":"app.dbfrontserver","log":"app/logs/dbfront.log"},
 "net":{"netport":11009,"name":"net","remoteport":[{"rootport":10000,"rootname":"gate"}],"app":"app.netserver","log":"app/logs/net.log"},
 "scene":{"remoteport":[{"rootport":10000,"rootname":"gate"}],
          "name":"scene","db":true,"mem":true,"app":"app.sceneserver","reload":"app.scene.doreload","log":"app/logs/scene.log"},

@@ -54,7 +54,7 @@ class combatwrapper(cwrapperbase):
 			if self.rate < random.randint(0,100):
 				return
 		
-		if dst == 1:
+		if self.dst == 1:
 			b_done = False;
 			if self.actor.has_wrapper(self.id) == False:
 				self.actor.use_wrapper(self.id);
@@ -71,7 +71,7 @@ class combatwrapper(cwrapperbase):
 				self.inst.do(i,combat_ins,self.value,b_done,b_minus);
 		return
 	def clear(self,combat_ins,b_minus = False):
-		if dst == 1:
+		if self.dst == 1:
 			if self.actor.has_wrapper(self.id):
 				self.actor.clear_wrapper(self.id);
 				self.inst.clear(self.actor,combat_ins,self.value,True,b_minus);
@@ -95,7 +95,7 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 		if not bhit:
 			return
 		add_list = [];
-		if dst == 1:
+		if self.dst == 1:
 			add_list.append(self.actor);
 		else:
 			for i in self.enemy_list:

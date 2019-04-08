@@ -29,7 +29,7 @@ class warrior(combatbase.combatbase):
 		self['mpmax'] = 100;
 		self['atk'] = 100;
 		self['def'] = 0;
-		self['hit'] = 120;
+		self['hit'] = 135;
 		self['dodge'] = 85;
 		self['crk'] = 0;
 		self['crkdef'] = 0;

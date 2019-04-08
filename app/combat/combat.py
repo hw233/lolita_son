@@ -491,6 +491,7 @@ class combat(object):
 		if skill_obj == None:
 			return;
 		actor = obj;
+		slv = skill_obj.slv;
 		enemy = self.get_fighter(dst);
 		if enemy == None:
 			dst = self.get_default_dst(actor);

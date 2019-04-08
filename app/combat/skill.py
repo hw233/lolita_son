@@ -8,6 +8,7 @@ import ctriger
 import cproperty
 import cbuff
 import ceffect
+import cwrapper
 
 import app.config.simpleskill as skillconfig
 import buff

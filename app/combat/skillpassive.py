@@ -7,6 +7,7 @@ Created on 2018-1-29
 import ctriger
 import cproperty
 import ceffect
+import cwrapper
 
 import app.config.simpleskillpassive as skillpassiveconfig
 import app.config.fightskillpassive

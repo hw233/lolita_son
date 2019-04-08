@@ -91,7 +91,7 @@ class subhp_202(combatbuffeff):
 			return
 		if combat_ins.is_warrior_dead(actor):
 			return
-		old_prop = actor.(get_restoreprop)
+		old_prop = actor.get_restoreprop();
 		hp = actor['hp'];
 		v = int(value);
 		hp = hp - v;

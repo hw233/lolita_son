@@ -256,7 +256,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 				break;
 		return
 	def _combat_character(self,team1,team2):
-		combat_inst = app.combat.combat.autocombat();
+		combat_inst = app.combat.autocombat.autocombat();
 		combat_inst.parent = self;
 		team_pos = app.combat.combat.COMBAT_POS_MAP[0];
 		pos_idx = 0;

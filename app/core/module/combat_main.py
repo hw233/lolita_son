@@ -172,6 +172,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 				w_inst['dodge'] = dodge;
 				w_inst['name'] = name;
 				w_inst['shape'] = shape;
+				w_inst['lv'] = lv;
 				skill_idx = 0;
 				for idx in xrange(1,10+1):
 					sid = skill_cfg[idx][0];
@@ -224,6 +225,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 		w_inst['spd'] = dex*2;
 		w_inst['name'] = c_info["nickname"];
 		w_inst['shape'] = c_info["figure"];
+		w_inst['lv'] = c_info["level"];
 		###
 		skillpklist = memmode.tb_skill_admin.getAllPkByFk(cid)
 		skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
@@ -275,6 +277,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
+			w_inst['lv'] = c_info["level"];
 			####
 			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
 			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
@@ -310,6 +313,7 @@ class combat_main(app.base.game_module_mgr.game_module):
 			w_inst['spd'] = dex*2;
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
+			w_inst['lv'] = c_info["level"];
 			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
 			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
 			for skillobj in skillobjlist:

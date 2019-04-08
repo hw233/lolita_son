@@ -29,8 +29,8 @@ class warrior(combatbase.combatbase):
 		self['mpmax'] = 100;
 		self['atk'] = 100;
 		self['def'] = 0;
-		self['hit'] = 0;
-		self['dodge'] = 0;
+		self['hit'] = 120;
+		self['dodge'] = 85;
 		self['crk'] = 0;
 		self['crkdef'] = 0;
 		self['crkdmgrate'] = 100;#暴击伤害，基础100%

@@ -10,7 +10,7 @@ import ceffect
 import cwrapper
 
 import app.config.simpleskillpassive as skillpassiveconfig
-import app.config.fightskillpassive
+import app.config.fightskillpassive as fightskillpassive
 class skillpassive(object):
     def __init__(self,sid,slv):
         self.sid = sid;

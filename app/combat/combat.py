@@ -368,7 +368,7 @@ class combat(object):
 	def get_dst_list(self,actor,enemy,skill_obj):
 		ret = [];
 		max_cnt = skill_obj.max_dstcnt;
-		if self.skill_obj.is_canrevive():
+		if skill_obj.is_canrevive():
 			if self.is_warrior_dead(enemy) and self._is_dst_valid(actor,enemy,skill_obj):
 				ret.append(enemy['pos']);
 				max_cnt -= 1;

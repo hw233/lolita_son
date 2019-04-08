@@ -12,6 +12,7 @@ from twisted.python import log
 
 @remoteserviceHandle('gate')
 def flushdata():
+	print "dbfront flushdata"
 	MAdminManager().checkAdmins()
 
 def doWhenStop():

@@ -401,7 +401,7 @@ class combat(object):
 		return ret;
 	def _calc_attack_damage(self,actor,enemy,b_crack,atkadd = 0,atkaddrate = 1.0,b_attack = True):
 		satk = actor['atk'];
-		satk = (satk + atkadd)*atkaddrate;:
+		satk = (satk + atkadd)*atkaddrate;
 
 		edef = enemy['def'];
 		dmgaddrate = actor['dmgrate'];

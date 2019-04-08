@@ -609,7 +609,7 @@ class combat(object):
 		cmd = obj.get('cmd',COMBATCMD_ATTACK);
 		cmd_data = obj.get('cmd_data',None);
 		if cmd_data == None:
-			return self.get_default_dst()
+			return self.get_default_dst(obj)
 		return cmd_data['dst'];
 	def do_allwarrior_cmd(self):
 		for i in self.order:

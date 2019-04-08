@@ -739,7 +739,7 @@ class combat(object):
 				wrapper_list.append(i);
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
-			i.do();
+			i.do(self);
 		return
 	#回合开始时间点,计算所有玩家
 	def on_turn_start(self):
@@ -773,7 +773,7 @@ class combat(object):
 					wrapper_list.append(i);
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
-			i.do();
+			i.do(self);
 		return
 	#伤害开始时间点，针对单人出手，计算攻击发起者和当前受击者，用在吸血和反击？
 	def on_attack_hurt(self,actor,dst,skill_obj = None,b_onlydst = False,tm = ctriger.COMBAT_TRIGER_ATK):
@@ -800,7 +800,7 @@ class combat(object):
 				wrapper_list.append(i);
 		wrapper_list = sorted(wrapper_list, key=lambda x:x.spd);
 		for i in wrapper_list:
-			i.do();
+			i.do(self);
 		############
 		return
 	#攻击命中时，主要用在封印？

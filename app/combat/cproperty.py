@@ -122,9 +122,9 @@ class defaddbylv_4(combatprop):
 		lv = actor['lv']
 		v = int(value);
 		if b_minus:
-			defv = defv -（lv*v/100);
+			defv = defv -(lv*v/100);
 		else:
-			defv = defv +（lv*v/100);
+			defv = defv +(lv*v/100);
 		actor["def"] = defv;
 		return
 	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):

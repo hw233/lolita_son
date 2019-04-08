@@ -132,9 +132,9 @@ class defaddbylv_4(combatprop):
 		lv = actor['lv']
 		v = int(value);
 		if b_minus:
-			defv = defv +（lv*v/100);
+			defv = defv +(lv*v/100);
 		else:
-			defv = defv -（lv*v/100);
+			defv = defv -(lv*v/100);
 		actor["def"] = defv;
 		return
 class sense_5(combatprop):

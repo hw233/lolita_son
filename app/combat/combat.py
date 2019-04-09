@@ -359,6 +359,8 @@ class combat(object):
 					del v['buff'][i];
 		return
 	def get_fighter(self,wid):
+		if self.fighters.has_key(wid) == False:
+			return None;
 		return self.fighters[wid]
 	def _is_dst_valid(self,actor,enemy,skill_obj):
 		if skill_obj.dst_enemymonster and enemy.is_summon():

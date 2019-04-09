@@ -47,6 +47,8 @@ class combatbuffeff(object):
 		self.refresh = 0;
 		self.overlap = 1;
 		return
+	def gen_spd(self,actor_spd):
+		return actor_spd;
 	def do(self,actor,combat_ins,value,b_done = None):
 		return
 	def clear(self,actor,combat_ins,value,b_done = None):

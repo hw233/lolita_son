@@ -87,11 +87,13 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 		return
 	def do(self,combat_ins,b_minus = False):
 		bhit = False;
+		bhit_rate = random.randint(0,100);
 		if self.rate >= 100:
 			bhit = True;
 		else:
-			if self.rate >= random.randint(0,100):
+			if self.rate >= bhit_rate:
 				bhit = True;
+		print "combatbuffwrapper do %s %s"%(self.rate,bhit_rate);
 		if not bhit:
 			return
 		add_list = [];

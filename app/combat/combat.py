@@ -474,7 +474,7 @@ class combat(object):
 			self.gen_s2c_warrior_skillend(actor,sid,slv);
 			return
 		self.on_attack_hit(actor,dst);
-		self.on_attack_hurt(actor,dst);
+		self.on_attack_hurt(actor,dst,None,True);
 		scrk = actor['crk'];
 		ecrkdef = enemy['crkdef'];
 		crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;
@@ -545,7 +545,7 @@ class combat(object):
 					self.gen_s2c_warrior_dodge(enemy,sid,slv);
 					continue;
 			self.on_attack_hit(actor,i,skill_obj);
-			self.on_attack_hurt(actor,i,skill_obj);
+			self.on_attack_hurt(actor,i,skill_obj,True);
 			scrk = actor['crk'];
 			ecrkdef = enemy['crkdef'];
 			crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;

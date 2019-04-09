@@ -11,7 +11,7 @@ import cbuff
 g_wrapper_id_start = 0;
 class cwrapperbase(object):
 	def __init__(self,inst,value,rate,dst,triger,bout = 0):
-		self.inst = inst;#cproperty or ceffect or combatbuffeff or boutbuffcfg(ceffect+cproperty)
+		self.inst = inst;#cproperty or ceffect 
 		self.value = value;
 		self.rate = rate;#如果为0等于100
 		self.dst = dst;#1为自己，0为敌人
@@ -60,7 +60,7 @@ class combatwrapper(cwrapperbase):
 				self.actor.use_wrapper(self.id);
 			else:
 				b_done = True;
-			self.inst.do(self.actor,combat_ins,self.value,b_done,b_minus);
+			self.inst.do(self.actor,combat_ins,self.value,b_done,b_minus,True);
 		else:
 			for i in self.enemy_list:
 				b_done = False;
@@ -68,7 +68,7 @@ class combatwrapper(cwrapperbase):
 					i.use_wrapper(self.id);
 				else:
 					b_done = True;
-				self.inst.do(i,combat_ins,self.value,b_done,b_minus);
+				self.inst.do(i,combat_ins,self.value,b_done,b_minus,False);
 		return
 	def clear(self,combat_ins,b_minus = False):
 		if self.dst == 1:

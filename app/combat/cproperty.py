@@ -15,7 +15,7 @@ class combatprop(object):
 		return
 	def gen_spd(self,actor_spd):
 		return self.spd + actor_spd;
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		return
 	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
 		return
@@ -23,7 +23,7 @@ class hpmaxadd_1(combatprop):
 	def __init__(self,tid,name,key):
 		super(hpmaxadd_1,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		hp = actor['hp'];
@@ -57,7 +57,7 @@ class mpmaxadd_2(combatprop):
 	def __init__(self,tid,name,key):
 		super(mpmaxadd_2,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		mp = actor['mp'];
@@ -91,7 +91,7 @@ class atkadd_3(combatprop):
 	def __init__(self,tid,name,key):
 		super(atkadd_3,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		atk = actor['atk'];
@@ -115,7 +115,7 @@ class defaddbylv_4(combatprop):
 	def __init__(self,tid,name,key):
 		super(defaddbylv_4,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		defv = actor['def'];
@@ -153,7 +153,7 @@ class atkseal_6(combatprop):
 	def __init__(self,tid,name,key):
 		super(atkseal_6,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		actor["m_bseal"] = True;
@@ -165,7 +165,7 @@ class mgcatkseal_7(combatprop):
 	def __init__(self,tid,name,key):
 		super(mgcatkseal_7,self).__init__(tid,name,key);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if b_done == True:
 			return;
 		actor["m_bmgcseal"] = True;

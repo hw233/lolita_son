@@ -14,7 +14,7 @@ class combateffect(object):
 		return
 	def gen_spd(self,actor_spd):
 		return self.spd + actor_spd;
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		return
 	def clear(self,actor,combat_ins,value,b_done = None,b_minus = False):
 		return
@@ -22,7 +22,9 @@ class leech_1006(combateffect):
 	def __init__(self,tid,name):
 		super(leech_1006,self).__init__(tid,name);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
+		if not b_actor:
+			return
 		old_prop = actor.get_restoreprop()
 		rate = int(value);
 		atk = actor['atk'];
@@ -40,7 +42,7 @@ class revive_1001(combateffect):
 	def __init__(self,tid,name):
 		super(revive_1001,self).__init__(tid,name);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		if actor['dead']:
 			old_prop = actor.get_restoreprop()
 			actor['dead'] = False;
@@ -52,7 +54,7 @@ class clearbuff_1038(combateffect):
 	def __init__(self,tid,name):
 		super(clearbuff_1038,self).__init__(tid,name);
 		return
-	def do(self,actor,combat_ins,value,b_done = None,b_minus = False):
+	def do(self,actor,combat_ins,value,b_done = None,b_minus = False,b_actor = True):
 		bid = int(value);
 		buffobj = actor.has_buff(bid);
 		if buffobj:

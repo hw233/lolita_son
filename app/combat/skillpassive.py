@@ -110,7 +110,7 @@ def create_passiveskill(sid,slv):
     global g_skillpassive_config
     key = sid*1000+slv;
     if g_skillpassive_config.has_key(key) == False:
-        g_skillpassive_config[key] = skillpassive(sid,slv);
+        g_skillpassive_config[key] = boutskillpassive(sid,slv);
     return g_skillpassive_config[key];
 
 def has_skill(sid):

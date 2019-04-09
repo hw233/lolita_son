@@ -104,6 +104,7 @@ class boutbuff(cbuff.buffbase):
 		super(boutbuff,self).__init__(bid,cd);
 		self.bcfg = None;
 		self.b_buffeff = cbuff.have_cbuffeff_by_bid(bid);
+		print "boutbuff __init__ %s %s"%(bid,self.b_buffeff);
 		return
 	def is_immediate(self):
 		return True;

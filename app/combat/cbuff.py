@@ -68,7 +68,7 @@ class addhp_201(combatbuffeff):
 		super(addhp_201,self).__init__(bid);
 		return
 	def do(self,actor,combat_ins,value,b_done = None):
-		if value == None or len(value <= 0):
+		if value == None or len(value) <= 0:
 			return
 		if combat_ins.is_warrior_dead(actor):
 			return
@@ -89,7 +89,7 @@ class subhp_202(combatbuffeff):
 		super(subhp_202,self).__init__(bid);
 		return
 	def do(self,actor,combat_ins,value,b_done = None):
-		if value == None or len(value <= 0):
+		if value == None or len(value) <= 0:
 			return
 		if combat_ins.is_warrior_dead(actor):
 			return

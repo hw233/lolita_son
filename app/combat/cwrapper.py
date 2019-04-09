@@ -103,6 +103,7 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 			for i in self.enemy_list:
 				add_list.append(i);
 		bid = self.inst.bid;
+		print "combatbuffwrapper bid %s"%(bid);
 		refresh = self.inst.refresh;
 		overlapmax = self.inst.overlap;
 		addcd = self.bout;

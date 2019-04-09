@@ -157,5 +157,6 @@ def get_cbuffeff_by_name(name):
 				ret = g_cbuffeff_map[name];
 				break;
 	if not ret:
+		print "error get_cbuffeff_by_name %s"%(name);
 		ret = create_cbuffeff(0,"","");
 	return ret;

@@ -473,8 +473,8 @@ class combat(object):
 			self.on_attack_end(actor,[dst]);
 			self.gen_s2c_warrior_skillend(actor,sid,slv);
 			return
-		self.on_attack_hit(actor,dst);
-		self.on_attack_hurt(actor,dst,None,True);
+		self.on_attack_hit(actor,0);
+		self.on_attack_hurt(None,dst);
 		scrk = actor['crk'];
 		ecrkdef = enemy['crkdef'];
 		crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;
@@ -544,8 +544,8 @@ class combat(object):
 					self.on_attack_miss(actor,i,skill_obj);
 					self.gen_s2c_warrior_dodge(enemy,sid,slv);
 					continue;
-			self.on_attack_hit(actor,i,skill_obj);
-			self.on_attack_hurt(actor,i,skill_obj,True);
+			self.on_attack_hit(actor,0,skill_obj);
+			self.on_attack_hurt(None,i,skill_obj);
 			scrk = actor['crk'];
 			ecrkdef = enemy['crkdef'];
 			crkrate = float(scrk - ecrkdef)/float(enemy['lv']*3+50)*1000.0;
@@ -779,10 +779,10 @@ class combat(object):
 			i.do(self);
 		return
 	#伤害开始时间点，针对单人出手，计算攻击发起者和当前受击者，用在吸血和反击？
-	def on_attack_hurt(self,actor,dst,skill_obj = None,b_onlydst = False,tm = ctriger.COMBAT_TRIGER_ATK):
+	def on_attack_hurt(self,actor,dst,skill_obj = None,tm = ctriger.COMBAT_TRIGER_ATK):
 		wrapper_list = [];
 		dst_list = [dst];
-		if not b_onlydst:
+		if actor != None:
 			wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
 		############
 		if dst != 0:
@@ -807,21 +807,21 @@ class combat(object):
 		############
 		return
 	#攻击命中时，主要用在封印？
-	def on_attack_hit(self,actor,dst,skill_obj = None,b_onlydst = False):
-		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_HIT);
+	def on_attack_hit(self,actor,dst,skill_obj = None):
+		self.on_attack_hurt(actor,dst,skill_obj,ctriger.COMBAT_TRIGER_HIT);
 		return
 
 	#伤害被miss时,主要是闪避和封印未命中？
-	def on_attack_miss(self,actor,dst,skill_obj = None,b_onlydst = False):
-		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_MISS);
+	def on_attack_miss(self,actor,dst,skill_obj = None):
+		self.on_attack_hurt(actor,dst,skill_obj,ctriger.COMBAT_TRIGER_MISS);
 		return
 	#击倒时
-	def on_attack_dead(self,actor,dst,skill_obj = None,b_onlydst = False):
-		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_DEAD);
+	def on_attack_dead(self,actor,dst,skill_obj = None):
+		self.on_attack_hurt(actor,dst,skill_obj,ctriger.COMBAT_TRIGER_DEAD);
 		return
 	#击飞出场时
-	def on_attack_flyout(self,actor,dst,skill_obj = None,b_onlydst = False):
-		self.on_attack_hurt(actor,dst,skill_obj,b_onlydst,ctriger.COMBAT_TRIGER_FLYOUT);
+	def on_attack_flyout(self,actor,dst,skill_obj = None):
+		self.on_attack_hurt(actor,dst,skill_obj,ctriger.COMBAT_TRIGER_FLYOUT);
 		return
 	#攻击结束时间点，针对单人出手，计算攻击发起者和所有受击者
 	def on_attack_end(self,actor,dst_list,skill_obj = None):

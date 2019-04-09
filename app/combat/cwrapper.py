@@ -93,7 +93,7 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 		else:
 			if self.rate >= bhit_rate:
 				bhit = True;
-		print "combatbuffwrapper do %s %s"%(self.rate,bhit_rate);
+		print "combatbuffwrapper do %s %s %s %s"%(self.rate,bhit_rate,self.dst,len(self.enemy_list));
 		if not bhit:
 			return
 		add_list = [];
@@ -109,7 +109,7 @@ class combatbuffwrapper(cwrapperbase):#用来添加BUFF
 		buffvalue = self.value;
 		for i in add_list:
 			old_buff = i.has_buff(bid);
-			if not old_buff:
+			if old_buff == None:
 				addbuff = buff.boutbuff(bid,addcd);
 				addbuff.bcfg = self.inst;
 				addbuff.value = buffvalue;

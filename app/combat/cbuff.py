@@ -122,6 +122,11 @@ def create_cbuffeff(tid,name,tp):
 		ret.name = name;
 		ret.tp = tp;
 		return;
+	if tid == 202:
+		ret = subhp_202(tid);
+		ret.name = name;
+		ret.tp = tp;
+		return;
 	ret = combatbuffeff(tid);
 	ret.name = name;
 	ret.tp = tp;

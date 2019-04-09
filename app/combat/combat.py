@@ -784,6 +784,7 @@ class combat(object):
 		dst_list = [dst];
 		if actor != None:
 			wrapper_list = self._get_warrior_alleffect(tm,actor,dst_list,skill_obj);
+			print "on_attack_hurt COMBAT_TRIGER_HIT %s %s"%(actor['pos'],len(wrapper_list));
 		############
 		if dst != 0:
 			enemy = self.get_fighter(dst);

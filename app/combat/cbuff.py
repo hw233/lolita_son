@@ -116,17 +116,17 @@ def create_cbuffeff(tid,name,tp):
 		ret = hide_3109(tid);
 		ret.name = name;
 		ret.tp = tp;
-		return;
+		return ret;
 	if tid == 201:
 		ret = addhp_201(tid);
 		ret.name = name;
 		ret.tp = tp;
-		return;
+		return ret;
 	if tid == 202:
 		ret = subhp_202(tid);
 		ret.name = name;
 		ret.tp = tp;
-		return;
+		return ret;
 	ret = combatbuffeff(tid);
 	ret.name = name;
 	ret.tp = tp;

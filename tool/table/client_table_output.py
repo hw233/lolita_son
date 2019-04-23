@@ -291,7 +291,7 @@ def parseAllExcelFiles(excel_file_dir, output_file_dir,json_dir):
 	print("excel_file_dir:[%s]" % excel_file_dir);
 
 	print("output_file_dir:[%s]" % output_file_dir);
-	file_list = parseConfigFile("config.xls");
+	file_list = parseConfigFile("config_client.xlsx");
 	output_json = "{\n";
 	init_func = "module config{\n";
 	init_func += "export function config_init(config_obj:Object):void{\n";

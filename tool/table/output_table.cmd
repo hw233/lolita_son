@@ -1,3 +1,3 @@
-python client_table_output.py C:\Users\rodger\Documents\GitHub\lolita_son\lolita_son\tool\table\client C:\Users\rodger\Documents\GitHub\lolita_son\lolita_son\tool\table\client
+python client_table_output.py C:\Users\rodger\Documents\GitHub\svn_work\table\client C:\Users\rodger\Documents\GitHub\svn_work\table\client
 python xml_parser.py
 pause

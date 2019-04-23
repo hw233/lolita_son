@@ -77,7 +77,7 @@ class pet(app.base.game_module_mgr.game_module):
 		if len(petobjlist) <= 0:
 			#add new pet
 			if mlv < self.open_lv:
-				self._float_msg(lang_config.LANG_SKILLREQHIGHERLV);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLREQHIGHERLV}]);
 				return;
 			#
 			data = {};
@@ -87,7 +87,7 @@ class pet(app.base.game_module_mgr.game_module):
 			data['exp'] = 0;
 			newpetmode = memmode.tb_pet_admin.new(data);
 			self.mainplayer_ins._sync_role_produce_reward();
-			self._push_role_info(dId,cId);
+			self._push_role_info(cId);
 			return
 		for petobj in petobjlist:
 			idata = petobj.get('data');
@@ -97,10 +97,9 @@ class pet(app.base.game_module_mgr.game_module):
 			exp = idata['exp'];
 			exp_info = app.config.pet_exp.create_Pet_exp(lv);
 			if exp_info == None:
-				self._float_msg("pet lvup error %d"%(lv));
 				return
 			if lv >= self.lv_max:
-				self._float_msg(lang_config.LANG_LVMAX);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_LVMAX}]);
 				return
 			req_exp = exp_info.exp;
 			if req_exp <= exp:
@@ -108,7 +107,7 @@ class pet(app.base.game_module_mgr.game_module):
 				exp -= req_exp;
 				petobj.update_multi({"exp":exp,"lv":lv});
 				self.mainplayer_ins._sync_role_produce_reward();
-				self._push_role_info(dId,cId);
+				self._push_role_info(cId);
 				return;
 			need_exp = req_exp - exp;
 			if mexp >= need_exp:
@@ -117,13 +116,13 @@ class pet(app.base.game_module_mgr.game_module):
 				lv += 1;
 				petobj.update_multi({"exp":0,"lv":lv});
 				self.mainplayer_ins._sync_role_produce_reward();
-				self._push_role_info(dId,cId);
-				self.mainplayer_ins._push_role_info(dId,cId);
+				self._push_role_info(cId);
+				self.mainplayer_ins._push_role_info(cId);
 			else:
 				c_data.update_multi({"exp":0});
 				petobj.update_multi({"exp":exp+mexp});
-				self._push_role_info(dId,cId);
-				self.mainplayer_ins._push_role_info(dId,cId);
+				self._push_role_info(cId);
+				self.mainplayer_ins._push_role_info(cId);
 				return;
 		return
 	def on_req_skilllvup(self,ud):
@@ -136,7 +135,7 @@ class pet(app.base.game_module_mgr.game_module):
 		skillid = data["skillid"];
 		
 		if not self._sync_role_gold_exp(cId):
-			self._float_msg(lang_config.LANG_CALCGOLDFAILED+' %d'%cId);
+			self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_CALCGOLDFAILED+' %d'%cId}]);
 			log.msg('_sync_role_gold_exp err %d'%(cId));
 			return
 		c_data = memmode.tb_character_admin.getObj(cId);
@@ -166,67 +165,64 @@ class pet(app.base.game_module_mgr.game_module):
 			if sid == skillid:
 				if sid == self.skill1id:
 					if slv >= self.skill1lv_max:
-						self._float_msg(lang_config.LANG_SKILLLVMAX);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLLVMAX}]);
 						return;
 					exp_info = app.config.petskill1.create_Petskill1(slv);
 					if exp_info == None:
-						self._float_msg("pet skilllvup error %d %d"%(sid,slv));
 						return
 					req_lv = exp_info.reqlv;
 					req_gold = exp_info.gold;
 					addexppersec = exp_info.exppersec;
 					if req_lv > petlv:
-						self._float_msg(lang_config.LANG_PETSKILLREQHIGHERLV);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_PETSKILLREQHIGHERLV}]);
 						return;
 					if req_gold > maingold:
-						self._float_msg(lang_config.LANG_SKILLREQHIGHERLV);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLREQHIGHERLV}]);
 						return;
 					maingold -= req_gold;
 					slv += 1;
 					c_data.update_multi({"gold":maingold});
 					skillobj.update_multi({"skilllv":slv});
 					self.mainplayer_ins._sync_role_produce_reward();
-					self.mainplayer_ins._push_role_info(dId,cId);
+					self.mainplayer_ins._push_role_info(cId);
 					self.on_req_skillinfo(ud);
 					return;
 				elif sid == self.skill2id:
 					if slv >= self.skill2lv_max:
-						self._float_msg(lang_config.LANG_SKILLLVMAX);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLLVMAX}]);
 						return;
 					exp_info = app.config.petskill2.create_Petskill2(slv);
 					if exp_info == None:
-						self._float_msg("pet skilllvup error %d %d"%(sid,slv));
 						return
 					req_lv = exp_info.reqlv;
 					req_gold = exp_info.gold;
 					addgoldpersec = exp_info.goldpersec;
 					if req_lv > petlv:
-						self._float_msg(lang_config.LANG_PETSKILLREQHIGHERLV);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_PETSKILLREQHIGHERLV}]);
 						return;
 					if req_gold > maingold:
-						self._float_msg(lang_config.LANG_SKILLREQHIGHERLV);
+						self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLREQHIGHERLV}]);
 						return;
 					maingold -= req_gold;
 					slv += 1;
 					c_data.update_multi({"gold":maingold});
 					skillobj.update_multi({"skilllv":slv});
 					self.mainplayer_ins._sync_role_produce_reward();
-					self.mainplayer_ins._push_role_info(dId,cId);
+					self.mainplayer_ins._push_role_info(cId);
 					self.on_req_skillinfo(ud);
 					return;
 		#study new skill
 		if skillid == self.skill1id:
 			exp_info = app.config.petskill1.create_Petskill1(1);
 			if exp_info == None:
-				self._float_msg("pet study new skill error %d"%(skillid));
 				return
 			req_lv = exp_info.reqlv;
 			req_gold = exp_info.gold;
 			if req_lv > petlv:
-				self._float_msg(lang_config.LANG_PETSKILLREQHIGHERLV);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_PETSKILLREQHIGHERLV}]);
 				return;
 			if req_gold > maingold:
-				self._float_msg(lang_config.LANG_SKILLREQHIGHERLV);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLREQHIGHERLV}]);
 				return;
 			maingold -= req_gold;
 			c_data.update_multi({"gold":maingold});
@@ -239,21 +235,20 @@ class pet(app.base.game_module_mgr.game_module):
 			newskillmode = memmode.tb_petskill_admin.new(data);
 			
 			self.mainplayer_ins._sync_role_produce_reward();
-			self.mainplayer_ins._push_role_info(dId,cId);
+			self.mainplayer_ins._push_role_info(cId);
 			self.on_req_skillinfo(ud);
 			return;
 		elif skillid == self.skill2id:
 			exp_info = app.config.petskill2.create_Petskill2(1);
 			if exp_info == None:
-				self._float_msg("pet study new skill error %d"%(skillid));
 				return
 			req_lv = exp_info.reqlv;
 			req_gold = exp_info.gold;
 			if req_lv > petlv:
-				self._float_msg(lang_config.LANG_PETSKILLREQHIGHERLV);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_PETSKILLREQHIGHERLV}]);
 				return;
 			if req_gold > maingold:
-				self._float_msg(lang_config.LANG_SKILLREQHIGHERLV);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_SKILLREQHIGHERLV}]);
 				return;
 			maingold -= req_gold;
 			c_data.update_multi({"gold":maingold});
@@ -266,7 +261,7 @@ class pet(app.base.game_module_mgr.game_module):
 			newskillmode = memmode.tb_petskill_admin.new(data);
 			
 			self.mainplayer_ins._sync_role_produce_reward();
-			self.mainplayer_ins._push_role_info(dId,cId);
+			self.mainplayer_ins._push_role_info(cId);
 			self.on_req_skillinfo(ud);
 		return
 	def on_req_skillinfo(self,ud):
@@ -297,7 +292,7 @@ class pet(app.base.game_module_mgr.game_module):
 		send_data['id'] = 2;
 		send_data['skill1lv'] = skill1lv;
 		send_data['skill2lv'] = skill2lv;
-		self.fire_event(EVENT_SEND2CLIENT,[S2C_SKILL_INFO,dId,send_data]);
+		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_SKILL_INFO,cId,send_data]);
 		return
 	def on_get_roleinfo(self,ud):
 		dId = ud["dId"];
@@ -306,9 +301,9 @@ class pet(app.base.game_module_mgr.game_module):
 		if not self.game_ins._is_cId_valid(cId):
 			return
 		
-		self._push_role_info(dId,cId);
+		self._push_role_info(cId);
 		return
-	def _push_role_info(self,dId,cId):
+	def _push_role_info(self,cId):
 		petpklist = memmode.tb_pet_admin.getAllPkByFk(cId)
 		petobjlist = memmode.tb_pet_admin.getObjList(petpklist)
 		if len(petobjlist) <= 0:
@@ -316,7 +311,7 @@ class pet(app.base.game_module_mgr.game_module):
 			send_data['lv'] = 0;
 			send_data['shape'] = 0;
 			send_data['exp'] = 0;
-			self.fire_event(EVENT_SEND2CLIENT,[S2C_PET_INFO,dId,send_data]);
+			self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_PET_INFO,cId,send_data]);
 		else:
 			for skillobj in skillobjlist:
 				idata = skillobj.get('data');
@@ -328,7 +323,7 @@ class pet(app.base.game_module_mgr.game_module):
 				send_data['lv'] = lv;
 				send_data['shape'] = shape;
 				send_data['exp'] = exp;
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_PET_INFO,dId,send_data]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_PET_INFO,cId,send_data]);
 				return;
 		return True;
 	def dispose(self):

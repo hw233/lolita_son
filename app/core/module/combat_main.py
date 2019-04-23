@@ -78,10 +78,10 @@ class combat_main(app.base.game_module_mgr.game_module):
 		GlobalObject().remote['gate'].callRemote("pushObject",cmd,buf, dId_list)
 
 		return;
-	def _float_msg(self,dId,msg):
+	def _float_msg(self,cId,msg):
 		c_data = {};
 		c_data['msg'] = msg;
-		self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,c_data]);
+		self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,c_data]);
 		return;
 	def _is_cId_valid(self,cId):#其实就是角色是否在线的判定
 		return self.character_map.has_key(cId);

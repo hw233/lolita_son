@@ -11,6 +11,7 @@ import app.core.module.cards_mgr as cards_mgr
 import app.core.module.scene_main as scene_main
 import app.core.module.chat_main as chat_main
 import app.core.module.combat_main as combat_main
+import app.core.module.item_main as item_main
 def init_game_module():
 	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.GAME_MAIN,game_main.game_main);
 	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.SCENE_MAIN,scene_main.scene_main);
@@ -21,4 +22,5 @@ def init_game_module():
 	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.CARD_MAIN,cards_mgr.cards_mgr);
 	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.CHAT_MAIN,chat_main.chat_main);
 	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.COMBAT_MAIN,combat_main.combat_main);
+	app.base.game_module_mgr.game_module_mgr().register_module(game_module_def.ITEM_MAIN,item_main.item_main);
 	return

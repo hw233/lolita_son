@@ -3,6 +3,7 @@
 LANG_INVALID_ROLE = '不存在的角色';
 LANG_CALCGOLDFAILED = '同步金子经验失败';
 LANG_NOTENOUGHGOLD = '金子不够';
+LANG_NOTENOUGHLV = '等级不够';
 LANG_LVMAX = "已经达到最高等级";
 LANG_NOTENOUGHEXP = "经验不够";
 LANG_SKILLLVMAX = "技能已经达到最高等级";

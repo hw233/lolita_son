@@ -228,11 +228,11 @@ def outputToFile(class_name, config_map_name, config_map_str, var_name_str, file
 	template_str = template_str.replace("${config_map}", config_map_str);
 	template_str = template_str.replace("${var_name}", var_name_str);
 	f = open(fileName, "w");
-	print "template_str type:%s"%(type(template_str))
+	#print "template_str type:%s"%(type(template_str))
 	template_str = template_str.decode("GBK");
-	print "template_str type1:%s"%(type(template_str));
+	#print "template_str type1:%s"%(type(template_str));
 	template_str = template_str.encode("utf8");
-	print "template_str type2:%s,%s"%(type(template_str),fileName);
+	#print "template_str type2:%s,%s"%(type(template_str),fileName);
 	f.write(template_str);
 	#f.write(template_str.encode("utf8"));
 	#f.write(template_str.encode("GBK"));

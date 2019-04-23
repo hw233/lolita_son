@@ -25,6 +25,9 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		super(mainplayer,self).start();
 		self.register_net_event(C2S_ROLE_INFO,self.on_get_roleinfo);
 		self.register_net_event(C2S_CLICK,self.on_click);
+		self.register_event(EVEVT_FLUSHPLAYERINFO,self.on_event_flushplayerinfo);
+		self.register_event(EVENT_ADDEXP2PLAYER,self.on_event_addexp2player);
+		self.register_event(EVENT_ADDGOLD2PLAYER,self.on_event_addgold2player);
 		self.game_ins = self.get_module(game_module_def.GAME_MAIN);
 		max_lv = 0;
 		for lvkey in app.config.player_exp.player_exp_map:
@@ -32,6 +35,10 @@ class mainplayer(app.base.game_module_mgr.game_module):
 				max_lv = lvkey;
 		self.lv_max = max_lv;
 
+		return
+	def on_event_flushplayerinfo(self,ud):
+		cid = ud;
+		self._push_role_info(cid);
 		return
 	def _use_skill(self,cid,skillid,useidx):
 		skillpklist = memmode.tb_skill_admin.getAllPkByFk(cid)
@@ -82,28 +89,27 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		if not self.game_ins._is_cId_valid(cId):
 			return
 		return
-	def req_lvup(self,cid,use_exp = True):
-		if not self.game_ins._is_cId_valid(cid):
+	def req_lvup(self,cId,use_exp = True):
+		if not self.game_ins._is_cId_valid(cId):
 			return
-		c_data = memmode.tb_character_admin.getObj(cid);
+		c_data = memmode.tb_character_admin.getObj(cId);
 		if not c_data:
-			log.msg('req_lvup err %d'%(cid));
+			log.msg('req_lvup err %d'%(cId));
 			return
 		c_info = c_data.get('data');
 		lv = c_info['level'];
 		exp = c_info['exp'];
 		
 		if lv >= self.lv_max:
-			self._float_msg(lang_config.LANG_LVMAX);
+			self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_LVMAX}]);
 			return
 		if use_exp:
 			req_exp_info = app.config.player_exp.create_Player_exp(lv);
 			if req_exp_info == None:
-				self._float_msg("lvup error %d"%(lv));
 				return
 			req_exp = req_exp_info.exp;
 			if exp < req_exp:
-				self._float_msg(lang_config.LANG_NOTENOUGHEXP);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_NOTENOUGHEXP}]);
 				return
 			exp -= req_exp;
 		staminia = c_info["staminia"];
@@ -112,7 +118,7 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		point = c_info["point"];
 		c_data.update_multi({"exp":exp,"level":lv+1,"staminia":staminia+1,"spirit":spirit+1,"dex":dex+1,"point":point+3});
 		
-		self._push_role_info(0,cid);
+		self._push_role_info(cId);
 		return
 
 	def on_req_skilllvup(self,ud):
@@ -129,12 +135,12 @@ class mainplayer(app.base.game_module_mgr.game_module):
 			log.msg('on_req_skilllvup err %d'%(cId));
 			return
 		if self._lvup_skill(cId,skillid):
-			self._push_role_info(dId,cId);
+			self._push_role_info(cId);
 			self.on_req_skillinfo(ud);
 			return
 		#study new skill
 		self._study_skill(cId,skillid);
-		self._push_role_info(dId,cId);
+		self._push_role_info(cId);
 		self.on_req_skillinfo(ud);
 		
 		return
@@ -175,10 +181,36 @@ class mainplayer(app.base.game_module_mgr.game_module):
 		if not self.game_ins._is_cId_valid(cId):
 			return
 		
-		if not self._push_role_info(dId,cId):
-			self._float_msg(lang_config.LANG_INVALID_ROLE+' %d'%cId);
+		if not self._push_role_info(cId):
+			self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{'msg':lang_config.LANG_INVALID_ROLE+' %d'%cId}]);
 			log.msg('_push_role_info err %d'%(cId));
 			return
+		return
+	def on_event_addgold2player(self,ud):
+		cId = ud[0];
+		gold = ud[1];
+		if not self.game_ins._is_cId_valid(cId):
+			return
+		c_data = memmode.tb_character_admin.getObj(cId);
+		if not c_data:
+			log.msg('on_event_addgold2player err %d'%(cId));
+			return False
+		curgold = c_info['gold'];
+		c_data.update_multi({"gold":curgold+gold});
+		self._push_role_info(cId)
+		return
+	def on_event_addexp2player(self,ud):
+		cId = ud[0];
+		exp = ud[1];
+		if not self.game_ins._is_cId_valid(cId):
+			return
+		c_data = memmode.tb_character_admin.getObj(cId);
+		if not c_data:
+			log.msg('on_event_addgold2player err %d'%(cId));
+			return False
+		curexp = c_info['exp'];
+		c_data.update_multi({"exp":curexp+exp});
+		self._push_role_info(cId)
 		return
 	def _sync_role_gold_exp(self,cId):
 		c_data = memmode.tb_character_admin.getObj(cId);
@@ -210,7 +242,7 @@ class mainplayer(app.base.game_module_mgr.game_module):
 
 		c_data.update_multi({"gold":gold,"goldspd":goldspd,"exp":exp,"expspd":expspd,"energy":energy,"energyspd":energyspd,"goldtm":goldtm});
 		return True
-	def _push_role_info(self,dId,cId):
+	def _push_role_info(self,cId):
 		c_info = memmode.tb_character_admin.getObjData(cId);
 		if not c_info:
 			return False

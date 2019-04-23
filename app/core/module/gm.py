@@ -22,10 +22,8 @@ class gm_main(app.base.game_module_mgr.game_module):
 		gm_cmd = params[0];
 		if gm_cmd == "$addgold":
 			if len(params) > 1:
-				game_ins = self.get_module(game_module_def.GAME_MAIN);
 				count = int(params[1]);
-				if game_ins._add_gold(dId,cId,count):
-					game_ins._push_role_info(dId,cId);
+				self.fire_event(EVENT_ADDGOLD2PLAYER,[cId,count]);
 		elif gm_cmd == "$fightself":
 			data = {};
 			data['type'] = 0;
@@ -46,26 +44,33 @@ class gm_main(app.base.game_module_mgr.game_module):
 			sid = int(params[1]);
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
 			if game_ins._study_skill(cId,sid):
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_STUDYSKILLSUCCEED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_STUDYSKILLSUCCEED}]);
 			else:
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_STUDYSKILLFAILED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_STUDYSKILLFAILED}]);
 		elif gm_cmd == "$lvupskill":
 			sid = int(params[1]);
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
 			if game_ins._lvup_skill(cId,sid):
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_LVUPSKILLSUCCEED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_LVUPSKILLSUCCEED}]);
 			else:
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_LVUPSKILLFAILED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_LVUPSKILLFAILED}]);
 		elif gm_cmd == "$useskill":
 			sid = int(params[1]);
 			useidx = int(params[2]);
 			game_ins = self.get_module(game_module_def.MAIN_PLAYER);
 			if game_ins._use_skill(cId,sid,useidx):
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLSUCCEED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_USESKILLSUCCEED}]);
 			else:
-				self.fire_event(EVENT_SEND2CLIENT,[S2C_NOTIFY_FLOAT,dId,{"msg":lang_config.LANG_USESKILLFAILED}]);
+				self.fire_event(EVENT_SEND2CLIENTBYCID,[S2C_NOTIFY_FLOAT,cId,{"msg":lang_config.LANG_USESKILLFAILED}]);
 		elif gm_cmd == "$flushdata":
 			GlobalObject().remote['gate'].callRemote("flushdata");
+		elif gm_cmd == "$clone":
+			sid = int(params[1]);
+			item_ins = self.get_module(game_module_def.ITEM_MAIN);
+			addpos = self.item_ins._getemptyslot(cId);
+			addid = self.item_ins._additem(sid,cId,0,addpos);
+			if addid != 0:
+				self.item_ins._send_additem_netpack(addid,dId,cId);
 		return
 	def on_chat_gm(self,ud):
 		dId = ud["dId"];

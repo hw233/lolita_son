@@ -247,7 +247,7 @@ def parseAllExcelFiles(excel_file_dir, output_file_dir):
 	print("excel_file_dir:[%s]" % excel_file_dir);
 
 	print("output_file_dir:[%s]" % output_file_dir);
-	file_list = parseConfigFile("config.xls");
+	file_list = parseConfigFile("config_server.xlsx");
 	for file_name, sheet_name, js_name in file_list:
 		#print "20150529 %s %s %s"%(file_name,sheet_name,js_name)
 		print("file_name<%s> sheet_name<%s>, js_name<%s>" % (file_name, sheet_name, js_name));

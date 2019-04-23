@@ -20,6 +20,7 @@ import app.combat.skill
 import app.config.fightgroup as fightgroup
 import app.config.fightconfig as fightconfig
 import app.config.fightdata as fightdata
+import app.base.utils
 
 class combat_main(app.base.game_module_mgr.game_module):
 	def __init__(self):
@@ -217,15 +218,17 @@ class combat_main(app.base.game_module_mgr.game_module):
 		staminia = c_info["staminia"];
 		spirit = c_info["spirit"];
 		dex = c_info["dex"];
+		plv = c_info['level'];
 		w_inst = app.combat.warrior.warrior(team_pos[0],team_pos[0],cid);
 		w_inst['group'] = 0;
-		w_inst['hp'] = staminia*3;
-		w_inst['hpmax'] = staminia*3;
-		w_inst['atk'] = spirit*2;
-		w_inst['spd'] = dex*2;
+		w_inst['hp'] = app.base.utils.gen_player_hpmax(plv);
+		w_inst['hpmax'] = app.base.utils.gen_player_hpmax(plv);
+		w_inst['atk'] = app.base.utils.gen_player_atk(plv);
+		w_inst['def'] = app.base.utils.gen_player_def(plv)
+		w_inst['spd'] = app.base.utils.gen_player_spd(plv);
 		w_inst['name'] = c_info["nickname"];
 		w_inst['shape'] = c_info["figure"];
-		w_inst['lv'] = c_info["level"];
+		w_inst['lv'] = plv;
 		###
 		skillpklist = memmode.tb_skill_admin.getAllPkByFk(cid)
 		skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
@@ -268,16 +271,18 @@ class combat_main(app.base.game_module_mgr.game_module):
 			c_info = c_data.get('data');
 			staminia = c_info["staminia"];
 			spirit = c_info["spirit"];
+			plv = c_info["level"];
 			dex = c_info["dex"];
 			w_inst = app.combat.warrior.warrior(team_pos[pos_idx],team_pos[pos_idx],i);
 			w_inst['group'] = 0;
-			w_inst['hp'] = staminia*3;
-			w_inst['hpmax'] = staminia*3;
-			w_inst['atk'] = spirit*2;
-			w_inst['spd'] = dex*2;
+			w_inst['hp'] = app.base.utils.gen_player_hpmax(plv);
+			w_inst['hpmax'] = app.base.utils.gen_player_hpmax(plv);
+			w_inst['atk'] = app.base.utils.gen_player_atk(plv);
+			w_inst['def'] = app.base.utils.gen_player_def(plv);
+			w_inst['spd'] = app.base.utils.gen_player_spd(plv);
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
-			w_inst['lv'] = c_info["level"];
+			w_inst['lv'] = plv;
 			####
 			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
 			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
@@ -305,15 +310,17 @@ class combat_main(app.base.game_module_mgr.game_module):
 			staminia = c_info["staminia"];
 			spirit = c_info["spirit"];
 			dex = c_info["dex"];
+			plv = c_info["level"];
 			w_inst = app.combat.warrior.warrior(team_pos[pos_idx],team_pos[pos_idx],i);
 			w_inst['group'] = 1;
-			w_inst['hp'] = staminia*3;
-			w_inst['hpmax'] = staminia*3;
-			w_inst['atk'] = spirit*2;
-			w_inst['spd'] = dex*2;
+			w_inst['hp'] = app.base.utils.gen_player_hpmax(plv);
+			w_inst['hpmax'] = app.base.utils.gen_player_hpmax(plv);
+			w_inst['atk'] = app.base.utils.gen_player_atk(plv);
+			w_inst['def'] = app.base.utils.gen_player_def(plv);
+			w_inst['spd'] = app.base.utils.gen_player_spd(plv);
 			w_inst['name'] = c_info["nickname"];
 			w_inst['shape'] = c_info["figure"];
-			w_inst['lv'] = c_info["level"];
+			w_inst['lv'] = plv;
 			skillpklist = memmode.tb_skill_admin.getAllPkByFk(i)
 			skillobjlist = memmode.tb_skill_admin.getObjList(skillpklist)
 			for skillobj in skillobjlist:
